@@ -2,11 +2,26 @@
   "overrides": [
     {
       "extends": [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "airbnb",
+        "airbnb/hooks",
+        "airbnb-typescript",
+        "prettier"
       ],
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
         "project": "tsconfig.json"
+      },
+      "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/function-component-definition": [
+          2, {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function"
+          }
+        ],
+        "react/jsx-one-expression-per-line": "off",
+        "no-void": "off"
       }
     }
   ],
