@@ -1,3 +1,4 @@
+import type { GetServerSideProps} from 'next';
 import { type NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -45,5 +46,14 @@ const Home: NextPage = () => (
     </main>
   </>
 );
+
+export const getServerSideProps : GetServerSideProps = async ({res, req}) => {
+  const visistsRaw = req.cookies.visists;
+  const visists = visistsRaw !== undefined ? Number.parseInt(visistsRaw, 10) : 0;
+
+  res.setHeader('set-cookie', [`visists=${visists + 1}`])
+
+  return {props: {}};
+}
 
 export default Home;
