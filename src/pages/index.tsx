@@ -7,7 +7,7 @@ import avatar from '../../public/image.jpg';
 const Home: NextPage = () => (
   <>
     <Head>
-      <title>Create T3 App</title>
+      <title>CV Ayrton-Taede Tromp</title>
       <meta name="description" content="CV Ayrton-Taede Tromp" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
@@ -30,6 +30,7 @@ const Home: NextPage = () => (
               <li>React</li>
               <li>NextJS</li>
               <li>Typescript</li>
+              <li>Discord.js</li>
               <li>CS:GO</li>
               <li>Rainbow-Six: Siege</li>
               <li>Webdev nooit afmaken</li>
