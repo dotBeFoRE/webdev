@@ -4,8 +4,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import avatar from '../../public/image.jpg';
 import Gdpr from '../components/Gdpr';
+import { api } from '../utils/api';
 
-const Home: NextPage = () => (
+const Home: NextPage = () => {
+  const {data: message} = api.example.hello.useQuery({text: 'Hello World!'});
+
+  return (
   <>
     <Head>
       <title>CV Ayrton-Taede Tromp</title>
@@ -42,12 +46,16 @@ const Home: NextPage = () => (
               <li>Lijsten maken</li>
             </ul>
           </section>
+          <section className="my-5 flex-1">
+            <h2 className="font-bold text-lg">Message</h2>
+            <p>{message?.greeting || 'loading...'}</p>
+          </section>
         </div>
       </div>
       <Gdpr />
     </main>
   </>
-);
+);};
 
 export const getServerSideProps : GetServerSideProps = async ({res, req}) => {
   const visistsRaw = req.cookies.visists;

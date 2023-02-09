@@ -1,5 +1,6 @@
 import { createNextApiHandler } from "@trpc/server/adapters/next";
 
+// eslint-disable-next-line import/extensions
 import { env } from "../../../env.mjs";
 import { createTRPCContext } from "../../../server/api/trpc";
 import { appRouter } from "../../../server/api/root";
