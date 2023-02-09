@@ -35,8 +35,8 @@ const Gdpr = () => {
           <p>Deze website gebruikt cookies. We gebruiken cookies om content te personaliseren, voor social media en het analyseren van verkeer op de website, advertenties.</p>
         </div>
         <div className="flex flex-col">
-          <button type="button" className="bg-green-500 text-white p-2 rounded-md" onClick={accept}>Accepteren</button>
-          <button type="button" className="bg-red-500 text-white p-2 rounded-md mt-2" onClick={decline}>Weigeren</button>
+          <button type="button" className="bg-green-500 text-white p-2 rounded-md" onClick={accept}>Alles accepteren</button>
+          <button type="button" className="bg-red-500 text-white p-2 rounded-md mt-2" onClick={decline}>Alleen essentieel</button>
         </div>
       </div>
     </div>
