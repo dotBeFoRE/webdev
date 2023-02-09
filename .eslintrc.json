@@ -21,7 +21,8 @@
           }
         ],
         "react/jsx-one-expression-per-line": "off",
-        "no-void": "off"
+        "no-void": "off",
+        "semi": ["error", "always"]
       }
     }
   ],

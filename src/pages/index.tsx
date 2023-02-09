@@ -3,6 +3,7 @@ import { type NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import avatar from '../../public/image.jpg';
+import Gdpr from '../components/Gdpr';
 
 const Home: NextPage = () => (
   <>
@@ -11,8 +12,8 @@ const Home: NextPage = () => (
       <meta name="description" content="CV Ayrton-Taede Tromp" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <main className="flex min-h-screen justify-center items-center text-white bg-stone-900">
-      <div className="container md:flex px-10">
+    <main className="flex min-h-screen justify-center items-center text-white bg-stone-900 relative">
+      <div className="container md:flex px-5">
         <section className="my-5 flex-1 self-center px-5">
           <div className="my-5 flex justify-center">
             <Image src={avatar} alt="Developer Image" className="rounded-full w-48 " />
@@ -34,7 +35,6 @@ const Home: NextPage = () => (
               <li>CS:GO</li>
               <li>Rainbow-Six: Siege</li>
               <li>Webdev nooit afmaken</li>
-              <li>Ei aan brood maken</li>
               <li>Uitstellen</li>
               <li>Nog een item</li>
               <li>En nog één (1)</li>
@@ -44,6 +44,7 @@ const Home: NextPage = () => (
           </section>
         </div>
       </div>
+      <Gdpr />
     </main>
   </>
 );
@@ -52,9 +53,9 @@ export const getServerSideProps : GetServerSideProps = async ({res, req}) => {
   const visistsRaw = req.cookies.visists;
   const visists = visistsRaw !== undefined ? Number.parseInt(visistsRaw, 10) : 0;
 
-  res.setHeader('set-cookie', [`visists=${visists + 1}`])
+  res.setHeader('set-cookie', [`visists=${visists + 1}`]);
 
   return {props: {}};
-}
+};
 
 export default Home;
