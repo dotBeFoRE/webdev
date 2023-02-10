@@ -21,7 +21,7 @@ const ContactPage = () => {
         reCaptchaKey={recaptchaSiteKey}
         container={{ parameters: { theme: 'dark' } }}>
         <main className="relative flex min-h-screen items-center justify-center bg-stone-900 text-white">
-          <div className="container rounded-md bg-stone-800 p-5">
+          <div className="container m-5 rounded-md bg-stone-800 p-5 lg:max-w-4xl">
             <h1 className="text-center text-3xl">Neem contact op</h1>
             <div className="">
               <ContactForm />
