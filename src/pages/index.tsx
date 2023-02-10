@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="relative flex min-h-screen items-center justify-center bg-stone-900 text-white">
-        <div className="container px-5">
+        <div className="container flex px-5">
           <section className="my-5 flex-1 self-center px-5">
             <div className="my-5 flex justify-center">
               <Image
