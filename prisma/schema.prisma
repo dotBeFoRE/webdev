@@ -20,6 +20,14 @@ model Example {
     updatedAt DateTime @updatedAt
 }
 
+model Message {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    email     String
+    subject   String
+    text      String
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
