@@ -6,7 +6,7 @@
         "airbnb",
         "airbnb/hooks",
         "airbnb-typescript",
-        "prettier"
+        "plugin:prettier/recommended"
       ],
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
@@ -22,7 +22,18 @@
         ],
         "react/jsx-one-expression-per-line": "off",
         "no-void": "off",
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "react/jsx-props-no-spreading": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "jsx-a11y/label-has-associated-control": [
+          "error",
+          {
+            "labelComponents": ["Label"],
+            "labelAttributes": ["label"],
+            "controlComponents": ["Input"],
+            "depth": 3
+          }
+        ]
       }
     }
   ],
@@ -31,7 +42,7 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn"
   }
