@@ -33,7 +33,8 @@
             "controlComponents": ["Input"],
             "depth": 3
           }
-        ]
+        ],
+        "no-console": "off"
       }
     }
   ],

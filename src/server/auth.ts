@@ -1,13 +1,14 @@
-import type { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from 'next';
 import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
-} from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { env } from "../env.mjs";
-import { prisma } from "./db";
+} from 'next-auth';
+import DiscordProvider from 'next-auth/providers/discord';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+// eslint-disable-next-line import/extensions
+import { env } from '../env.mjs';
+import { prisma } from './db';
 
 /**
  * Module augmentation for `next-auth` types.
@@ -15,14 +16,14 @@ import { prisma } from "./db";
  * safety.
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- **/
-declare module "next-auth" {
+ * */
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   // interface User {
@@ -36,11 +37,12 @@ declare module "next-auth" {
  * etc.
  *
  * @see https://next-auth.js.org/configuration/options
- **/
+ * */
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, user }) {
       if (session.user) {
+        // eslint-disable-next-line no-param-reassign
         session.user.id = user.id;
         // session.user.role = user.role; <-- put other properties on the session here
       }
@@ -61,7 +63,7 @@ export const authOptions: NextAuthOptions = {
      * `refresh_token_expires_in` field to the Account model. Refer to the
      * NextAuth.js docs for the provider you want to use. Example:
      * @see https://next-auth.js.org/providers/github
-     **/
+     * */
   ],
 };
 
@@ -70,10 +72,10 @@ export const authOptions: NextAuthOptions = {
  * `authOptions` in every file.
  *
  * @see https://next-auth.js.org/configuration/nextjs
- **/
+ * */
 export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
+  req: GetServerSidePropsContext['req'];
+  res: GetServerSidePropsContext['res'];
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
