@@ -64,6 +64,7 @@ const ContactForm = () => {
       </label>
       <input
         type="submit"
+        value="Send message"
         disabled={!isValid || !executeRecaptcha || sendMessage.isLoading}
         className="cursor-pointer
         rounded-md bg-stone-700 p-2
