@@ -232,7 +232,7 @@ export const importBoard = (board: string) => {
     throw new Error('Invalid board');
   }
 
-  if (flatBoard.length !== 64) {
+  if (flatBoard.length !== 8 * 8) {
     throw new Error('Invalid board length');
   }
 
