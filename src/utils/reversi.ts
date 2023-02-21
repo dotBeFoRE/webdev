@@ -212,12 +212,12 @@ export const exportBoard = (board: Board) => {
   );
 };
 
-const validColor = (color: number): color is Color => {
+const isColor = (color: number): color is Color => {
   return color === COLOR.WHITE || color === COLOR.BLACK || color === COLOR.NONE;
 };
 
-const validFlatBoard = (board: number[]): board is Color[] => {
-  return board.every(validColor);
+const isFlatBoard = (board: number[]): board is Color[] => {
+  return board.every(isColor);
 };
 
 export const importBoard = (board: string) => {
@@ -228,7 +228,7 @@ export const importBoard = (board: string) => {
     ['00', '01', '11'].indexOf(color),
   );
 
-  if (!validFlatBoard(flatBoard)) {
+  if (!isFlatBoard(flatBoard)) {
     throw new Error('Invalid board');
   }
 
