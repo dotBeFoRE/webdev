@@ -9,7 +9,7 @@ import { api } from '../utils/api';
 
 const Home: NextPage = () => {
   const { data: message } = api.example.hello.useQuery({
-    text: 'Hello World!',
+    text: 'World!',
   });
 
   return (

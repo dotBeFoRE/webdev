@@ -64,6 +64,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    gamesWhite    Game[]    @relation("white")
+    gamesBlack    Game[]    @relation("black")
 }
 
 model VerificationToken {
@@ -72,4 +74,16 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Game {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    board     String   @db.Text
+    winner    Int?
+    current   Int      @default(1)
+    whiteId   String?
+    white     User?    @relation("white", fields: [whiteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    blackId   String?
+    black     User?    @relation("black", fields: [blackId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

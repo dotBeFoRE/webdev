@@ -112,44 +112,7 @@ export const hasEnded = (board: Board, color: PlayerColor): boolean => {
   );
 };
 
-export const doMove = (
-  board: Board,
-  x: number,
-  y: number,
-  color: PlayerColor,
-): Board => {
-  const directions = validDirections(board, x, y, color);
-
-  if (!isOnBoard(x) || !isOnBoard(y) || !directions.length) {
-    throw new Error('Invalid move');
-  }
-
-  const newBoard = board.map((row) => [...row]) as Board;
-  newBoard[y][x] = color;
-
-  directions.forEach(([dx, dy]) => {
-    let cx = x + dx;
-    let cy = y + dy;
-
-    if (!isOnBoard(cx) || !isOnBoard(cy)) {
-      throw new Error('Out of bounds');
-    }
-
-    while (newBoard[cy][cx] !== color) {
-      newBoard[cy][cx] = color;
-      cx += dx;
-      cy += dy;
-
-      if (!isOnBoard(cx) || !isOnBoard(cy)) {
-        throw new Error('Out of bounds');
-      }
-    }
-  });
-
-  return newBoard;
-};
-
-export const winningColor = (board: Board): Color => {
+export const winningColor = (board: Board): PlayerColor | null => {
   let white = 0;
   let black = 0;
 
@@ -169,47 +132,67 @@ export const winningColor = (board: Board): Color => {
   if (black > white) {
     return COLOR.BLACK;
   }
-  return COLOR.NONE;
+  return null;
 };
 
-const binaryToString = (binary: string) => {
-  const bufferLength = Math.ceil(binary.length / 8);
-  const uint8Array = new Uint8Array(bufferLength);
+export const doMove = (
+  board: Board,
+  x: number,
+  y: number,
+  color: PlayerColor,
+) => {
+  const directions = validDirections(board, x, y, color);
 
-  for (let i = 0; i < binary.length; i += 1) {
-    const bit = binary[i] === '1' ? 1 : 0;
-    const byteIndex = Math.floor(i / 8);
-    const bitIndex = 7 - (i % 8);
-    // eslint-disable-next-line no-bitwise
-    uint8Array[byteIndex] |= bit << bitIndex;
+  if (!isOnBoard(x) || !isOnBoard(y) || !directions.length) {
+    return null;
   }
 
-  return new TextDecoder().decode(uint8Array);
-};
+  const newBoard = board.map((row) => [...row]) as Board;
+  newBoard[y][x] = color;
 
-const stringToBinary = (string: string) => {
-  const uint8Array = new TextEncoder().encode(string);
-  let binary = '';
+  try {
+    directions.forEach(([dx, dy]) => {
+      let cx = x + dx;
+      let cy = y + dy;
 
-  for (let i = 0; i < uint8Array.length; i += 1) {
-    const byte = uint8Array[i] || 0;
-    for (let j = 0; j < 8; j += 1) {
-      // eslint-disable-next-line no-bitwise
-      const bit = (byte >> (7 - j)) & 1;
-      binary += bit;
+      if (!isOnBoard(cx) || !isOnBoard(cy)) {
+        throw new Error('Out of bounds');
+      }
+
+      while (newBoard[cy][cx] !== color) {
+        newBoard[cy][cx] = color;
+        cx += dx;
+        cy += dy;
+
+        if (!isOnBoard(cx) || !isOnBoard(cy)) {
+          throw new Error('Out of bounds');
+        }
+      }
+    });
+  } catch (err) {
+    return null;
+  }
+
+  let nextPlayer = color === COLOR.WHITE ? COLOR.BLACK : COLOR.WHITE;
+  if (!canMove(newBoard, nextPlayer)) {
+    nextPlayer = color;
+
+    if (!canMove(newBoard, nextPlayer)) {
+      return {
+        board: newBoard,
+        winner: winningColor(newBoard),
+        nextPlayer: COLOR.NONE,
+      };
     }
   }
 
-  return binary;
+  return { board: newBoard, nextPlayer, winner: null };
 };
 
 export const exportBoard = (board: Board) => {
-  return binaryToString(
-    board
-      .flat()
-      .map((color) => ['00', '01', '11'][color] || '00')
-      .join(''),
-  );
+  const raw = board.flat().join('');
+
+  return raw;
 };
 
 const isColor = (color: number): color is Color => {
@@ -220,13 +203,8 @@ const isFlatBoard = (board: number[]): board is Color[] => {
   return board.every(isColor);
 };
 
-export const importBoard = (board: string) => {
-  const binary = stringToBinary(board);
-
-  const boardString = binary.split(/(..)/g);
-  const flatBoard = boardString.map((color) =>
-    ['00', '01', '11'].indexOf(color),
-  );
+export const importBoard = (raw: string) => {
+  const flatBoard = raw.split('').map((color) => parseInt(color, 10));
 
   if (!isFlatBoard(flatBoard)) {
     throw new Error('Invalid board');

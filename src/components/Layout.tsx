@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Gdpr from './Gdpr';
@@ -5,6 +6,21 @@ import LoginButton from './LoginButton';
 
 const Layout = ({ children }: React.PropsWithChildren) => {
   const router = useRouter();
+  const session = useSession();
+
+  const links = [
+    {
+      href: '/contact',
+      label: 'Contact',
+    },
+  ];
+
+  if (session.status === 'authenticated') {
+    links.push({
+      href: '/reversi',
+      label: 'Play Reversi',
+    });
+  }
 
   return (
     <div className="relative flex min-h-screen flex-col bg-stone-900 text-white">
@@ -15,15 +31,18 @@ const Layout = ({ children }: React.PropsWithChildren) => {
           </Link>
           <li className="flex list-none items-stretch">
             <ul className="flex items-stretch">
-              <Link
-                href="contact"
-                className={
-                  router.pathname === '/contact'
-                    ? 'flex items-center bg-stone-700 p-2 transition-colors'
-                    : 'flex items-center p-2 transition-colors hover:bg-stone-700 focus:bg-stone-700'
-                }>
-                Contact
-              </Link>
+              {links.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={
+                    router.pathname === href
+                      ? 'flex items-center bg-stone-700 p-2 transition-colors'
+                      : 'flex items-center p-2 transition-colors hover:bg-stone-700 focus:bg-stone-700'
+                  }>
+                  {label}
+                </Link>
+              ))}
               <LoginButton />
             </ul>
           </li>
