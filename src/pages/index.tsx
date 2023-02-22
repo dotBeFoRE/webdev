@@ -3,8 +3,8 @@ import { type NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import avatar from '../../public/image.jpg';
-import Gdpr from '../components/Gdpr';
+import Layout from '../components/Layout';
+import avatar from '../../public/images/avatar.jpg';
 import { api } from '../utils/api';
 
 const Home: NextPage = () => {
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         <meta name="description" content="CV Ayrton-Taede Tromp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="relative flex min-h-screen items-center justify-center bg-stone-900 text-white">
+      <Layout>
         <div className="container px-5 md:flex">
           <section className="my-5 flex-1 self-center px-5">
             <div className="my-5 flex justify-center">
@@ -78,8 +78,7 @@ const Home: NextPage = () => {
             </section>
           </div>
         </div>
-        <Gdpr />
-      </main>
+      </Layout>
     </>
   );
 };

@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Gdpr from '../components/Gdpr';
 import ContactForm from '../components/ContactForm';
+import Layout from '../components/Layout';
 
 const ContactPage = () => {
   const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
@@ -20,7 +21,7 @@ const ContactPage = () => {
       <GoogleReCaptchaProvider
         reCaptchaKey={recaptchaSiteKey}
         container={{ parameters: { theme: 'dark' } }}>
-        <main className="relative flex min-h-screen items-center justify-center bg-stone-900 text-white">
+        <Layout>
           <div className="container m-5 rounded-md bg-stone-800 p-5 lg:max-w-4xl">
             <h1 className="text-center text-3xl">Neem contact op</h1>
             <div className="">
@@ -28,7 +29,7 @@ const ContactPage = () => {
             </div>
           </div>
           <Gdpr />
-        </main>
+        </Layout>
       </GoogleReCaptchaProvider>
     </>
   );
