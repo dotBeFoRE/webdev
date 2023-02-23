@@ -7,6 +7,7 @@ Speler = Een gebruiker die aan een Reversi spel meedoet
 - Gebruikers moeten Reversi kunnen spelen
 - Gebruikers moeten kunnen deelnemen aan een spel op een ander apparaat
 - Het spel moet gespeeld worden in "real-time"
+- Het spel moet zich houden aan de Othello regelset
 
 ## User-stories
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
