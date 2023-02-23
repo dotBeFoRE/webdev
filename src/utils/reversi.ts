@@ -112,19 +112,23 @@ export const hasEnded = (board: Board, color: PlayerColor): boolean => {
   );
 };
 
-export const winningColor = (board: Board): PlayerColor | null => {
-  let white = 0;
-  let black = 0;
+export const colorScore = (board: Board, color: PlayerColor): number => {
+  let score = 0;
 
   for (let y = 0; y < 8; y += 1) {
     for (let x = 0; x < 8; x += 1) {
-      if (isOnBoard(x) && isOnBoard(y) && board[y][x] === COLOR.WHITE) {
-        white += 1;
-      } else if (isOnBoard(x) && isOnBoard(y) && board[y][x] === COLOR.BLACK) {
-        black += 1;
+      if (isOnBoard(x) && isOnBoard(y) && board[y][x] === color) {
+        score += 1;
       }
     }
   }
+
+  return score;
+};
+
+export const winningColor = (board: Board): PlayerColor | null => {
+  const white = colorScore(board, COLOR.WHITE);
+  const black = colorScore(board, COLOR.BLACK);
 
   if (white > black) {
     return COLOR.WHITE;
@@ -132,6 +136,7 @@ export const winningColor = (board: Board): PlayerColor | null => {
   if (black > white) {
     return COLOR.BLACK;
   }
+
   return null;
 };
 

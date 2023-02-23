@@ -13,7 +13,7 @@ const Board = () => {
   ));
 
   return (
-    <div className="m-auto grid aspect-square max-w-2xl grid-cols-8 gap-1">
+    <div className="container m-auto grid aspect-square max-w-2xl grid-cols-8 gap-1">
       {board}
     </div>
   );

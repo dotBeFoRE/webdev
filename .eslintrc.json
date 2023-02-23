@@ -34,7 +34,8 @@
             "depth": 3
           }
         ],
-        "no-console": "off"
+        "no-console": "off",
+        "react/require-default-props": "off"
       }
     }
   ],
