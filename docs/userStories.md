@@ -1,4 +1,4 @@
-## Definitions
+## Definities
 Bezoeker = Iemand die de site gebruikt  
 Gebruiker = Bezoeker die ingelogd is  
 Speler = Een gebruiker die aan een Reversi spel meedoet  
