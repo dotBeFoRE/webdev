@@ -4,8 +4,6 @@ import { TRPCError } from '@trpc/server';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
 import type { PlayerColor } from '../../../utils/reversi';
 import {
-  winningColor,
-  canMove,
   doMove,
   exportBoard,
   getInitialBoard,
