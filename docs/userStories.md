@@ -1,7 +1,7 @@
 ## Definitions
-Bezoeker = Iemand die de site gebruikt zonder te zijn ingelogd
-Gebruiker = Iemand die de site gebruikt en ingelogd is
-Speler = Een gebruiker die aan een Reversi spel meedoet
+Bezoeker = Iemand die de site gebruikt zonder te zijn ingelogd  
+Gebruiker = Iemand die de site gebruikt en ingelogd is  
+Speler = Een gebruiker die aan een Reversi spel meedoet  
 
 ## User-stories
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
