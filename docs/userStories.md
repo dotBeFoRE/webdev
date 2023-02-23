@@ -12,6 +12,7 @@ Speler = Een gebruiker die aan een Reversi spel meedoet
 
 - Gebruiker kan op hetzelfde account als de andere speler meedoen
 - Gebruiker mag alleen deelnemen als de kleur nog niet is ingenomen door een andere speler
+- Gebruiker deelnemen door een zet te doen met een beschikbare kleur
 
 ![Explanation screen](./images/Game_screen.png)
 
