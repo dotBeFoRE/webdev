@@ -4,7 +4,7 @@ import Board from '../../../components/Board';
 import Layout from '../../../components/Layout';
 import PlayerCard from '../../../components/PlayerCard';
 import { api } from '../../../utils/api';
-import { COLOR, colorScore, winningColor } from '../../../utils/reversi';
+import { COLOR, colorScore } from '../../../utils/reversi';
 
 const GamePage = () => {
   const router = useRouter();
@@ -20,13 +20,13 @@ const GamePage = () => {
       </Head>
       <Layout>
         <div className="flex-1 flex-row p-4">
-          <div className="m-auto my-4 flex max-w-2xl justify-around gap-6">
+          <div className="m-auto mb-4 flex max-w-2xl justify-around gap-6">
             <PlayerCard
               player={game?.white}
               color={COLOR.WHITE}
               score={game?.board && colorScore(game?.board, COLOR.WHITE)}
               isWinner={
-                game?.board ? COLOR.WHITE === winningColor(game?.board) : false
+                game?.winner === COLOR.WHITE || game?.winner === COLOR.NONE
               }
             />
             <PlayerCard
@@ -34,7 +34,7 @@ const GamePage = () => {
               color={COLOR.BLACK}
               score={game?.board && colorScore(game?.board, COLOR.BLACK)}
               isWinner={
-                game?.board ? COLOR.BLACK === winningColor(game?.board) : false
+                game?.winner === COLOR.WHITE || game?.winner === COLOR.NONE
               }
             />
           </div>

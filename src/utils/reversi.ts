@@ -123,7 +123,7 @@ export const colorScore = (board: Board, color: PlayerColor): number => {
   return score;
 };
 
-export const winningColor = (board: Board): PlayerColor | null => {
+export const winningColor = (board: Board): Color | null => {
   const white = colorScore(board, COLOR.WHITE);
   const black = colorScore(board, COLOR.BLACK);
 
@@ -136,7 +136,7 @@ export const winningColor = (board: Board): PlayerColor | null => {
     return COLOR.BLACK;
   }
 
-  return null;
+  return COLOR.NONE;
 };
 
 export const doMove = (

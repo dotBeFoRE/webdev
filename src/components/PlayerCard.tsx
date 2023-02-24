@@ -15,11 +15,11 @@ const PlayerCard = ({ player, color, score, isWinner }: Props) => {
   return (
     <div
       className={clsx(
-        'flex items-center gap-3 rounded-md p-4 sm:flex-1 sm:justify-start',
+        'flex items-center gap-3 rounded-md p-4 transition-all sm:flex-1 sm:justify-start',
         {
           'bg-stone-800 text-white': color === COLOR.BLACK,
           'bg-stone-50 text-black': color === COLOR.WHITE,
-          'border-2 border-yellow-500': isWinner,
+          ' ring-4 ring-yellow-500': isWinner,
         },
       )}>
       {player && (
