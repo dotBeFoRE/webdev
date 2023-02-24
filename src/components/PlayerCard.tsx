@@ -8,9 +8,10 @@ type Props = {
   player: RouterOutputs['reversi']['getGame']['white' | 'black'] | undefined;
   color: PlayerColor;
   score?: number;
+  isWinner?: boolean;
 };
 
-const PlayerCard = ({ player, color, score }: Props) => {
+const PlayerCard = ({ player, color, score, isWinner }: Props) => {
   return (
     <div
       className={clsx(
@@ -18,6 +19,7 @@ const PlayerCard = ({ player, color, score }: Props) => {
         {
           'bg-stone-800 text-white': color === COLOR.BLACK,
           'bg-stone-50 text-black': color === COLOR.WHITE,
+          'border-2 border-yellow-500': isWinner,
         },
       )}>
       {player && (

@@ -4,13 +4,13 @@ import Board from '../../../components/Board';
 import Layout from '../../../components/Layout';
 import PlayerCard from '../../../components/PlayerCard';
 import { api } from '../../../utils/api';
-import { COLOR, colorScore } from '../../../utils/reversi';
+import { COLOR, colorScore, winningColor } from '../../../utils/reversi';
 
 const GamePage = () => {
   const router = useRouter();
 
   const { data: game } = api.reversi.getGame.useQuery({
-    gameId: router.query.id as string,
+    gameId: typeof router.query.id === 'string' ? router.query.id : '',
   });
 
   return (
@@ -25,11 +25,17 @@ const GamePage = () => {
               player={game?.white}
               color={COLOR.WHITE}
               score={game?.board && colorScore(game?.board, COLOR.WHITE)}
+              isWinner={
+                game?.board ? COLOR.WHITE === winningColor(game?.board) : false
+              }
             />
             <PlayerCard
               player={game?.black}
               color={COLOR.BLACK}
-              score={game?.board && colorScore(game?.board, COLOR.WHITE)}
+              score={game?.board && colorScore(game?.board, COLOR.BLACK)}
+              isWinner={
+                game?.board ? COLOR.BLACK === winningColor(game?.board) : false
+              }
             />
           </div>
           <Board />

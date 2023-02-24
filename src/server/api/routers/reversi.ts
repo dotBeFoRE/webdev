@@ -149,7 +149,7 @@ export const reversiRouter = createTRPCRouter({
         },
         data: {
           board: exportBoard(result.board),
-          current: game.current === 1 ? 2 : 1,
+          current: result.nextPlayer,
           whiteId: game.whiteId,
           blackId: game.blackId,
           winner: result.winner,
@@ -162,7 +162,7 @@ export const reversiRouter = createTRPCRouter({
         white: game.white,
         black: game.black,
         winner: result.winner,
-        currentPlayer: game.current === 1 ? 2 : 1,
+        currentPlayer: result.nextPlayer,
       };
     }),
 });

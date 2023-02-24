@@ -105,11 +105,8 @@ export const canMove = (board: Board, color: PlayerColor): boolean => {
   return false;
 };
 
-export const hasEnded = (board: Board, color: PlayerColor): boolean => {
-  return (
-    !canMove(board, color) &&
-    !canMove(board, color === COLOR.WHITE ? COLOR.BLACK : COLOR.WHITE)
-  );
+export const hasEnded = (board: Board): boolean => {
+  return !canMove(board, COLOR.BLACK) && !canMove(board, COLOR.WHITE);
 };
 
 export const colorScore = (board: Board, color: PlayerColor): number => {
@@ -130,6 +127,8 @@ export const winningColor = (board: Board): PlayerColor | null => {
   const white = colorScore(board, COLOR.WHITE);
   const black = colorScore(board, COLOR.BLACK);
 
+  if (!hasEnded(board)) return null;
+
   if (white > black) {
     return COLOR.WHITE;
   }
@@ -144,16 +143,16 @@ export const doMove = (
   board: Board,
   x: number,
   y: number,
-  color: PlayerColor,
+  currentColor: PlayerColor,
 ) => {
-  const directions = validDirections(board, x, y, color);
+  const directions = validDirections(board, x, y, currentColor);
 
   if (!isOnBoard(x) || !isOnBoard(y) || !directions.length) {
     return null;
   }
 
   const newBoard = board.map((row) => [...row]) as Board;
-  newBoard[y][x] = color;
+  newBoard[y][x] = currentColor;
 
   try {
     directions.forEach(([dx, dy]) => {
@@ -164,8 +163,8 @@ export const doMove = (
         throw new Error('Out of bounds');
       }
 
-      while (newBoard[cy][cx] !== color) {
-        newBoard[cy][cx] = color;
+      while (newBoard[cy][cx] !== currentColor) {
+        newBoard[cy][cx] = currentColor;
         cx += dx;
         cy += dy;
 
@@ -178,20 +177,14 @@ export const doMove = (
     return null;
   }
 
-  let nextPlayer = color === COLOR.WHITE ? COLOR.BLACK : COLOR.WHITE;
-  if (!canMove(newBoard, nextPlayer)) {
-    nextPlayer = color;
+  const winner = winningColor(newBoard);
 
-    if (!canMove(newBoard, nextPlayer)) {
-      return {
-        board: newBoard,
-        winner: winningColor(newBoard),
-        nextPlayer: COLOR.NONE,
-      };
-    }
+  let nextColor = currentColor === COLOR.WHITE ? COLOR.BLACK : COLOR.WHITE;
+  if (!canMove(newBoard, nextColor)) {
+    nextColor = nextColor === COLOR.WHITE ? COLOR.BLACK : COLOR.WHITE;
   }
 
-  return { board: newBoard, nextPlayer, winner: null };
+  return { board: newBoard, nextPlayer: nextColor, winner };
 };
 
 export const exportBoard = (board: Board) => {
