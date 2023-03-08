@@ -2,6 +2,7 @@
 Bezoeker = Iemand die de site gebruikt  
 Gebruiker = Bezoeker die ingelogd is  
 Speler = Een gebruiker die aan een Reversi spel meedoet  
+Admin = Een administrator
 
 ## Requirements
 - Gebruikers moeten Reversi kunnen spelen
@@ -35,7 +36,21 @@ Speler = Een gebruiker die aan een Reversi spel meedoet
 
 - Wanneer de speler een stabiele verbinding gebruikt mag de staat van het bord niet langer dan 5 seconden "out of sync" zijn tussen server en client
 
-
-## Als speler, wil ik zien wie er gewonnen heeft wanneer het spel voorbij is, zodat het duidelijk is dat het spel over is
+### Als speler, wil ik zien wie er gewonnen heeft wanneer het spel voorbij is, zodat het duidelijk is dat het spel over is
 
 ![Winner](./images/Winner.png)
+
+### Als aanvaller, wil ik de database overspoelen, zodat er geen spellen meer gespeeld kunnen worden
+
+- Spelers mogen een gelimiteerd aantal spellen aanmaken over een bepaalde hoeveelheid tijd
+
+### Als aanvaller, wil ik achter informatie kunnen komen van de gebruikers waar ik eigenlijk geen toegang tot zou moeten hebben, zodat ik informatie over iemand te weten kan komen waar ik niet hoor over te beschikken
+
+- De server stuurt alleen de essentiele informatie naar de client
+- Welke informatie een gebruiker kan ophalen wordt bepaald door hun rol
+
+### Als admin, wil ik alle gebruikers kunnen zien, zodat ik weet wie er gebruik maakt van de site
+
+### Als admin, wil ik gebruikers kunnen verbannen of schorsen, zodat ik spelers die valsspelen kan straffen
+
+- Maatregelen worden geauditeert
