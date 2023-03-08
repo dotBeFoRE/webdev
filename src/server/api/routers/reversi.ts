@@ -9,8 +9,9 @@ import {
   getInitialBoard,
   importBoard,
 } from '../../../utils/reversi';
+import userToSafeUser from '../../../utils/safeUser';
 
-export const reversiRouter = createTRPCRouter({
+const reversiRouter = createTRPCRouter({
   createGame: protectedProcedure.mutation(async ({ ctx }) => {
     const board = getInitialBoard();
 
@@ -46,8 +47,8 @@ export const reversiRouter = createTRPCRouter({
         id: game.id,
         board: importBoard(game.board),
         winner: game.winner,
-        white: game.white,
-        black: game.black,
+        white: game.white && userToSafeUser(game.white),
+        black: game.black && userToSafeUser(game.black),
         currentPlayer: game.current,
       };
     }),
@@ -159,8 +160,8 @@ export const reversiRouter = createTRPCRouter({
       return {
         id: game.id,
         board: result.board,
-        white: game.white,
-        black: game.black,
+        white: game.white && userToSafeUser(game.white),
+        black: game.black && userToSafeUser(game.black),
         winner: result.winner,
         currentPlayer: result.nextPlayer,
       };
