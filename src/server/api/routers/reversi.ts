@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { TRPCError } from '@trpc/server';
+import type { PrismaClient } from '@prisma/client';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
 import type { PlayerColor } from '../../../utils/reversi';
 import {
@@ -11,9 +12,38 @@ import {
 } from '../../../utils/reversi';
 import userToSafeUser from '../../../utils/safeUser';
 
+const hasRecentGames = async (userId: string, prisma: PrismaClient) => {
+  const recentGames = await prisma.game.findMany({
+    where: {
+      OR: [
+        {
+          whiteId: userId,
+        },
+        {
+          blackId: userId,
+        },
+      ],
+      createdAt: {
+        gte: new Date(new Date().getTime() - 1000 * 60 * 5),
+      },
+    },
+  });
+
+  return recentGames.length >= 3;
+};
+
 const reversiRouter = createTRPCRouter({
   createGame: protectedProcedure.mutation(async ({ ctx }) => {
     const board = getInitialBoard();
+
+    const recentGames = await hasRecentGames(ctx.session.user.id, ctx.prisma);
+
+    if (recentGames) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'You have too many recent games',
+      });
+    }
 
     const game = await ctx.prisma.game.create({
       data: {
@@ -87,6 +117,15 @@ const reversiRouter = createTRPCRouter({
         throw new TRPCError({
           code: 'FORBIDDEN',
           message: 'Not your game',
+        });
+      }
+
+      const recentGames = await hasRecentGames(ctx.session.user.id, ctx.prisma);
+
+      if (recentGames) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'You have too many recent games',
         });
       }
 
