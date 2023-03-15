@@ -34,7 +34,7 @@ const GamePage = () => {
               color={COLOR.BLACK}
               score={game?.board && colorScore(game?.board, COLOR.BLACK)}
               isWinner={
-                game?.winner === COLOR.WHITE || game?.winner === COLOR.NONE
+                game?.winner === COLOR.BLACK || game?.winner === COLOR.NONE
               }
             />
           </div>
