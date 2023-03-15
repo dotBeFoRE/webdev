@@ -23,6 +23,7 @@ const hasRecentGames = async (userId: string, prisma: PrismaClient) => {
           blackId: userId,
         },
       ],
+      winner: { not: null },
       createdAt: {
         gte: new Date(new Date().getTime() - 1000 * 60 * 5),
       },
