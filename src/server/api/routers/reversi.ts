@@ -42,7 +42,7 @@ const reversiRouter = createTRPCRouter({
     if (recentGames) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: 'You have too many recent games',
+        message: 'You have too many recent games, try again in 5 minutes',
       });
     }
 
