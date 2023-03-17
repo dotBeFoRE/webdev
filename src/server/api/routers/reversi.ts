@@ -23,7 +23,7 @@ const hasRecentGames = async (userId: string, prisma: PrismaClient) => {
           blackId: userId,
         },
       ],
-      winner: { not: null },
+      winner: null,
       createdAt: {
         gte: new Date(new Date().getTime() - 1000 * 60 * 5),
       },
@@ -126,7 +126,7 @@ const reversiRouter = createTRPCRouter({
       if (recentGames) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'You have too many recent games',
+          message: 'You have too many recent games, try again in 5 minutes',
         });
       }
 
