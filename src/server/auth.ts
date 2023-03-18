@@ -23,12 +23,14 @@ declare module 'next-auth' {
       id: string;
       // ...other properties
       isAdmin: boolean;
+      isBanned: boolean;
     } & DefaultSession['user'];
   }
 
   interface User {
     //   // ...other properties
     isAdmin: boolean;
+    isBanned: boolean;
   }
 }
 
@@ -46,6 +48,8 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id;
         // eslint-disable-next-line no-param-reassign
         session.user.isAdmin = user.isAdmin;
+        // eslint-disable-next-line no-param-reassign
+        session.user.isBanned = user.isBanned;
       }
       return session;
     },

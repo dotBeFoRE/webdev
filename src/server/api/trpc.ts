@@ -114,12 +114,28 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-export const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
+export const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   if (!ctx.session.user.isAdmin) {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+export const enforceNotBanned = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  if (ctx.session.user.isBanned) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next({
@@ -141,3 +157,4 @@ export const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 export const protectedAdminProcedure = t.procedure.use(enforceUserIsAdmin);
+export const protectedNotBannedProcedure = t.procedure.use(enforceNotBanned);
