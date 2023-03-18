@@ -36,9 +36,25 @@ const Home: NextPage = () => {
           <div className="flex-1 rounded-md bg-stone-800 px-5 py-1">
             <section className="my-5 flex-1">
               <h2 className="text-lg font-bold">Profiel</h2>
+              <p className="mb-2">
+                Ayrton is the epitome of cool. He has an effortless charm that
+                draws people to him like a magnet. He walks with a confident
+                swagger and always has a mischievous twinkle in his eye that
+                suggests he is up for anything. Ayrton is the kind of guy who
+                seems to have life all figured out, and everyone wants to be
+                around him to soak up some of his coolness.
+              </p>
+              <p className="mb-2">
+                Ayrton&apos;s coolness is not just a façade; it is ingrained in
+                his personality. He is a skilled musician, and his guitar solos
+                leave audiences in awe. He is also an accomplished surfer, and
+                his moves on the waves are nothing short of breathtaking.
+              </p>
               <p>
-                Hallo ik ben een student van Windesheim en heb deze website
-                gemaakt :0
+                Despite his many talents, Ayrton remains humble and
+                approachable. He has a heart of gold and is always willing to
+                lend a hand to those in need. Ayrton is more than just a cool
+                dude; he is a true friend to all who know him.
               </p>
             </section>
             <section className="my-5 flex-1">
