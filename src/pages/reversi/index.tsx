@@ -24,8 +24,9 @@ const ReversiPage = () => {
       </button>
     ) : (
       <button
-        className="mr-1 rounded-md bg-stone-700 p-3 transition-colors hover:bg-stone-600 active:bg-stone-600"
+        className="mr-1 rounded-md bg-stone-700 p-3 transition-colors hover:bg-stone-600 active:bg-stone-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-stone-700 disabled:active:bg-stone-700 "
         type="button"
+        disabled={session.data?.user.isBanned === true}
         onClick={() => createGame.mutate()}>
         Create a game
       </button>
@@ -59,7 +60,9 @@ const ReversiPage = () => {
           <div>
             {button}{' '}
             <span className="text-sm text-red-400">
-              {createGame.error?.message}
+              {session.data?.user.isBanned === true
+                ? 'You are banned, you cannot create a game.'
+                : createGame.error?.message}
             </span>
           </div>
         </div>

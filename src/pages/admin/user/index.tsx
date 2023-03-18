@@ -9,11 +9,24 @@ import Layout from '../../../components/Layout';
 import { api } from '../../../utils/api';
 
 const UserItem = ({
-  user: { name, email, image, emailVerified },
+  user: { name, email, image, emailVerified, isBanned, id },
 }: {
   user: User;
 }) => {
   const isVerified = emailVerified || emailVerified === null;
+
+  const context = api.useContext();
+  const banUser = api.users.ban.useMutation({
+    onSuccess: () => {
+      context.users.getAll.invalidate().catch(() => {});
+    },
+  });
+
+  const unbanUser = api.users.unban.useMutation({
+    onSuccess: () => {
+      context.users.getAll.invalidate().catch(() => {});
+    },
+  });
 
   return (
     <div className="flex items-center justify-between gap-2 p-4">
@@ -43,8 +56,15 @@ const UserItem = ({
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="rounded bg-stone-600 p-2 transition-colors hover:bg-stone-500">
-          Ban
+          className="rounded bg-stone-600 p-2 transition-colors hover:bg-stone-500"
+          onClick={() => {
+            if (isBanned) {
+              unbanUser.mutate({ id });
+            } else {
+              banUser.mutate({ id });
+            }
+          }}>
+          {isBanned ? 'Unban' : 'Ban'}
         </button>
       </div>
     </div>

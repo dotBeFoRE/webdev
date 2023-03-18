@@ -2,7 +2,11 @@ import { z } from 'zod';
 
 import { TRPCError } from '@trpc/server';
 import type { PrismaClient } from '@prisma/client';
-import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
+import {
+  createTRPCRouter,
+  publicProcedure,
+  protectedNotBannedProcedure,
+} from '../trpc';
 import type { PlayerColor } from '../../../utils/reversi';
 import {
   doMove,
@@ -34,7 +38,7 @@ const hasRecentGames = async (userId: string, prisma: PrismaClient) => {
 };
 
 const reversiRouter = createTRPCRouter({
-  createGame: protectedProcedure.mutation(async ({ ctx }) => {
+  createGame: protectedNotBannedProcedure.mutation(async ({ ctx }) => {
     const board = getInitialBoard();
 
     const recentGames = await hasRecentGames(ctx.session.user.id, ctx.prisma);
@@ -84,7 +88,7 @@ const reversiRouter = createTRPCRouter({
       };
     }),
 
-  doMove: protectedProcedure
+  doMove: protectedNotBannedProcedure
     .input(
       z.object({
         gameId: z.string(),
