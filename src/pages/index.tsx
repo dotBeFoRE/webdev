@@ -21,8 +21,8 @@ const Home: NextPage = () => {
       </Head>
       <Layout>
         <div className="container px-5 md:flex">
-          <section className="my-5 flex-1 self-center px-5">
-            <div className="my-5 flex justify-center">
+          <section className="flex-1 self-center p-5 pt-0">
+            <div className="flex justify-center">
               <Image
                 src={avatar}
                 alt="Developer Image"
@@ -33,7 +33,7 @@ const Home: NextPage = () => {
               Ayrton-Taede Tromp
             </h1>
           </section>
-          <div className="mb-5 flex-1 rounded-md bg-stone-800 px-5 py-1">
+          <div className="flex-1 rounded-md bg-stone-800 px-5 py-1">
             <section className="my-5 flex-1">
               <h2 className="text-lg font-bold">Profiel</h2>
               <p>
