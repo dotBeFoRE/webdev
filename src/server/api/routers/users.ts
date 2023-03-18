@@ -1,7 +1,9 @@
-import { createTRPCRouter, protectedProcedure } from '../trpc';
+import { createTRPCRouter, protectedAdminProcedure } from '../trpc';
 
 const usersRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(({ ctx }) => ctx.prisma.user.findMany()),
+  getAll: protectedAdminProcedure.query(({ ctx }) =>
+    ctx.prisma.user.findMany(),
+  ),
 });
 
 export default usersRouter;

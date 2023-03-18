@@ -48,7 +48,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
           </li>
         </div>
       </header>
-      <main className="relative flex flex-1 items-center justify-center">
+      <main className="relative flex flex-1 items-center justify-center py-5">
         {children}
         <Gdpr />
       </main>

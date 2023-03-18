@@ -22,14 +22,14 @@ declare module 'next-auth' {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      isAdmin: boolean;
     } & DefaultSession['user'];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    //   // ...other properties
+    isAdmin: boolean;
+  }
 }
 
 /**
@@ -44,7 +44,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         // eslint-disable-next-line no-param-reassign
         session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
+        // eslint-disable-next-line no-param-reassign
+        session.user.isAdmin = user.isAdmin;
       }
       return session;
     },

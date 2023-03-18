@@ -66,6 +66,7 @@ model User {
     sessions      Session[]
     gamesWhite    Game[]    @relation("white")
     gamesBlack    Game[]    @relation("black")
+    isAdmin       Boolean   @default(false)
 }
 
 model VerificationToken {
