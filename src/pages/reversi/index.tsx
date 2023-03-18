@@ -1,4 +1,5 @@
 import { signIn, useSession } from 'next-auth/react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
@@ -31,34 +32,39 @@ const ReversiPage = () => {
     );
 
   return (
-    <Layout>
-      <div className="container rounded bg-stone-800 p-5 md:mx-5">
-        <h1 className="mb-3 text-4xl">Reversi</h1>
-        <p className="mb-3">
-          Reversi is a strategy board game for two players, played on an 8×8
-          uncheckered board. There are sixty-four identical game pieces called
-          disks, which are light on one side and dark on the other. Players take
-          turns placing disks on the board with their assigned color facing up.
-          During a play, any disks of the opponent’s color that are in a
-          straight line and bounded by the disk just placed and another disk of
-          the current player’s color are turned over to the current player’s
-          color. The objective of the game is to have the majority of disks
-          turned to display one’s color when the last playable empty square is
-          filled.
-        </p>
-        <p className="mb-3">
-          You can invite people by sending them the link to your game. Or you
-          can play with multiple players on the same device by making a move for
-          the opposing side after you have taken your turn.
-        </p>
-        <div>
-          {button}{' '}
-          <span className="text-sm text-red-400">
-            {createGame.error?.message}
-          </span>
+    <>
+      <Head>
+        <title>Play Reversi</title>
+      </Head>
+      <Layout>
+        <div className="container rounded bg-stone-800 p-5 md:mx-5">
+          <h1 className="mb-3 text-4xl">Reversi</h1>
+          <p className="mb-3">
+            Reversi is a strategy board game for two players, played on an 8×8
+            uncheckered board. There are sixty-four identical game pieces called
+            disks, which are light on one side and dark on the other. Players
+            take turns placing disks on the board with their assigned color
+            facing up. During a play, any disks of the opponent’s color that are
+            in a straight line and bounded by the disk just placed and another
+            disk of the current player’s color are turned over to the current
+            player’s color. The objective of the game is to have the majority of
+            disks turned to display one’s color when the last playable empty
+            square is filled.
+          </p>
+          <p className="mb-3">
+            You can invite people by sending them the link to your game. Or you
+            can play with multiple players on the same device by making a move
+            for the opposing side after you have taken your turn.
+          </p>
+          <div>
+            {button}{' '}
+            <span className="text-sm text-red-400">
+              {createGame.error?.message}
+            </span>
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 };
 

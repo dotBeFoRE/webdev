@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { Menu } from '@headlessui/react';
+import Link from 'next/link';
 
 const LoginButton = () => {
   const session = useSession();
@@ -39,6 +40,17 @@ const LoginButton = () => {
                     role="menuitem">
                     Sign out
                   </Menu.Button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    href="/admin/user"
+                    className={`${
+                      active ? 'bg-stone-600' : 'bg-stone-700'
+                    } flex w-full justify-between px-4 py-2 text-sm transition-colors`}>
+                    Users
+                  </Link>
                 )}
               </Menu.Item>
             </Menu.Items>
