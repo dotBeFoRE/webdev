@@ -4,7 +4,11 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Layout from './Layout';
 
-const AdminCheck: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const AdminCheck = ({ children }: Props) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -37,7 +41,7 @@ const AdminCheck: React.FC = ({ children }) => {
     );
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default AdminCheck;

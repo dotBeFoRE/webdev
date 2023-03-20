@@ -1,7 +1,6 @@
 import type { User } from '@prisma/client';
 import Head from 'next/head';
 import Image from 'next/image';
-import type { PropsWithChildren } from 'react';
 import ContentLoader from 'react-content-loader';
 import AdminCheck from '../../../components/AdminCheck';
 import Layout from '../../../components/Layout';
@@ -111,3 +110,5 @@ const UsersPage = () => {
     </AdminCheck>
   );
 };
+
+export default UsersPage;
