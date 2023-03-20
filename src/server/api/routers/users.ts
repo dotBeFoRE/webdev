@@ -5,6 +5,13 @@ const usersRouter = createTRPCRouter({
   getAll: protectedAdminProcedure.query(({ ctx }) =>
     ctx.prisma.user.findMany(),
   ),
+  get: protectedAdminProcedure.input(z.string()).query(({ ctx, input: id }) =>
+    ctx.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    }),
+  ),
   ban: protectedAdminProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input: { id } }) => {
@@ -23,6 +30,7 @@ const usersRouter = createTRPCRouter({
             action: 'ban',
             userId: ctx.session.user.id,
             target: id,
+            targetType: 'user',
           },
         })
         .catch(() => {
@@ -49,6 +57,7 @@ const usersRouter = createTRPCRouter({
             action: 'unban',
             userId: ctx.session.user.id,
             target: id,
+            targetType: 'user',
           },
         })
         .catch(() => {

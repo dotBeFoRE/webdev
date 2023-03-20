@@ -92,10 +92,11 @@ model Game {
 }
 
 model Audit {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    action    String
-    userId    String?
-    user      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    target    String
+    id          String      @id @default(cuid())
+    createdAt   DateTime    @default(now())
+    action      String
+    userId      String?
+    user        User?       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    target      String
+    targetType  String
 }

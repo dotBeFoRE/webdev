@@ -41,7 +41,7 @@ const UserItem = ({
           <div className="h-[40px] w-[40px] rounded-full bg-stone-600" />
         )}
         <span className="inline-flex text-lg font-bold">{name}</span>
-        <span className="inline-flex items-center gap-1 self-center rounded-full bg-stone-800 p-1 px-2 text-sm text-neutral-400">
+        <span className="inline-flex items-center gap-1 self-center rounded-full bg-stone-800 p-1 px-2 text-sm text-stone-400">
           <span
             aria-label={isVerified ? 'Email verified' : 'Email not verified'}
             className={`h-2 w-2 rounded-full ${
