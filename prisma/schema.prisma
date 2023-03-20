@@ -97,4 +97,5 @@ model Audit {
     action    String
     userId    String?
     user      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    target    String
 }
