@@ -68,6 +68,7 @@ model User {
     gamesBlack    Game[]    @relation("black")
     isAdmin       Boolean   @default(false)
     isBanned      Boolean   @default(false)
+    audits        Audit[]
 }
 
 model VerificationToken {
@@ -88,4 +89,12 @@ model Game {
     white     User?    @relation("white", fields: [whiteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     blackId   String?
     black     User?    @relation("black", fields: [blackId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Audit {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    action    String
+    userId    String?
+    user      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
