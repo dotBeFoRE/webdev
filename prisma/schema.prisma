@@ -96,7 +96,7 @@ model Audit {
     createdAt   DateTime    @default(now())
     action      String
     userId      String?
-    user        User?       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
     target      String
     targetType  String
 }

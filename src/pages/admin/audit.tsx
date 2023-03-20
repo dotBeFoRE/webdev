@@ -15,7 +15,7 @@ const TargetRenderer = ({ audit }: AuditProps) => {
     enabled: audit.targetType === 'user',
   });
 
-  if (audit.targetType === 'user') {
+  if (audit.targetType === 'user' && targetUser) {
     return (
       <>
         {targetUser?.image ? (
