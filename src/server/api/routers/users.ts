@@ -17,6 +17,18 @@ const usersRouter = createTRPCRouter({
         },
       });
 
+      ctx.prisma.audit
+        .create({
+          data: {
+            action: 'ban',
+            userId: ctx.session.user.id,
+            target: id,
+          },
+        })
+        .catch(() => {
+          console.error('Failed to create audit log');
+        });
+
       return user;
     }),
   unban: protectedAdminProcedure
@@ -30,6 +42,18 @@ const usersRouter = createTRPCRouter({
           isBanned: false,
         },
       });
+
+      ctx.prisma.audit
+        .create({
+          data: {
+            action: 'unban',
+            userId: ctx.session.user.id,
+            target: id,
+          },
+        })
+        .catch(() => {
+          console.error('Failed to create audit log');
+        });
 
       return user;
     }),
