@@ -1,10 +1,12 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import ContentLoader from 'react-content-loader';
+import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer';
 import ModeratorCheck from '../../components/Check';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
 import type { RouterOutputs } from '../../utils/api';
+import objectSort from '../../utils/objectSorter';
 
 type AuditProps = {
   audit: RouterOutputs['audit']['getAll'][number];
@@ -34,6 +36,67 @@ const TargetRenderer = ({ audit }: AuditProps) => {
     );
   }
 
+  if (audit.targetType === 'fromToJson' && audit.target) {
+    const parsedJson: unknown = JSON.parse(audit.target);
+
+    if (
+      parsedJson &&
+      typeof parsedJson === 'object' &&
+      'from' in parsedJson &&
+      'to' in parsedJson &&
+      typeof parsedJson.from === 'object' &&
+      typeof parsedJson.to === 'object' &&
+      parsedJson.from &&
+      parsedJson.to
+    ) {
+      const sortedTo = objectSort(parsedJson.to as Record<string, unknown>);
+      const sortedFrom = objectSort(parsedJson.from as Record<string, unknown>);
+
+      return (
+        <div className="flex flex-auto flex-col gap-2 overflow-hidden rounded">
+          <ReactDiffViewer
+            oldValue={JSON.stringify(sortedFrom, null, 2)}
+            newValue={JSON.stringify(sortedTo, null, 2)}
+            splitView={false}
+            showDiffOnly={false}
+            useDarkTheme
+            compareMethod={DiffMethod.LINES}
+            styles={{
+              variables: {
+                dark: {
+                  diffViewerBackground: '#57534e',
+                  diffViewerColor: '#FFF',
+                  addedBackground: '#044B53',
+                  addedColor: 'white',
+                  removedBackground: '#632F34',
+                  removedColor: 'white',
+                  wordAddedBackground: '#055d67',
+                  wordRemovedBackground: '#7d383f',
+                  addedGutterBackground: '#034148',
+                  removedGutterBackground: '#632b30',
+                  gutterBackground: '#57534e',
+                  gutterBackgroundDark: '#57534e',
+                  highlightBackground: '#2a3967',
+                  highlightGutterBackground: '#2d4077',
+                  codeFoldGutterBackground: '#21232b',
+                  codeFoldBackground: '#262831',
+                  emptyLineBackground: '#363946',
+                  gutterColor: '#FFF',
+                  addedGutterColor: '#8c8c8c',
+                  removedGutterColor: '#8c8c8c',
+                  codeFoldContentColor: '#555a7b',
+                  diffViewerTitleBackground: '#2f323e',
+                  diffViewerTitleColor: '#555a7b',
+                  diffViewerTitleBorderColor: '#353846',
+                },
+              },
+            }}
+          />
+        </div>
+      );
+    }
+  }
+
   return (
     <>
       <span className="font-bold">{audit.target}</span>
@@ -49,7 +112,7 @@ const AuditItem = ({ audit }: AuditProps) => {
   });
 
   return (
-    <div className="flex items-center justify-between gap-2 p-4">
+    <div className="p-4">
       <div className="flex items-center gap-2">
         {audit.user && (
           <>
