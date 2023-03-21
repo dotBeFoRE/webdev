@@ -23,7 +23,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-stone-900 text-white">
+    <div className="relative flex min-h-screen flex-col bg-stone-900 text-stone-300">
       <header className="flex justify-center bg-stone-800">
         <div className="container flex h-16 flex-wrap items-stretch justify-between">
           <Link href="/" className="flex items-center p-2">

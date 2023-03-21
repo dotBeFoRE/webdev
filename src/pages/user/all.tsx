@@ -1,17 +1,18 @@
 import type { User } from '@prisma/client';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import ContentLoader from 'react-content-loader';
-import AdminCheck from '../../../components/AdminCheck';
-import Layout from '../../../components/Layout';
-import { api } from '../../../utils/api';
+import AdminCheck from '../../components/AdminCheck';
+import Layout from '../../components/Layout';
+import { api } from '../../utils/api';
 
 const UserItem = ({
   user: { name, email, image, emailVerified, isBanned, id },
 }: {
   user: User;
 }) => {
-  const isVerified = emailVerified || emailVerified === null;
+  const isVerified = !!emailVerified;
 
   const context = api.useContext();
   const banUser = api.users.ban.useMutation({
@@ -40,7 +41,11 @@ const UserItem = ({
         ) : (
           <div className="h-[40px] w-[40px] rounded-full bg-stone-600" />
         )}
-        <span className="inline-flex text-lg font-bold">{name}</span>
+        <Link
+          href={`/user/${id}`}
+          className="inline-flex text-lg font-bold hover:underline">
+          {name}
+        </Link>
         <span className="inline-flex items-center gap-1 self-center rounded-full bg-stone-800 p-1 px-2 text-sm text-stone-400">
           <span
             aria-label={isVerified ? 'Email verified' : 'Email not verified'}

@@ -33,7 +33,7 @@ const LoginButton = () => {
                 <Menu.Item>
                   {({ active }) => (
                     <Link
-                      href="/admin/user"
+                      href="/user/all"
                       className={`${
                         active ? 'bg-stone-600' : 'bg-stone-700'
                       } flex w-full justify-between px-4 py-2 text-sm transition-colors`}>
