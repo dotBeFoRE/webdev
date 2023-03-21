@@ -12,7 +12,7 @@ import type { z } from 'zod';
 import Head from 'next/head';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
-import { editUserSchema } from '../../schemas/messageSchema';
+import { editUserSchema } from '../../schemas/zodSchema';
 
 const UserPage = () => {
   const router = useRouter();

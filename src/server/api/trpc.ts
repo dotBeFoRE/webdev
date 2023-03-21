@@ -114,12 +114,12 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-export const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
+export const enforceUserIsModerator = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  if (!ctx.session.user.isAdmin) {
+  if (!ctx.session.user.isAdmin || !ctx.session.user.isModerator) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next({
@@ -156,5 +156,5 @@ export const enforceNotBanned = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
-export const protectedAdminProcedure = t.procedure.use(enforceUserIsAdmin);
+export const protectedAdminProcedure = t.procedure.use(enforceUserIsModerator);
 export const protectedNotBannedProcedure = t.procedure.use(enforceNotBanned);

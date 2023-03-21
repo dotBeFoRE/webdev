@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { messageSchema } from '../../../schemas/messageSchema';
+import { messageSchema } from '../../../schemas/zodSchema';
 import mail from '../../../utils/mail';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 

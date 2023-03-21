@@ -25,6 +25,7 @@ declare module 'next-auth' {
       // ...other properties
       isAdmin: boolean;
       isBanned: boolean;
+      isModerator: boolean;
     } & DefaultSession['user'];
   }
 
@@ -32,6 +33,7 @@ declare module 'next-auth' {
     //   // ...other properties
     isAdmin: boolean;
     isBanned: boolean;
+    isModerator: boolean;
   }
 }
 
@@ -51,6 +53,8 @@ export const authOptions: NextAuthOptions = {
         session.user.isAdmin = user.isAdmin;
         // eslint-disable-next-line no-param-reassign
         session.user.isBanned = user.isBanned;
+        // eslint-disable-next-line no-param-reassign
+        session.user.isModerator = user.isModerator;
       }
       return session;
     },

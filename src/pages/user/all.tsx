@@ -1,27 +1,47 @@
+import { Listbox } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/24/solid';
 import type { User } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Fragment } from 'react';
 import ContentLoader from 'react-content-loader';
 import AdminCheck from '../../components/AdminCheck';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
 
+const userTypes = [
+  {
+    value: false,
+    name: 'User',
+  },
+  {
+    value: true,
+    name: 'Moderator',
+  },
+] as const;
+
 const UserItem = ({
-  user: { name, email, image, emailVerified, isBanned, id },
+  user: {
+    name,
+    email,
+    image,
+    emailVerified,
+    isBanned,
+    id,
+    isAdmin,
+    isModerator,
+  },
 }: {
   user: User;
 }) => {
   const isVerified = !!emailVerified;
 
-  const context = api.useContext();
-  const banUser = api.users.ban.useMutation({
-    onSuccess: () => {
-      context.users.getAll.invalidate().catch(() => {});
-    },
-  });
+  const session = useSession();
 
-  const unbanUser = api.users.unban.useMutation({
+  const context = api.useContext();
+  const { mutate, isLoading } = api.users.edit.useMutation({
     onSuccess: () => {
       context.users.getAll.invalidate().catch(() => {});
     },
@@ -56,16 +76,46 @@ const UserItem = ({
           {email}
         </span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-stretch gap-2">
+        {!isAdmin ? (
+          <Listbox
+            value={isModerator ? userTypes[1] : userTypes[0]}
+            as="div"
+            className="relative w-32"
+            onChange={(selected) => {
+              mutate({
+                id,
+                isModerator: selected.value,
+              });
+            }}
+            disabled={session.data?.user.isAdmin !== true}>
+            <Listbox.Button className="h-full w-full rounded bg-stone-600 disabled:cursor-auto ui-open:bg-stone-600">
+              {(isModerator ? userTypes[1] : userTypes[0]).name}
+            </Listbox.Button>
+            <Listbox.Options className="absolute right-0 z-40 w-full origin-top-right translate-y-1 overflow-clip rounded">
+              {userTypes.map((ut) => (
+                <Listbox.Option
+                  key={ut.value.toString()}
+                  value={ut}
+                  as={Fragment}>
+                  <li className="w-full cursor-pointer bg-stone-600 p-2 ui-active:bg-stone-500">
+                    <CheckIcon className="inline h-4 w-4 text-transparent ui-selected:text-stone-300" />{' '}
+                    {ut.name}
+                  </li>
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Listbox>
+        ) : (
+          <span className="rounded bg-stone-600 p-2">Admin</span>
+        )}
+
         <button
           type="button"
           className="rounded bg-stone-600 p-2 transition-colors hover:bg-stone-500"
+          disabled={isLoading}
           onClick={() => {
-            if (isBanned) {
-              unbanUser.mutate({ id });
-            } else {
-              banUser.mutate({ id });
-            }
+            mutate({ id, isBanned: !isBanned });
           }}>
           {isBanned ? 'Unban' : 'Ban'}
         </button>

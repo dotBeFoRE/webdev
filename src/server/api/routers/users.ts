@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { editUserSchema } from '../../../schemas/messageSchema';
+import { editUserSchema } from '../../../schemas/zodSchema';
 import createLog from '../../../utils/auditLogger';
 import userToSafeUser from '../../../utils/safeUser';
 import {
@@ -33,56 +33,6 @@ const usersRouter = createTRPCRouter({
 
       return userToSafeUser(user);
     }),
-  ban: protectedAdminProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input: { id } }) => {
-      const user = await ctx.prisma.user.update({
-        where: {
-          id,
-        },
-        data: {
-          isBanned: true,
-        },
-      });
-
-      createLog({
-        action: 'ban',
-        user: {
-          connect: {
-            id: ctx.session.user.id,
-          },
-        },
-        target: id,
-        targetType: 'user',
-      });
-
-      return user;
-    }),
-  unban: protectedAdminProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input: { id } }) => {
-      const user = await ctx.prisma.user.update({
-        where: {
-          id,
-        },
-        data: {
-          isBanned: false,
-        },
-      });
-
-      createLog({
-        action: 'unban',
-        user: {
-          connect: {
-            id: ctx.session.user.id,
-          },
-        },
-        target: id,
-        targetType: 'user',
-      });
-
-      return user;
-    }),
   edit: protectedProcedure
     .input(editUserSchema)
     .mutation(async ({ ctx, input }) => {
@@ -105,15 +55,17 @@ const usersRouter = createTRPCRouter({
         name: input.name ?? user.name,
       };
 
-      if (ctx.session.user.isAdmin) {
+      if (ctx.session.user.isModerator || ctx.session.user.isAdmin) {
         newUser.isBanned = input.isBanned ?? user.isBanned;
       }
 
-      console.log(newUser);
+      if (ctx.session.user.isAdmin) {
+        newUser.isModerator = input.isModerator ?? user.isModerator;
+      }
 
       const updatedUser = await ctx.prisma.user.update({
         where: {
-          id: ctx.session.user.id,
+          id: input.id,
         },
         data: {
           ...newUser,
@@ -127,8 +79,8 @@ const usersRouter = createTRPCRouter({
             id: ctx.session.user.id,
           },
         },
-        target: ctx.session.user.id,
-        targetType: 'user',
+        target: JSON.stringify({ from: user, to: updatedUser }),
+        targetType: 'json',
       });
 
       return userToSafeUser(updatedUser);

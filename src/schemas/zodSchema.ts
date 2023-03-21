@@ -9,7 +9,7 @@ export const messageSchema = z.object({
 export const editUserSchema = z.object({
   id: z.string(),
   name: z.string().min(1).max(20).trim().optional(),
-  isAdmin: z.boolean().optional(),
+  isModerator: z.boolean().optional(),
   isBanned: z.boolean().optional(),
 });
 

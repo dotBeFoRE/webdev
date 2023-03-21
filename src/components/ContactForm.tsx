@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useForm } from 'react-hook-form';
-import type { Message } from '../schemas/messageSchema';
-import { messageSchema } from '../schemas/messageSchema';
+import type { Message } from '../schemas/zodSchema';
+import { messageSchema } from '../schemas/zodSchema';
 import { api } from '../utils/api';
 
 const ContactForm = () => {

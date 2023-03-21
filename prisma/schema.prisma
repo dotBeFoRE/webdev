@@ -67,6 +67,7 @@ model User {
     gamesWhite    Game[]    @relation("white")
     gamesBlack    Game[]    @relation("black")
     isAdmin       Boolean   @default(false)
+    isModerator   Boolean   @default(false)
     isBanned      Boolean   @default(false)
     audits        Audit[]
 }
