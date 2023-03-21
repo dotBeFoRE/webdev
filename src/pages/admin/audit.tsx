@@ -64,16 +64,17 @@ const TargetRenderer = ({ audit }: AuditProps) => {
             styles={{
               variables: {
                 dark: {
+                  wordAddedBackground: '#047857',
+                  addedBackground: '#065f46',
+                  addedGutterBackground: '#064e3b',
+                  wordRemovedBackground: '#c2410c',
+                  removedBackground: '#9a3412',
+                  removedGutterBackground: '#7c2d12',
+                  addedGutterColor: '#a7f3d0',
+                  addedColor: '#d1fae5',
                   diffViewerBackground: '#57534e',
-                  diffViewerColor: '#FFF',
-                  addedBackground: '#044B53',
-                  addedColor: 'white',
-                  removedBackground: '#632F34',
-                  removedColor: 'white',
-                  wordAddedBackground: '#055d67',
-                  wordRemovedBackground: '#7d383f',
-                  addedGutterBackground: '#034148',
-                  removedGutterBackground: '#632b30',
+                  diffViewerColor: '#d6d3d1',
+                  removedColor: '#ffedd5',
                   gutterBackground: '#57534e',
                   gutterBackgroundDark: '#57534e',
                   highlightBackground: '#2a3967',
@@ -81,9 +82,8 @@ const TargetRenderer = ({ audit }: AuditProps) => {
                   codeFoldGutterBackground: '#21232b',
                   codeFoldBackground: '#262831',
                   emptyLineBackground: '#363946',
-                  gutterColor: '#FFF',
-                  addedGutterColor: '#8c8c8c',
-                  removedGutterColor: '#8c8c8c',
+                  gutterColor: '#a8a29e',
+                  removedGutterColor: '#fed7aa',
                   codeFoldContentColor: '#555a7b',
                   diffViewerTitleBackground: '#2f323e',
                   diffViewerTitleColor: '#555a7b',
@@ -113,7 +113,7 @@ const AuditItem = ({ audit }: AuditProps) => {
 
   return (
     <div className="p-4">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {audit.user && (
           <>
             {audit.user.image ? (
