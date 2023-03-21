@@ -3,12 +3,16 @@ Bezoeker = Iemand die de site gebruikt
 Gebruiker = Bezoeker die ingelogd is  
 Speler = Een gebruiker die aan een Reversi spel meedoet  
 Admin = Een administrator
+Provider = Service die gebruikt kan worden om in te loggen
+Profiel = Gebruiker informatie in de database
+Account = Link tussen een provider en een profiel
 
 ## Requirements
 - Gebruikers moeten Reversi kunnen spelen
 - Gebruikers moeten kunnen deelnemen aan een spel op een ander apparaat
 - Het spel moet gespeeld worden in "real-time"
 - Het spel moet zich houden aan de Othello regelset
+- Belangrijke gebeurtenissen worden gelogged
 
 ## User-stories
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
@@ -23,11 +27,19 @@ Admin = Een administrator
 
 ![Explanation screen](./images/Game_screen.png)
 
+### Als gebruiker, wil ik kunnen inloggen, zodat de website weet dat ik het ben
+- Gebruiker kan inloggen met GitHub
+- Als er nog geen account bestaat wordt er een aangemaakt
+- Als er nog geen profiel bestaat voor het account wordt er een profiel aangemaakt
+- Als er een nieuwe account wordt aangemaakt wordt dit gelogt
+- Als er een nieuwe profiel wordt aangemaakt wordt dit gelogt
+- Als een gebruiker inlogt wordt dit gelogt
+
 ### Als speler, wil ik een zet kunnen zetten, zodat het spel door kan gaan
 
 - Speler kan alleen een zet doen als die aan de beurt is en een zet kan doen
 - De zet moet legaal zijn
-- Het bord moet gelijk updaten
+- Het bord moet gelijk geüpdaten
 - Er wordt laten zien welke zetten legaal zijn
 
 ![Do move](./images/Do_move.png)

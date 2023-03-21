@@ -50,6 +50,13 @@ export const api = createTRPCNext<AppRouter>({
 
     return {
       transformer: superjson, // optional - adds superjson serialization
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            refetchInterval: 1000 * 60 * 1, // 1 minute
+          },
+        },
+      },
       links: [
         httpBatchLink({
           // The server needs to know your app's full url

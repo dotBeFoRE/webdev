@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import createLog from '../../../utils/auditLogger';
 import { createTRPCRouter, protectedAdminProcedure } from '../trpc';
 
 const usersRouter = createTRPCRouter({
@@ -24,18 +25,16 @@ const usersRouter = createTRPCRouter({
         },
       });
 
-      ctx.prisma.audit
-        .create({
-          data: {
-            action: 'ban',
-            userId: ctx.session.user.id,
-            target: id,
-            targetType: 'user',
+      createLog({
+        action: 'ban',
+        user: {
+          connect: {
+            id: ctx.session.user.id,
           },
-        })
-        .catch(() => {
-          console.error('Failed to create audit log');
-        });
+        },
+        target: id,
+        targetType: 'user',
+      });
 
       return user;
     }),
@@ -51,18 +50,16 @@ const usersRouter = createTRPCRouter({
         },
       });
 
-      ctx.prisma.audit
-        .create({
-          data: {
-            action: 'unban',
-            userId: ctx.session.user.id,
-            target: id,
-            targetType: 'user',
+      createLog({
+        action: 'unban',
+        user: {
+          connect: {
+            id: ctx.session.user.id,
           },
-        })
-        .catch(() => {
-          console.error('Failed to create audit log');
-        });
+        },
+        target: id,
+        targetType: 'user',
+      });
 
       return user;
     }),

@@ -25,7 +25,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
   return (
     <div className="relative flex min-h-screen flex-col bg-stone-900 text-white">
       <header className="flex justify-center bg-stone-800">
-        <div className="container flex flex-wrap items-stretch justify-between">
+        <div className="container flex h-16 flex-wrap items-stretch justify-between">
           <Link href="/" className="flex items-center p-2">
             <h2 className="text-lg">Webdev CV</h2>
           </Link>

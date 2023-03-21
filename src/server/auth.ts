@@ -9,6 +9,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 // eslint-disable-next-line import/extensions
 import { env } from '../env.mjs';
 import { prisma } from './db';
+import createLog from '../utils/auditLogger';
 
 /**
  * Module augmentation for `next-auth` types.
@@ -52,6 +53,44 @@ export const authOptions: NextAuthOptions = {
         session.user.isBanned = user.isBanned;
       }
       return session;
+    },
+  },
+  events: {
+    linkAccount({ account, user }) {
+      createLog({
+        action: 'newAccount',
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+        targetType: 'providerAccount',
+        target: `${account.provider}:${account.providerAccountId}`,
+      });
+    },
+    createUser({ user }) {
+      createLog({
+        action: 'newUser',
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+        targetType: 'user',
+        target: user.id,
+      });
+    },
+    signIn({ user }) {
+      createLog({
+        action: 'signIn',
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+        targetType: 'user',
+        target: user.id,
+      });
     },
   },
   adapter: PrismaAdapter(prisma),

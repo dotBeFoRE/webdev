@@ -11,8 +11,8 @@ type AuditProps = {
 };
 
 const TargetRenderer = ({ audit }: AuditProps) => {
-  const { data: targetUser } = api.users.get.useQuery(audit.target, {
-    enabled: audit.targetType === 'user',
+  const { data: targetUser } = api.users.get.useQuery(audit.target || '', {
+    enabled: audit.targetType === 'user' && !!audit.target,
   });
 
   if (audit.targetType === 'user' && targetUser) {
@@ -35,9 +35,10 @@ const TargetRenderer = ({ audit }: AuditProps) => {
   }
 
   return (
-    <span>
-      {audit.target} {audit.targetType}
-    </span>
+    <>
+      <span className="font-bold">{audit.target}</span>
+      <span>{audit.targetType}</span>
+    </>
   );
 };
 
@@ -50,25 +51,29 @@ const AuditItem = ({ audit }: AuditProps) => {
   return (
     <div className="flex items-center justify-between gap-2 p-4">
       <div className="flex items-center gap-2">
-        {audit.user?.image ? (
-          <Image
-            alt={audit.user.name ? `${audit.user.name}'s avatar` : 'Avatar'}
-            height={40}
-            width={40}
-            src={audit.user.image}
-            className="rounded-full"
-          />
-        ) : (
-          <div className="h-[40px] w-[40px] rounded-full bg-stone-600" />
+        {audit.user && (
+          <>
+            {audit.user.image ? (
+              <Image
+                alt={audit.user.name ? `${audit.user.name}'s avatar` : 'Avatar'}
+                height={40}
+                width={40}
+                src={audit.user.image}
+                className="rounded-full"
+              />
+            ) : (
+              <div className="h-[40px] w-[40px] rounded-full bg-stone-600" />
+            )}
+            <span className="inline-flex text-lg font-bold">
+              {audit.user.name}
+            </span>
+          </>
         )}
-        <span className="inline-flex text-lg font-bold">
-          {audit.user?.name}
-        </span>
         <span className="inline-flex items-center gap-1 self-center rounded-full bg-stone-800 p-1 px-2 text-sm text-stone-400">
           {audit.action}
         </span>
         <TargetRenderer audit={audit} />
-        <span className="text-sm text-stone-300">
+        <span className="shrink-0 text-sm text-stone-300">
           {formatter.format(new Date(audit.createdAt))}
         </span>
       </div>

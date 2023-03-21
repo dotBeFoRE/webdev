@@ -6,6 +6,9 @@ const auditRouter = createTRPCRouter({
       include: {
         user: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     }),
   ),
 });

@@ -97,6 +97,6 @@ model Audit {
     action      String
     userId      String?
     user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-    target      String
-    targetType  String
+    target      String?
+    targetType  String?
 }

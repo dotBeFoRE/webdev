@@ -14,7 +14,7 @@ const LoginButton = () => {
         {({ open }) => (
           <>
             <Menu.Button
-              className={`flex items-center p-2 transition-colors hover:bg-stone-700 active:bg-stone-700 ${
+              className={`flex h-full items-center p-2 transition-colors hover:bg-stone-700 active:bg-stone-700 ${
                 open ? 'bg-stone-700' : ''
               }`}>
               {image && (
@@ -38,6 +38,19 @@ const LoginButton = () => {
                         active ? 'bg-stone-600' : 'bg-stone-700'
                       } flex w-full justify-between px-4 py-2 text-sm transition-colors`}>
                       Users
+                    </Link>
+                  )}
+                </Menu.Item>
+              )}
+              {session.data.user.isAdmin && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      href="/admin/audit"
+                      className={`${
+                        active ? 'bg-stone-600' : 'bg-stone-700'
+                      } flex w-full justify-between px-4 py-2 text-sm transition-colors`}>
+                      Audit Logs
                     </Link>
                   )}
                 </Menu.Item>
