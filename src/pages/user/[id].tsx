@@ -10,12 +10,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
 import { editUserSchema } from '../../schemas/zodSchema';
 
 const UserPage = () => {
   const router = useRouter();
+  const session = useSession();
 
   const id = typeof router.query.id === 'string' ? router.query.id : 'unknown';
 
@@ -54,9 +56,23 @@ const UserPage = () => {
   };
 
   const context = api.useContext();
-  const { mutate } = api.users.edit.useMutation({
+
+  const { mutate: editUser } = api.users.edit.useMutation({
     onSuccess: () => {
       setIsEditing(false);
+    },
+    onSettled: () => {
+      void context.users.invalidate();
+    },
+  });
+
+  const { mutate: deleteUser } = api.users.delete.useMutation({
+    onSuccess: () => {
+      if (user?.id !== session.data?.user?.id) {
+        void router.push('/user/all');
+      } else {
+        void document.location.reload();
+      }
     },
     onSettled: () => {
       void context.users.invalidate();
@@ -71,8 +87,8 @@ const UserPage = () => {
       <Head>
         <title>{`${user.name || ''}'s profile`}</title>
       </Head>
-      <div className="container rounded bg-stone-800 p-5 md:mx-5">
-        <div className="flex place-content-center place-items-center gap-4">
+      <div className="container my-auto flex w-fit flex-col place-items-stretch rounded bg-stone-800 p-5 md:mx-5">
+        <div className="mb-4 flex place-content-center place-items-center gap-4">
           {user.image ? (
             <div>
               <Image
@@ -89,7 +105,7 @@ const UserPage = () => {
           {isEditing ? (
             <form
               onSubmit={handleSubmit((data) => {
-                mutate(data);
+                editUser(data);
               })}
               className="flex place-content-center place-items-center gap-2">
               <input
@@ -122,6 +138,16 @@ const UserPage = () => {
               </button>
             </>
           )}
+        </div>
+        <div className="flex">
+          <button
+            onClick={() => {
+              deleteUser(user.id);
+            }}
+            type="button"
+            className="flex-auto rounded bg-red-900 p-3">
+            Delete
+          </button>
         </div>
       </div>
     </Layout>

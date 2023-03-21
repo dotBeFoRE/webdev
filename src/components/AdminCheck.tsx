@@ -43,7 +43,7 @@ const AdminCheck = ({ children }: Props) => {
     }
   }, [router.asPath, status]);
 
-  if (session?.user.isAdmin === false) {
+  if (session?.user.isAdmin === false && session?.user.isModerator === false) {
     return <NotAuthorized />;
   }
 

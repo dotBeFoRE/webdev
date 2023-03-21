@@ -14,10 +14,14 @@ const usersRouter = createTRPCRouter({
   getAll: protectedAdminProcedure.query(({ ctx }) =>
     ctx.prisma.user.findMany(),
   ),
-  get: protectedAdminProcedure
+  get: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input: id }) => {
-      if (!ctx.session.user.isAdmin && ctx.session.user.id !== id) {
+      if (
+        !ctx.session.user.isAdmin &&
+        !ctx.session.user.isModerator &&
+        ctx.session.user.id !== id
+      ) {
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
@@ -36,7 +40,11 @@ const usersRouter = createTRPCRouter({
   edit: protectedProcedure
     .input(editUserSchema)
     .mutation(async ({ ctx, input }) => {
-      if (!ctx.session.user.isAdmin && ctx.session.user.id !== input.id) {
+      if (
+        !ctx.session.user.isAdmin &&
+        !ctx.session.user.isModerator &&
+        ctx.session.user.id !== input.id
+      ) {
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
@@ -84,6 +92,68 @@ const usersRouter = createTRPCRouter({
       });
 
       return userToSafeUser(updatedUser);
+    }),
+  delete: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input: id }) => {
+      if (
+        !ctx.session.user.isAdmin &&
+        ctx.session.user.id !== id &&
+        !ctx.session.user.isModerator
+      ) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
+
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!user) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
+
+      if (
+        (ctx.session.user.isModerator &&
+          user.isModerator &&
+          !ctx.session.user.isAdmin) ||
+        (user.isAdmin && ctx.session.user.id !== id)
+      ) {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+
+      await ctx.prisma.game.deleteMany({
+        where: {
+          OR: [
+            {
+              whiteId: id,
+            },
+            {
+              blackId: id,
+            },
+          ],
+        },
+      });
+
+      const deletedUser = await ctx.prisma.user.delete({
+        where: {
+          id,
+        },
+      });
+
+      createLog({
+        action: 'delete',
+        user: {
+          connect: {
+            id: ctx.session.user.id,
+          },
+        },
+        target: JSON.stringify(deletedUser),
+        targetType: 'json',
+      });
+
+      return userToSafeUser(deletedUser);
     }),
 });
 

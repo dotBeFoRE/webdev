@@ -29,6 +29,17 @@ const LoginButton = () => {
               {name && <p className="hidden sm:block">{name}</p>}
             </Menu.Button>
             <Menu.Items className="absolute right-0 z-40 w-full min-w-max origin-top-right divide-stone-600 overflow-hidden rounded-b-md shadow-lg outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    href={`/user/${session.data.user.id}`}
+                    className={`${
+                      active ? 'bg-stone-600' : 'bg-stone-700'
+                    } flex w-full justify-between px-4 py-2 text-sm transition-colors`}>
+                    Profile
+                  </Link>
+                )}
+              </Menu.Item>
               {session.data.user.isAdmin && (
                 <Menu.Item>
                   {({ active }) => (
