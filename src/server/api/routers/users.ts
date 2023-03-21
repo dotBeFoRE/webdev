@@ -88,7 +88,7 @@ const usersRouter = createTRPCRouter({
           },
         },
         target: JSON.stringify({ from: user, to: updatedUser }),
-        targetType: 'json',
+        targetType: 'fromToJson',
       });
 
       return userToSafeUser(updatedUser);
