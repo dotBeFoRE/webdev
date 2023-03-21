@@ -1,4 +1,3 @@
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Gdpr from './Gdpr';
@@ -6,21 +5,17 @@ import LoginButton from './LoginButton';
 
 const Layout = ({ children }: React.PropsWithChildren) => {
   const router = useRouter();
-  const session = useSession();
 
   const links = [
     {
       href: '/contact',
       label: 'Contact',
     },
-  ];
-
-  if (session.status === 'authenticated') {
-    links.push({
+    {
       href: '/reversi',
       label: 'Play Reversi',
-    });
-  }
+    },
+  ];
 
   return (
     <div className="relative flex min-h-screen flex-col bg-stone-900 text-stone-300">
