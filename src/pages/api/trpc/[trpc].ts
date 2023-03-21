@@ -17,22 +17,24 @@ export default createNextApiHandler({
       );
     }
 
-    createLog({
-      user: ctx?.session?.user
-        ? {
-            connect: {
-              id: ctx.session.user.id,
-            },
-          }
-        : undefined,
-      action: 'trpcError',
-      targetType: 'json',
-      target: JSON.stringify({
-        path,
-        error: error.message,
-        input,
-        session: ctx?.session,
-      }),
-    });
+    if (path !== 'users.get') {
+      createLog({
+        user: ctx?.session?.user
+          ? {
+              connect: {
+                id: ctx.session.user.id,
+              },
+            }
+          : undefined,
+        action: 'trpcError',
+        targetType: 'json',
+        target: JSON.stringify({
+          path,
+          error: error.message,
+          input,
+          session: ctx?.session,
+        }),
+      });
+    }
   },
 });

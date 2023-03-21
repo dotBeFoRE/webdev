@@ -9,6 +9,9 @@ const LoginButton = () => {
   if (session.data?.user) {
     const { name, image } = session.data.user;
 
+    const isModerator =
+      session.data.user.isModerator || session.data.user.isAdmin;
+
     return (
       <Menu as="div" className="relative">
         {({ open }) => (
@@ -40,7 +43,7 @@ const LoginButton = () => {
                   </Link>
                 )}
               </Menu.Item>
-              {session.data.user.isAdmin && (
+              {isModerator && (
                 <Menu.Item>
                   {({ active }) => (
                     <Link
@@ -53,7 +56,7 @@ const LoginButton = () => {
                   )}
                 </Menu.Item>
               )}
-              {session.data.user.isAdmin && (
+              {isModerator && (
                 <Menu.Item>
                   {({ active }) => (
                     <Link
