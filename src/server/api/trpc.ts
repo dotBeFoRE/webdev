@@ -119,7 +119,7 @@ export const enforceUserIsModerator = t.middleware(({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  if (!ctx.session.user.isAdmin || !ctx.session.user.isModerator) {
+  if (!ctx.session.user.isAdmin && !ctx.session.user.isModerator) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next({
