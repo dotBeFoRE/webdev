@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import ContentLoader from 'react-content-loader';
-import AdminCheck from '../../components/AdminCheck';
+import ModeratorCheck from '../../components/Check';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
 import type { RouterOutputs } from '../../utils/api';
@@ -101,7 +101,7 @@ const AuditPage = () => {
   const { data: items } = api.audit.getAll.useQuery();
 
   return (
-    <AdminCheck>
+    <ModeratorCheck>
       <Head>
         <title>Audit Log</title>
       </Head>
@@ -121,7 +121,7 @@ const AuditPage = () => {
           </div>
         </div>
       </Layout>
-    </AdminCheck>
+    </ModeratorCheck>
   );
 };
 

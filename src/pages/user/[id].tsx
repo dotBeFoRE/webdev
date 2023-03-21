@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
 import { editUserSchema } from '../../schemas/zodSchema';
+import { LoggedInCheck } from '../../components/Check';
 
 const UserPage = () => {
   const router = useRouter();
@@ -79,77 +80,89 @@ const UserPage = () => {
     },
   });
 
-  if (isLoading) return <Layout>Loading...</Layout>;
-  if (!user) return <Layout>User not found</Layout>;
+  if (isLoading)
+    return (
+      <LoggedInCheck doRedirect={false}>
+        <Layout>Loading...</Layout>
+      </LoggedInCheck>
+    );
+  if (!user)
+    return (
+      <LoggedInCheck doRedirect={false}>
+        <Layout>User not found</Layout>
+      </LoggedInCheck>
+    );
 
   return (
     <Layout>
-      <Head>
-        <title>{`${user.name || ''}'s profile`}</title>
-      </Head>
-      <div className="container my-auto flex w-fit flex-col place-items-stretch rounded bg-stone-800 p-5 md:mx-5">
-        <div className="mb-4 flex place-content-center place-items-center gap-4">
-          {user.image ? (
-            <div>
-              <Image
-                alt={user.name ? `${user.name}'s avatar` : 'Avatar'}
-                height={60}
-                width={60}
-                src={user.image}
-                className="rounded-full"
-              />
-            </div>
-          ) : (
-            <div className="h-[60px] w-[60px] rounded-full bg-stone-700" />
-          )}
-          {isEditing ? (
-            <form
-              onSubmit={handleSubmit((data) => {
-                editUser(data);
-              })}
-              className="flex place-content-center place-items-center gap-2">
-              <input
-                type="text"
-                {...register('name')}
-                className="rounded bg-stone-700 p-2 text-4xl text-stone-300"
-              />
-              <button
-                type="submit"
-                aria-label="Save user"
-                disabled={!isValid}
-                className="disabled:cursor-not-allowed disabled:opacity-30">
-                <CheckIcon className="h-6 w-6 text-stone-300" />
-              </button>
-              <button
-                type="button"
-                aria-label="Cancel edit"
-                onClick={() => cancelEdit()}>
-                <XMarkIcon className="h-6 w-6 text-stone-300" />
-              </button>
-            </form>
-          ) : (
-            <>
-              <h1 className="text-4xl">{user.name}</h1>
-              <button
-                type="button"
-                aria-label="Edit user"
-                onClick={() => startEditing()}>
-                <PencilSquareIcon className="h-6 w-6 text-stone-300" />
-              </button>
-            </>
-          )}
+      <LoggedInCheck doRedirect={false}>
+        <Head>
+          <title>{`${user.name || ''}'s profile`}</title>
+        </Head>
+        <div className="container my-auto flex w-fit flex-col place-items-stretch rounded bg-stone-800 p-5 md:mx-5">
+          <div className="mb-4 flex place-content-center place-items-center gap-4">
+            {user.image ? (
+              <div>
+                <Image
+                  alt={user.name ? `${user.name}'s avatar` : 'Avatar'}
+                  height={60}
+                  width={60}
+                  src={user.image}
+                  className="rounded-full"
+                />
+              </div>
+            ) : (
+              <div className="h-[60px] w-[60px] rounded-full bg-stone-700" />
+            )}
+            {isEditing ? (
+              <form
+                onSubmit={handleSubmit((data) => {
+                  editUser(data);
+                })}
+                className="flex place-content-center place-items-center gap-2">
+                <input
+                  type="text"
+                  {...register('name')}
+                  className="rounded bg-stone-700 p-2 text-4xl text-stone-300"
+                />
+                <button
+                  type="submit"
+                  aria-label="Save user"
+                  disabled={!isValid}
+                  className="disabled:cursor-not-allowed disabled:opacity-30">
+                  <CheckIcon className="h-6 w-6 text-stone-300" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Cancel edit"
+                  onClick={() => cancelEdit()}>
+                  <XMarkIcon className="h-6 w-6 text-stone-300" />
+                </button>
+              </form>
+            ) : (
+              <>
+                <h1 className="text-4xl">{user.name}</h1>
+                <button
+                  type="button"
+                  aria-label="Edit user"
+                  onClick={() => startEditing()}>
+                  <PencilSquareIcon className="h-6 w-6 text-stone-300" />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex">
+            <button
+              onClick={() => {
+                deleteUser(user.id);
+              }}
+              type="button"
+              className="flex-auto rounded bg-red-900 p-3">
+              Delete
+            </button>
+          </div>
         </div>
-        <div className="flex">
-          <button
-            onClick={() => {
-              deleteUser(user.id);
-            }}
-            type="button"
-            className="flex-auto rounded bg-red-900 p-3">
-            Delete
-          </button>
-        </div>
-      </div>
+      </LoggedInCheck>
     </Layout>
   );
 };

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import ContentLoader from 'react-content-loader';
-import AdminCheck from '../../components/AdminCheck';
+import ModeratorCheck from '../../components/Check';
 import Layout from '../../components/Layout';
 import { api } from '../../utils/api';
 
@@ -128,7 +128,7 @@ const UsersPage = () => {
   const { data: users } = api.users.getAll.useQuery();
 
   return (
-    <AdminCheck>
+    <ModeratorCheck>
       <Head>
         <title>Users</title>
       </Head>
@@ -162,7 +162,7 @@ const UsersPage = () => {
           </div>
         </div>
       </Layout>
-    </AdminCheck>
+    </ModeratorCheck>
   );
 };
 
