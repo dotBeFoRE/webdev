@@ -2,7 +2,8 @@
 Bezoeker = Iemand die de site gebruikt  
 Gebruiker = Bezoeker die ingelogd is  
 Speler = Een gebruiker die aan een Reversi spel meedoet  
-Admin = Een administrator
+Moderator = Kan acties uitvoeren waar hogere privileges voor nodig zijn
+Admin = Een moderator die andere moderators kan aanwijzen
 Provider = Service die gebruikt kan worden om in te loggen
 Profiel = Gebruiker informatie in de database
 Account = Link tussen een provider en een profiel
@@ -12,7 +13,7 @@ Account = Link tussen een provider en een profiel
 - Gebruikers moeten kunnen deelnemen aan een spel op een ander apparaat
 - Het spel moet gespeeld worden in "real-time"
 - Het spel moet zich houden aan de Othello regelset
-- Belangrijke gebeurtenissen worden gelogged
+- Belangrijke gebeurtenissen worden gelogt
 
 ## User-stories
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
@@ -21,7 +22,7 @@ Account = Link tussen een provider en een profiel
 
 ### Als gebruiker, wil ik een Reversi spel kunnen bijwonen, zodat ik met iemand anders Reversi kan spelen
 
-- Gebruiker kan op hetzelfde account als de andere speler meedoen
+- Gebruiker kan op hetzelfde profiel als de andere speler meedoen
 - Gebruiker mag alleen deelnemen als de kleur nog niet is ingenomen door een andere speler
 - Gebruiker deelnemen door een zet te doen met een beschikbare kleur
 
@@ -61,8 +62,12 @@ Account = Link tussen een provider en een profiel
 - De server stuurt alleen de essentiele informatie naar de client
 - Welke informatie een gebruiker kan ophalen wordt bepaald door hun rol
 
-### Als admin, wil ik alle gebruikers kunnen zien, zodat ik weet wie er gebruik maakt van de site
+### Als moderator, wil ik alle gebruikers kunnen zien, zodat ik weet wie er gebruik maakt van de site
 
-### Als admin, wil ik gebruikers kunnen verbannen of schorsen, zodat ik spelers die valsspelen kan straffen
+### Als moderator, wil ik gebruikers kunnen verbannen of schorsen, zodat ik spelers die valsspelen kan straffen
 
 - Maatregelen worden geauditeert
+
+### Als moderator, wil ik belangrijke gebeurtenissen kunnen zien, zodat ik de veiligheid van de applicatie kan waarborgen
+
+### Als admin, wil ik gebruikers moderators maken en andersom, zodat ik niet alles zelf hoef te moderaten
