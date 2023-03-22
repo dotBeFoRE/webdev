@@ -2,11 +2,11 @@
 Bezoeker = Iemand die de site gebruikt  
 Gebruiker = Bezoeker die ingelogd is  
 Speler = Een gebruiker die aan een Reversi spel meedoet  
-Moderator = Kan acties uitvoeren waar hogere privileges voor nodig zijn
-Admin = Een moderator die andere moderators kan aanwijzen
-Provider = Service die gebruikt kan worden om in te loggen
-Profiel = Gebruiker informatie in de database
-Account = Link tussen een provider en een profiel
+Moderator = Kan acties uitvoeren waar hogere privileges voor nodig zijn  
+Admin = Een moderator die andere moderators kan aanwijzen  
+Provider = Service die gebruikt kan worden om in te loggen  
+Profiel = Gebruiker informatie in de database  
+Account = Link tussen een provider en een profiel  
 
 ## Requirements
 - Gebruikers moeten Reversi kunnen spelen
