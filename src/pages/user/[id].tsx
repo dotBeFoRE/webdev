@@ -99,7 +99,7 @@ const UserPage = () => {
         <Head>
           <title>{`${user.name || ''}'s profile`}</title>
         </Head>
-        <div className="container my-auto flex w-fit flex-col place-items-stretch rounded bg-stone-800 p-5 md:mx-5">
+        <div className="container m-5 my-auto flex flex-col place-items-stretch rounded bg-stone-800 p-5 md:mx-5">
           <div className="mb-4 flex place-content-center place-items-center gap-4">
             {user.image ? (
               <div>
@@ -151,13 +151,13 @@ const UserPage = () => {
               </>
             )}
           </div>
-          <div className="flex">
+          <div className="flex justify-center">
             <button
               onClick={() => {
                 deleteUser(user.id);
               }}
               type="button"
-              className="flex-auto rounded bg-red-900 p-3">
+              className="max-w-lg flex-auto rounded bg-red-900 p-3">
               Delete
             </button>
           </div>
