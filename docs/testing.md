@@ -36,7 +36,7 @@ Hieronder laat ik zien welke functionaliteit welk risico heeft en waarom.
 | Contact formulier versturen | 4 | De kans dat er zich problemen op doen bij het versturen van het contact formulier aan de kant van de applicatie is klein. Wat wel een gevaar is dat Sendgrid en/of ReCaptcha niet werken. De gevolgen zijn middelmatig. |
 | Inloggen | 3 | De kans dat er problemen zijn met het inloggen is aardig klein, sinds we een bewezen library gebruiken om OAuth2 te implementeren en de kans dat GitHub problemen heeft is klein. De gevolgen zijn groot. |
 | Op rol gebaseerde toegang | 6 | De kans dat dit hier problemen mee zijn is aardig klein sinds er maar een paar functies zijn die gebruik maken van rollen. De gevolgen van een fout in deze functionaliteit zijn echter zeer ernstig. |
-| Het aanpassen van profiel | 6 | Bij het aanpassen van het profiel is er de kans dat een gebruiker meer weet aan te passen dan dat hij zou moeten kunnen. De gevolgen hiervan zijn zeer ernstig. De kans hierop is middelmatig. |
+| Aanpassen van profiel | 6 | Bij het aanpassen van het profiel is er de kans dat een gebruiker meer weet aan te passen dan dat hij zou moeten kunnen. De gevolgen hiervan zijn zeer ernstig. De kans hierop is middelmatig. |
 
 *Tabel 1: Risicoklasse per functionaliteit*
 
@@ -51,7 +51,7 @@ De testinspanning zegt iets over in welke mate we een functionaliteit per testso
 | Contact formulier versturen | 4 |  |  | I | II |
 | Inloggen | 3 |  |  |  | I |
 | Op rol gebaseerde toegang | 6 | II | II | I |  |
-| Het aanpassen van profiel | 6 | | III |  |  |
+| Aanpassen van profiel | 6 | | III |  |  |
 
 I Beperkte tests: er wordt enkel gekeken naar de happy flow  
 II Gemiddelde dekking van de test: zowel de happy flow als de unhappy flow worden doorlopen  
