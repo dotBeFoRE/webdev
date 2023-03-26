@@ -6,12 +6,12 @@ import createLog from '../../../utils/auditLogger';
 import userToSafeUser from '../../../utils/safeUser';
 import {
   createTRPCRouter,
-  protectedAdminProcedure,
+  protectedModeratorProcedure,
   protectedProcedure,
 } from '../trpc';
 
 const usersRouter = createTRPCRouter({
-  getAll: protectedAdminProcedure.query(({ ctx }) =>
+  getAll: protectedModeratorProcedure.query(({ ctx }) =>
     ctx.prisma.user.findMany(),
   ),
   get: protectedProcedure

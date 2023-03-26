@@ -1,7 +1,7 @@
-import { createTRPCRouter, protectedAdminProcedure } from '../trpc';
+import { createTRPCRouter, protectedModeratorProcedure } from '../trpc';
 
 const auditRouter = createTRPCRouter({
-  getAll: protectedAdminProcedure.query(({ ctx }) =>
+  getAll: protectedModeratorProcedure.query(({ ctx }) =>
     ctx.prisma.audit.findMany({
       include: {
         user: true,

@@ -22,6 +22,7 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 import { getServerAuthSession } from '../auth';
 import { prisma } from '../db';
+import { isModerator, isNotBanned } from '../../utils/roleGuards';
 
 /**
  * 2. INITIALIZATION
@@ -44,7 +45,7 @@ type CreateContextOptions = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
@@ -119,7 +120,7 @@ export const enforceUserIsModerator = t.middleware(({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  if (!ctx.session.user.isAdmin && !ctx.session.user.isModerator) {
+  if (!isModerator(ctx.session.user)) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next({
@@ -135,7 +136,7 @@ export const enforceNotBanned = t.middleware(({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  if (ctx.session.user.isBanned) {
+  if (!isNotBanned(ctx.session.user)) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next({
@@ -156,5 +157,7 @@ export const enforceNotBanned = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
-export const protectedAdminProcedure = t.procedure.use(enforceUserIsModerator);
+export const protectedModeratorProcedure = t.procedure.use(
+  enforceUserIsModerator,
+);
 export const protectedNotBannedProcedure = t.procedure.use(enforceNotBanned);
