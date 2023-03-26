@@ -25,6 +25,7 @@ E2E tests kunnen gebruikt worden om te kijken of de website de content laat zien
 Om te bepalen welke functionaliteit getest moet worden en op welke mate, maken we gbruik van een risico matrix. De risico wordt bepaald op basis van de waarschijnlijkheid dat er problemen zijn met een functionaliteit en de gevolgen daarvan. Beide dimensies worden beoordeeld op een schaal van 1-3 waar 1 de laagste kans en de minste gevolgen heeft en 3 de hoogste kans en de meeste gevolgen. Het risico word berekend door beide dimensies met elkaar te vermenigvuldigen. Hoe hoger het risico de intensiever er getest moet worden op dat gebied. Zie *Figuur 1*.
 
 ![3x3 Risk Matrix](./images/3x3%20Risk%20matrix.png)
+
 *Figuur 1: risico matrix*
 
 Hieronder laat ik zien welke functionaliteit welk risico heeft en waarom.
@@ -52,6 +53,8 @@ De testinspanning zegt iets over in welke mate we een functionaliteit per testso
 | Inloggen | 3 |  |  |  | I |
 | Op rol gebaseerde toegang | 6 | II | II | I |  |
 | Aanpassen van profiel | 6 | | III |  |  |
+
+*Tabel 2: Testinspanning per functionaliteit*
 
 I Beperkte tests: er wordt enkel gekeken naar de happy flow  
 II Gemiddelde dekking van de test: zowel de happy flow als de unhappy flow worden doorlopen  
