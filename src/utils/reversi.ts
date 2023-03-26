@@ -11,7 +11,7 @@ export type Row = [Color, Color, Color, Color, Color, Color, Color, Color];
 
 export type Board = [Row, Row, Row, Row, Row, Row, Row, Row];
 
-export function getInitialBoard(): Board {
+export function getInitialBoard() {
   return [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -21,7 +21,7 @@ export function getInitialBoard(): Board {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-  ];
+  ] satisfies Board;
 }
 
 type ValidRange = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;

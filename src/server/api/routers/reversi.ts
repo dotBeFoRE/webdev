@@ -9,6 +9,7 @@ import {
 } from '../trpc';
 import type { PlayerColor } from '../../../utils/reversi';
 import {
+  COLOR,
   doMove,
   exportBoard,
   getInitialBoard,
@@ -54,7 +55,7 @@ const reversiRouter = createTRPCRouter({
       data: {
         board: exportBoard(board),
         whiteId: ctx.session.user.id,
-        current: 1,
+        current: COLOR.BLACK,
       },
     });
 

@@ -53,5 +53,8 @@
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn"
-  }
+  }, 
+  "ignorePatterns": [
+    "jest.config.js"
+  ]
 }
