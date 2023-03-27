@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client';
-import { prisma } from '../server/db';
+import prisma from '../server/db';
 
 const createLog = (auditItem: Prisma.AuditCreateInput) => {
   prisma.audit

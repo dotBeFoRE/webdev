@@ -21,7 +21,7 @@ import { type Session } from 'next-auth';
 import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 import { getServerAuthSession } from '../auth';
-import { prisma } from '../db';
+import prisma from '../db';
 import { isModerator, isNotBanned } from '../../utils/roleGuards';
 
 /**

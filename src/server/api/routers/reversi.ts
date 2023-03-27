@@ -17,8 +17,11 @@ import {
 } from '../../../utils/reversi';
 import userToSafeUser from '../../../utils/safeUser';
 
-const hasRecentGames = async (userId: string, prisma: PrismaClient) => {
-  const recentGames = await prisma.game.findMany({
+export const hasTooManyRecentGames = async (
+  userId: string,
+  prisma: PrismaClient,
+) => {
+  const recentGames = await prisma.game.count({
     where: {
       OR: [
         {
@@ -35,14 +38,17 @@ const hasRecentGames = async (userId: string, prisma: PrismaClient) => {
     },
   });
 
-  return recentGames.length >= 3;
+  return recentGames >= 3;
 };
 
 const reversiRouter = createTRPCRouter({
   createGame: protectedNotBannedProcedure.mutation(async ({ ctx }) => {
     const board = getInitialBoard();
 
-    const recentGames = await hasRecentGames(ctx.session.user.id, ctx.prisma);
+    const recentGames = await hasTooManyRecentGames(
+      ctx.session.user.id,
+      ctx.prisma,
+    );
 
     if (recentGames) {
       throw new TRPCError({
@@ -126,7 +132,10 @@ const reversiRouter = createTRPCRouter({
         });
       }
 
-      const recentGames = await hasRecentGames(ctx.session.user.id, ctx.prisma);
+      const recentGames = await hasTooManyRecentGames(
+        ctx.session.user.id,
+        ctx.prisma,
+      );
 
       if (recentGames) {
         throw new TRPCError({

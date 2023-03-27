@@ -8,7 +8,7 @@ import GithubProvider from 'next-auth/providers/github';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 // eslint-disable-next-line import/extensions
 import { env } from '../env.mjs';
-import { prisma } from './db';
+import prisma from './db';
 import createLog from '../utils/auditLogger';
 
 /**

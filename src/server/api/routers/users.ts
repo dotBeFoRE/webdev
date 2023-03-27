@@ -3,6 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { editUserSchema } from '../../../schemas/zodSchema';
 import createLog from '../../../utils/auditLogger';
+import { isAdmin, isModerator } from '../../../utils/roleGuards';
 import userToSafeUser from '../../../utils/safeUser';
 import {
   createTRPCRouter,
@@ -17,11 +18,8 @@ const usersRouter = createTRPCRouter({
   get: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input: id }) => {
-      if (
-        !ctx.session.user.isAdmin &&
-        !ctx.session.user.isModerator &&
-        ctx.session.user.id !== id
-      ) {
+      if (!isModerator(ctx.session.user) && ctx.session.user.id !== id) {
+        // Throw a 404 instead of 403 so the requester doesn't know if the user exists
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
@@ -63,11 +61,11 @@ const usersRouter = createTRPCRouter({
         name: input.name ?? user.name,
       };
 
-      if (ctx.session.user.isModerator || ctx.session.user.isAdmin) {
+      if (isModerator(ctx.session.user)) {
         newUser.isBanned = input.isBanned ?? user.isBanned;
       }
 
-      if (ctx.session.user.isAdmin) {
+      if (isAdmin(ctx.session.user)) {
         newUser.isModerator = input.isModerator ?? user.isModerator;
       }
 

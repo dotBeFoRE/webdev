@@ -48,10 +48,10 @@ De testinspanning zegt iets over in welke mate we een functionaliteit per testso
 | Functionaliteit | Risicoklasse | Unit | Integration | E2E | Handmatig |
 | --- | :---: | :---: | :---: | :---: | :---: |
 | Hoofdscherm laten zien | 3 |  |  | I |  |
-| Reversi spelen | 6 | II | I |  | I |
-| Contact formulier versturen | 4 |  |  | I | II |
+| Reversi spelen | 6 | II | II |  | I |
+| Contact formulier versturen | 4 |  |  |  | II |
 | Inloggen | 3 |  |  |  | I |
-| Op rol gebaseerde toegang | 6 | III | II | I |  |
+| Op rol gebaseerde toegang | 6 | III |  |  |  |
 | Aanpassen van profiel | 6 | | III |  |  |
 
 *Tabel 2: Testinspanning per functionaliteit*
