@@ -9,8 +9,6 @@ import {
   isOnBoard,
 } from './reversi';
 
-export {};
-
 describe('Reversi Logic', () => {
   describe('Is on board', () => {
     it('should return true for 0', () => {
