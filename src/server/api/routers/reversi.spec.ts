@@ -6,7 +6,7 @@ import reversiRouter from './reversi';
 
 vi.mock('../../db.ts');
 
-describe('reversi', () => {
+describe('reversi router', () => {
   const user: User = {
     id: 'test',
     isBanned: false,
