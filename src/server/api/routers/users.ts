@@ -1,4 +1,4 @@
-import type { User } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { editUserSchema } from '../../../schemas/zodSchema';
@@ -67,17 +67,18 @@ const usersRouter = createTRPCRouter({
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
-      const newUser: User = {
-        ...user,
-        name: input.name ?? user.name,
-      };
+      const newUser: Prisma.UserUpdateInput = {};
 
-      if (isModerator(ctx.session.user)) {
-        newUser.isBanned = input.isBanned ?? user.isBanned;
+      if (input.name) {
+        newUser.name = input.name;
       }
 
-      if (isAdmin(ctx.session.user)) {
-        newUser.isModerator = input.isModerator ?? user.isModerator;
+      if (input.isBanned && isModerator(ctx.session.user)) {
+        newUser.isBanned = input.isBanned;
+      }
+
+      if (input.isModerator && isAdmin(ctx.session.user)) {
+        newUser.isModerator = input.isModerator;
       }
 
       const updatedUser = await ctx.prisma.user.update({
@@ -105,11 +106,7 @@ const usersRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input: id }) => {
-      if (
-        !ctx.session.user.isAdmin &&
-        ctx.session.user.id !== id &&
-        !ctx.session.user.isModerator
-      ) {
+      if (!isModerator(ctx.session.user) && ctx.session.user.id !== id) {
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
@@ -123,12 +120,7 @@ const usersRouter = createTRPCRouter({
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
-      if (
-        (ctx.session.user.isModerator &&
-          user.isModerator &&
-          !ctx.session.user.isAdmin) ||
-        (user.isAdmin && ctx.session.user.id !== id)
-      ) {
+      if ((isModerator(user) && !isAdmin(ctx.session.user)) || isAdmin(user)) {
         throw new TRPCError({ code: 'FORBIDDEN' });
       }
 
