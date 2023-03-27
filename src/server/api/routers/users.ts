@@ -19,6 +19,17 @@ const usersRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ ctx, input: id }) => {
       if (!isModerator(ctx.session.user) && ctx.session.user.id !== id) {
+        createLog({
+          action: 'userAccessAttempt',
+          user: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
+          targetType: 'user',
+          target: id,
+        });
+
         // Throw a 404 instead of 403 so the requester doesn't know if the user exists
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
