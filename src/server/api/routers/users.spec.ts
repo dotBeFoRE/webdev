@@ -141,7 +141,7 @@ describe('user router', () => {
       ).resolves.not.toThrowError();
     });
 
-    it('Only admins should be allowed to promote users to moderators', async () => {
+    it('Only admins should be allowed to promote users to moderators and demote moderators to users', async () => {
       let ctx = createInnerTRPCContext({
         session: {
           user: {
@@ -183,6 +183,14 @@ describe('user router', () => {
       expect(prisma.user.update).toHaveBeenLastCalledWith({
         where: { id: 'test' },
         data: { isModerator: true },
+      });
+
+      await caller.edit({ id: 'test', isModerator: false });
+
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(prisma.user.update).toHaveBeenLastCalledWith({
+        where: { id: 'test' },
+        data: { isModerator: false },
       });
     });
   });

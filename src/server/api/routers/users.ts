@@ -49,11 +49,7 @@ const usersRouter = createTRPCRouter({
   edit: protectedProcedure
     .input(editUserSchema)
     .mutation(async ({ ctx, input }) => {
-      if (
-        !ctx.session.user.isAdmin &&
-        !ctx.session.user.isModerator &&
-        ctx.session.user.id !== input.id
-      ) {
+      if (!isModerator(ctx.session.user) && ctx.session.user.id !== input.id) {
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
@@ -73,11 +69,11 @@ const usersRouter = createTRPCRouter({
         newUser.name = input.name;
       }
 
-      if (input.isBanned && isModerator(ctx.session.user)) {
+      if (input.isBanned !== undefined && isModerator(ctx.session.user)) {
         newUser.isBanned = input.isBanned;
       }
 
-      if (input.isModerator && isAdmin(ctx.session.user)) {
+      if (input.isModerator !== undefined && isAdmin(ctx.session.user)) {
         newUser.isModerator = input.isModerator;
       }
 
