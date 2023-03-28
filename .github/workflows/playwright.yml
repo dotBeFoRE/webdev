@@ -6,6 +6,8 @@ jobs:
   run-e2es:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
+    env:
+      COMMIT_INFO_BRANCH: playwright
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -13,7 +15,7 @@ jobs:
           cache: yarn
       - name: Install yarn dependencies
         run: yarn
-        
+
       - name: Store Playwright's Version
         run: |
           PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')
