@@ -2,12 +2,13 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { devices } from '@playwright/test';
 import path from 'path';
+import { env } from 'process';
 
 // Use process.env.PORT by default and fallback to port 3000
 const PORT = process.env.PORT || 4000;
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
-const baseURL = `http://localhost:${PORT}`;
+const baseURL = env.BASE_URL || `http://localhost:${PORT}`;
 
 // Reference: https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
