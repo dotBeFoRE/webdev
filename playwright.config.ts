@@ -21,7 +21,7 @@ const config: PlaywrightTestConfig = {
   // Artifacts folder where screenshots, videos, and traces are stored.
   outputDir: 'test-results/',
 
-  reporter: process.env.CI ? 'github' : 'list',
+  reporter: process.env.CI ? 'html' : 'list',
 
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests

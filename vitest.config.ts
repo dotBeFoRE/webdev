@@ -2,7 +2,7 @@
 /// <reference types="vitest" />
 import { loadEnv } from 'vite';
 import { configDefaults, defineConfig } from 'vitest/config';
-// import GithubActionsReporter from 'vitest-github-actions-reporter';
+import GithubActionsReporter from 'vitest-github-actions-reporter';
 import 'dotenv';
 
 export default defineConfig({
@@ -11,6 +11,8 @@ export default defineConfig({
     env: Object.assign(process.env, loadEnv('test', './', '')),
     globals: true,
     exclude: [...configDefaults.exclude, '**/e2e/**'],
-    reporters: process.env.GITHUB_ACTIONS ? ['default'] : ['default'],
+    reporters: process.env.GITHUB_ACTIONS
+      ? ['default', new GithubActionsReporter()]
+      : ['default'],
   },
 });
