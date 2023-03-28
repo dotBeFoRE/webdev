@@ -107,7 +107,9 @@ const UserItem = ({
             </Listbox.Options>
           </Listbox>
         ) : (
-          <span className="rounded bg-stone-600 p-2">Admin</span>
+          <span className="w-32 rounded bg-stone-600 p-2 text-center">
+            Admin
+          </span>
         )}
 
         <button
