@@ -100,15 +100,15 @@ const UserPage = () => {
           <title>{`${user.name || ''}'s profile`}</title>
         </Head>
         <div className="container m-5 my-auto flex flex-col place-items-stretch rounded bg-stone-800 p-5 md:mx-5">
-          <div className="mb-4 flex place-content-center place-items-center gap-4">
+          <div className="mb-0 place-content-center place-items-center gap-4 sm:mb-4 sm:flex">
             {user.image ? (
-              <div>
+              <div className="mb-3 sm:mb-0">
                 <Image
                   alt={user.name ? `${user.name}'s avatar` : 'Avatar'}
-                  height={60}
-                  width={60}
+                  height={124}
+                  width={124}
                   src={user.image}
-                  className="rounded-full"
+                  className="mx-auto rounded-full sm:h-16 sm:w-16"
                 />
               </div>
             ) : (
@@ -119,36 +119,39 @@ const UserPage = () => {
                 onSubmit={handleSubmit((data) => {
                   editUser(data);
                 })}
-                className="flex place-content-center place-items-center gap-2">
+                className="place-content-center place-items-center gap-2 sm:flex">
                 <input
                   type="text"
                   {...register('name')}
-                  className="rounded bg-stone-700 p-2 text-4xl text-stone-300"
+                  className="block w-full flex-auto rounded bg-stone-700 p-2 text-4xl text-stone-300"
                 />
-                <button
-                  type="submit"
-                  aria-label="Save user"
-                  disabled={!isValid}
-                  className="disabled:cursor-not-allowed disabled:opacity-30">
-                  <CheckIcon className="h-6 w-6 text-stone-300" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Cancel edit"
-                  onClick={() => cancelEdit()}>
-                  <XMarkIcon className="h-6 w-6 text-stone-300" />
-                </button>
+                <div className="flex place-content-center place-items-center sm:gap-2">
+                  <button
+                    type="submit"
+                    aria-label="Save user"
+                    disabled={!isValid}
+                    className="p-4 disabled:cursor-not-allowed disabled:opacity-30 sm:p-0">
+                    <CheckIcon className="h-6 w-6 text-stone-300" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Cancel edit"
+                    onClick={() => cancelEdit()}
+                    className="p-4 sm:p-0">
+                    <XMarkIcon className="h-6 w-6 text-stone-300" />
+                  </button>
+                </div>
               </form>
             ) : (
-              <>
-                <h1 className="text-4xl">{user.name}</h1>
+              <h1 className="mb-3 text-4xl">
+                {user.name}
                 <button
                   type="button"
                   aria-label="Edit user"
                   onClick={() => startEditing()}>
-                  <PencilSquareIcon className="h-6 w-6 text-stone-300" />
+                  <PencilSquareIcon className="ml-2 h-6 w-6 text-stone-300" />
                 </button>
-              </>
+              </h1>
             )}
           </div>
           <div className="flex justify-center">
