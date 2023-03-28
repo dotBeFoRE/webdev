@@ -53,7 +53,7 @@ const TargetRenderer = ({ audit }: AuditProps) => {
       const sortedFrom = objectSort(parsedJson.from as Record<string, unknown>);
 
       return (
-        <div className="flex flex-auto flex-col gap-2 overflow-hidden rounded">
+        <div className="flex flex-auto flex-col gap-2 overflow-auto rounded">
           <ReactDiffViewer
             oldValue={JSON.stringify(sortedFrom, null, 2)}
             newValue={JSON.stringify(sortedTo, null, 2)}
@@ -99,7 +99,9 @@ const TargetRenderer = ({ audit }: AuditProps) => {
 
   return (
     <>
-      <span className="font-bold">{audit.target}</span>
+      <span className="overflow-hidden break-words font-bold">
+        {audit.target}
+      </span>
       <span>{audit.targetType}</span>
     </>
   );
