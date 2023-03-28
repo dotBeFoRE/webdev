@@ -5,7 +5,7 @@ import path from 'path';
 import { env } from 'process';
 
 // Use process.env.PORT by default and fallback to port 3000
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
 const baseURL = env.BASE_URL || `http://localhost:${PORT}`;
@@ -27,7 +27,7 @@ const config: PlaywrightTestConfig = {
     command: `yarn build && yarn start -p ${PORT}`,
     url: baseURL,
     timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
   },
 
   use: {
