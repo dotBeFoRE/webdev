@@ -27,7 +27,7 @@ SendGrid wordt gebruikt om e-mails te versturen. SendGrid wordt gebruikt voor de
 Het systeem is opgebouwd uit verschillende interne en externe onderdelen, elk onderdeel heeft een eigen functie. De onderdelen zijn:
 
 * NextJS - Dient de pagina's voor aan de gebruiker en speelt API calls door naar tRPC
-* SPA - Single Page Application die NextJS serveert
+* SPA (de client) - Single Page Application die NextJS serveert
 * tRPC server - Router voor de API calls
 * NextAuth - Beheert de inlog en sessie functionaliteit
 * Prisma - ORM voor de database
@@ -38,12 +38,23 @@ Het systeem is opgebouwd uit verschillende interne en externe onderdelen, elk on
 De combinatie van NextJS, tRPC, NextAuth, Prisma komt voort uit de T3 Stack. De T3 Stack is een volledige starter kit voor NextJS. Het levert een volledige "type-safe" ontwikkel omgeving. Al is T3 Stack een starter pack, het heeft ook een [eigen website](https://create.t3.gg/en/introduction) met aanvullende documentatie over de verschillende onderdelen waaruit de stack bestaat.
 
 ### NextJS
+
 NextJS is een framework voor React. We gebruiken NextJS voor het statisch genereren van de pagina's en het serveren van de pagina's aan de gebruiker. NextJS wordt ook gebruikt voor het serveren van de API calls, dit wordt gedaan door middel van tRPC. NextJS maakt gebruik van file based routing. De verschillende pagina's staan in de pages map. Hoe de pages map werkt is uitgewerkt door NextJS in de [NextJS docs](https://nextjs.org/docs/routing/introduction). API calls worden gedaan door middel van de API map. Hoe de API map werkt is uitgewerkt door NextJS in de [NextJS docs](https://nextjs.org/docs/api-routes/introduction). In de API map staan de handlers voor NextAuth en tRPC. De handlers worden gebruikt om de API calls te routeren naar de juiste functie.
 
 ### tRPC server
 
+De showcase app maakt gebruik van tRPC. tRPC is een package om typesafe end-to-end API's te maken. tRPC maakt gebruik van Typescript zodat je aan de server kant een API route kan maken, waarna de type-definitie ook beschikbaar is aan de client kant. Wat tRPC veilig maakt is dat voor elke route waar input voor nodig is (denk aan een userId), die input wordt gecontrolleerd door een [Zod schema](https://zod.dev). Dit maakt voor een veilige, onderhoudbare en snelle developer experience. tRPC heeft NextJS als first class citizen. tRPC biedt de client kant een api client aan die binnen de React components gebruikt kan worden om data op te halen. Dit wordt verder uitgelegd in het hoofdstuk over de SPA. tRPC heeft een [eigen website](https://trpc.io/) met aanvullende documentatie.
 
-### SPA
+#### Procedures
+
+Om de api veilig te houden en ervoor te zorgen dat bepaalde gebruikers geen calls kunnen maken naar bepaalde API routes, worden er procedures gebruikt. Een procedure is een soort middleware dat draait voordat de volledige functie gedraaid wordt. Procedures worden gebruikt om te controleren of de gebruiker ingelogd is, of de gebruiker de juiste rechten heeft om de API call te maken. Procedures worden gebruikt om de API calls te beveiligen. Procedures worden uitgelegd in de [tRPC docs](https://trpc.io/docs/procedures). De procedures staan gedefinieerd in [/src/server/api/trpc.ts](/src/server/api/trpc.ts). tRPC krijgt de session informatie door NextAuth doorgespeeld en in de context voor de call gezet. Ook wordt de Prisma ORM wordt doorgespeeld in deze context. 
+
+De API is onderverdeeld in verschillende routers. Elke router heeft zijn eigen functie. Bijvoorbeeld de Reversi router zorgt ervoor dat de juiste logica wordt aangeroepen voor de game en dat de data op de juiste plek terecht komt. De users router is verantwoordelijk voor de functies om gebruikers op te halen en te bewerken. De verschillende routers staan gedefineerd in /src/server/api/routers.
+
+### NextAuth
+NextAuth verzorgt het inloggen en de sessie beheer van de app. NextAuth maakt gebruik van CSRF tokens om het mogelijk te maken voor gebruikers om veilig in te kunnen loggen. NextAuth ondersteund sessie beheer met JWT, maar wij maken gebruik van database sessies. NextAuth ondersteund tientallen services om mee in te kunnen loggen, dit gaat doormiddel van Providers. Wij maken gebruik van de GitHub provider zodat gebruikers kunnen inloggen met hun GitHub account. Welke data er gedeeld wordt met de client wordt bepaald in /src/server/auth.ts. Belangrijke events, bijvoorbeeld het registreren van nieuwe gebruikes en het inloggen van gebruikers worden gelogt. NextAuth heeft een [eigen website](https://next-auth.js.org/) met aanvullende documentatie.
+
+### SPA (de client)
 
 De SPA's worden gegenereerd door NextJS. NextJS doet dit doormiddel van de pagina's die gedefineerd staan in de pages map. NextJS vormt React code om naar statische HTML pagina's. Deze pagina's worden vervolgens door NextJS geserveerd aan de gebruiker. 
 
