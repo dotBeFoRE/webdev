@@ -56,5 +56,31 @@ NextAuth verzorgt het inloggen en de sessie beheer van de app. NextAuth maakt ge
 
 ### SPA (de client)
 
-De SPA's worden gegenereerd door NextJS. NextJS doet dit doormiddel van de pagina's die gedefineerd staan in de pages map. NextJS vormt React code om naar statische HTML pagina's. Deze pagina's worden vervolgens door NextJS geserveerd aan de gebruiker. 
+De SPA's worden gegenereerd door NextJS. NextJS doet dit doormiddel van de pagina's die gedefineerd staan in de pages map. NextJS vormt React code om naar statische HTML pagina's. Deze pagina's worden vervolgens door NextJS geserveerd aan de gebruiker. Wanneer de pagina laadt, neemt React het weer over.
+
+De client maakt gebruik van Tailwind CSS, tRPC client, NextAuth, HeadlessUI, en React Hook Form.
+
+#### Tailwind CSS
+
+Tailwind CSS is een CSS framework. Het bied een aantal utility klassen die je kan combineren om je pagina te stijlen. Tailwind bied niet zoals Bootstrap volledige componenten, maar het bied klassen aan die je kan gebruiken om je eigen componenten te stijlen. Tailwind maakt gebruik van JIT compiling, dit betekent dat alleen de klassen die je nodig bent aanwezig zijn op een pagina en het is mogelijk om on the fly klassen te genereren. Tailwind CSS heeft een [eigen website](https://tailwindcss.com/) met aanvullende documentatie.
+
+#### tRPC client
+
+De tRPC client wordt gebruikt om calls te maken naar de API binnen de app. tRPC geeft ons hiervoor een hook dat gebruik maakt van [React Query](https://react-query.tanstack.com/). React Query is een library om data te fetchen van een API en te cachen. React Query zorgt er ook voor dat wanneer de data "stale" is, de data opnieuw wordt opgehaald.
+
+Doordat de tRPC client gebruik maakt van de type definitions die gedefineerd zijn op de server kan de developer gelijk zien wat de vorm is van de data die naar de server gestuurd wordt en de response. Wanneer je op de server een validatie schema veranderd en je past niks aan bij de client, dan zal je gelijk een type definitie error krijgen. Dit zorgt voor een veilige en onderhoudbare developer experience.
+
+Elke route die de router vrijgeeft wordt automatisch een hook. Voor verschillende routes worden andere hooks gemaakt. Wanneer een route bijvoorbeeld data veranderd op de server wordt dit gedaan met een [mutation](https://trpc.io/docs/reactjs/usemutation). Wanneer een route alleen data ophaalt wordt dit gedaan met een [query](https://trpc.io/docs/reactjs/usequery).
+
+#### NextAuth
+
+NextAuth wordt gebruikt om de gebruiker in te laten loggen en om de gebruiker te authenticeren. NextAuth maakt gebruik van een [React hook](https://next-auth.js.org/getting-started/client#use-session) om de sessie informatie te verkrijgen. Deze sessie data wordt gebruikt om je eigen gebruiker te laten zien, en om ervoor te zorgen dat er een melding komt dat de gebruiker zich niet op bepaalde pagina's kan bevinden. De gebruiker wordt naar juiste login pagina doorgestuurd door signIn("github") te callen. NextAuth heeft een [eigen website](https://next-auth.js.org/) met aanvullende documentatie.
+
+#### HeadlessUI
+
+HeadlessUI is een React component library. HeadlessUI bied componenten aan zoals een dropdown menu. De stijling van HeadlessUI is minimaal, je moet zelf de styling toevoegen aan de componenten. HeadlessUI is in principe alleen een behavioural component library, zodat elementen zoals dropdowns ook te gebruiken zijn door mensen met bijvoorbeeld een screenreader, maar met de mogelijkheid om de componenten te stijlen zoals jij dat wil. HeadlessUI heeft een [eigen website](https://headlessui.dev/) met aanvullende documentatie en voorbeelden voor de stijling.
+
+#### React Hook Form
+
+React Hook Form is een library om formulieren te maken. In combinatie met Zod is het mogelijk om formulieren te maken die automatisch gevalideerd worden, met dezelfde schema's die gebruikt worden om de input te valideren op de API. React Hook Form heeft een [eigen website](https://react-hook-form.com/) met aanvullende documentatie.
 
