@@ -76,21 +76,16 @@ const contactRouter = createTRPCRouter({
 
       if (!dbMessage) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-      await mail
-        .send({
-          to: toEmail,
-          from: {
-            email: fromEmail,
-            name: emailName,
-          },
-          subject: `Contact Form - ${message.subject}`,
-          text: message.text,
-          html: `<p>From: ${message.email}</p><p>Subject: ${message.subject}</p><p>${message.text}</p>`,
-        })
-        .catch((err) => {
-          console.error('Error sending email', err);
-          return null;
-        });
+      await mail.send({
+        to: toEmail,
+        from: {
+          email: fromEmail,
+          name: emailName,
+        },
+        subject: `Contact Form - ${message.subject}`,
+        text: message.text,
+        html: `<p>From: ${message.email}</p><p>Subject: ${message.subject}</p><p>${message.text}</p>`,
+      });
 
       return dbMessage;
     }),
