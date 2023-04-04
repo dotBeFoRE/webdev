@@ -76,7 +76,7 @@ const contactRouter = createTRPCRouter({
 
       if (!dbMessage) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-      mail
+      await mail
         .send({
           to: toEmail,
           from: {
