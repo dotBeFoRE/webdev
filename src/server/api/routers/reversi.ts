@@ -139,18 +139,18 @@ const reversiRouter = createTRPCRouter({
         ctx.prisma,
       );
 
-      if (recentGames) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'You have too many recent games, try again in 5 minutes',
-        });
-      }
-
       if (game.current === 1 && game.whiteId !== ctx.session.user.id) {
         if (game.whiteId !== null) {
           throw new TRPCError({
             code: 'FORBIDDEN',
             message: 'Not your turn',
+          });
+        }
+
+        if (recentGames) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'You have too many recent games, try again in 5 minutes',
           });
         }
 
@@ -170,6 +170,13 @@ const reversiRouter = createTRPCRouter({
           throw new TRPCError({
             code: 'FORBIDDEN',
             message: 'Not your turn',
+          });
+        }
+
+        if (recentGames) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'You have too many recent games, try again in 5 minutes',
           });
         }
 
