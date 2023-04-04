@@ -124,7 +124,9 @@ const reversiRouter = createTRPCRouter({
 
       if (
         game.whiteId !== ctx.session.user.id &&
-        game.blackId !== ctx.session.user.id
+        game.blackId !== ctx.session.user.id &&
+        game.whiteId !== null &&
+        game.blackId !== null
       ) {
         throw new TRPCError({
           code: 'FORBIDDEN',

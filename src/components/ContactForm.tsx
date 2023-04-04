@@ -80,7 +80,8 @@ const ContactForm = () => {
       )}
       {sendMessage.isError && (
         <span className="p-2 text-sm text-red-400">
-          Something went wrong, please try again later.
+          {sendMessage.error.message ||
+            'Something went wrong, please try again later.'}
         </span>
       )}
     </form>
