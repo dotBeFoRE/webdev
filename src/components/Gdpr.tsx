@@ -35,8 +35,8 @@ const Gdpr = () => {
         <div className="flex-1">
           <p>
             Deze website gebruikt cookies. We gebruiken cookies om content te
-            personaliseren, voor social media en het analyseren van verkeer op
-            de website, advertenties.
+            personaliseren. Het verkeer op de website wordt geanalyseerd enkel
+            voor beveiligingsdoeleinden.
           </p>
         </div>
         <div className="flex flex-col">
