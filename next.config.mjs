@@ -23,5 +23,33 @@ const config = {
   images: {
     domains: ['avatars.githubusercontent.com'],
   },
+  headers: async () => [
+    {
+      source: '/:path*',
+      headers: [
+        {
+          key: 'X-Content-Type-Options',
+          value: 'nosniff',
+        },
+        {
+          key: 'X-Frame-Options',
+          value: 'DENY',
+        },
+        {
+          key: 'Content-Security-Policy',
+          value: [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/releases/",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data: https://avatars.githubusercontent.com",
+            "font-src 'self' data:",
+            "connect-src 'self'",
+            "frame-src 'self' https://www.google.com/recaptcha/api2/",
+            "object-src 'none'",
+          ].join('; '),
+        },
+      ],
+    },
+  ],
 };
 export default config;
