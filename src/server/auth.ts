@@ -59,6 +59,14 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  logger: {
+    error(code, ...message) {
+      console.error(code, message);
+    },
+    warn(code, ...message) {
+      console.warn(code, message);
+    },
+  },
   events: {
     linkAccount({ account, user }) {
       createLog({
