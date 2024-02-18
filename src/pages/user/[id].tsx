@@ -143,13 +143,16 @@ const UserPage = () => {
                 </div>
               </form>
             ) : (
-              <h1 className="mb-3 text-4xl">
-                {user.name}
+              <h1 className="flex gap-2 text-4xl">
+                <div className="flex flex-col">
+                  {user.name}
+                  <span className="text-base text-stone-500">{user.email}</span>
+                </div>
                 <button
                   type="button"
                   aria-label="Edit user"
                   onClick={() => startEditing()}>
-                  <PencilSquareIcon className="ml-2 h-6 w-6 text-stone-300" />
+                  <PencilSquareIcon className="h-6 w-6 text-stone-300" />
                 </button>
               </h1>
             )}

@@ -18,9 +18,20 @@ const usersRouter = createTRPCRouter({
   get: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input: id }) => {
+      createLog({
+        action: 'userAccessAttempt',
+        user: {
+          connect: {
+            id: ctx.session.user.id,
+          },
+        },
+        targetType: 'user',
+        target: id,
+      });
+
       if (!isModerator(ctx.session.user) && ctx.session.user.id !== id) {
         createLog({
-          action: 'userAccessAttempt',
+          action: 'failedUserAccessAttempt',
           user: {
             connect: {
               id: ctx.session.user.id,
@@ -44,12 +55,23 @@ const usersRouter = createTRPCRouter({
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
-      return userToSafeUser(user);
+      return userToSafeUser(user, { includeEmail: true });
     }),
   edit: protectedProcedure
     .input(editUserSchema)
     .mutation(async ({ ctx, input }) => {
       if (!isModerator(ctx.session.user) && ctx.session.user.id !== input.id) {
+        createLog({
+          action: 'failedUserEditAttempt',
+          user: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
+          targetType: 'user',
+          target: input.id,
+        });
+
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
 
