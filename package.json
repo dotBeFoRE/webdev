@@ -16,7 +16,8 @@
     "test:unit": "vitest --run",
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui --open",
-    "seed": "NODE_ENV=development prisma db seed"
+    "seed": "NODE_ENV=development prisma db seed",
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.11",
