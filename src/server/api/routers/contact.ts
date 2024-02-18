@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
+import html from 'escape-html-template-tag';
 import { messageSchema } from '../../../schemas/zodSchema';
 import mail from '../../../utils/mail';
 import { createTRPCRouter, publicProcedure } from '../trpc';
@@ -85,9 +86,17 @@ const contactRouter = createTRPCRouter({
           },
           subject: `Contact Form - ${message.subject}`,
           text: message.text,
-          html: `<p>From: ${message.email}</p><p>Subject: ${message.subject}</p><p>${message.text}</p>`,
+          html: html`
+            <p>From: ${message.email}</p>
+            <p>Subject: ${message.subject}</p>
+            <p>${message.text}</p>
+          `.toString(),
         })
-        .catch(() => null);
+        .catch((err) => {
+          console.error(err);
+
+          return null;
+        });
 
       if (!email)
         throw new TRPCError({
