@@ -9,13 +9,31 @@ Profiel = Gebruiker informatie in de database
 Account = Link tussen een provider en een profiel  
 
 ## Requirements
+- GDPR moet worden nageleefd
 - Gebruikers moeten Reversi kunnen spelen
 - Gebruikers moeten kunnen deelnemen aan een spel op een ander apparaat
 - Het spel moet gespeeld worden in "real-time"
 - Het spel moet zich houden aan de Othello regelset
 - Belangrijke gebeurtenissen worden gelogt
+- Gebruikers kunnen berichten sturen naar de developer
 
 ## User-stories
+
+### Als bezoeker, wil ik een introductie zien over de developer, zodat ik weet wie de developer is
+
+### Als bezoeker, wil ik de developer kunnen contacteren, zodat ik vragen kan stellen
+- Gebruiker kan een bericht sturen naar de developer
+- De developer kan de berichten lezen
+- De bezoeker moet een emailadres achterlaten
+- Het bericht moet een onderwerp hebben
+- Het bericht moet een inhoud hebben
+
+### Als aanvaller, wil ik de developer kunnen spammen, zodat de developer geen tijd meer heeft om te werken
+- Je kan alleen een bericht sturen als je een reCAPTCHA hebt gehaald
+
+### Als aanvaller, wil ik HTML injecteren in de berichten, zodat ik de developer kan aanvallen
+- De berichten worden geëscaped
+
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
 
 ![Explanation screen](./images/Explanation_Screen.png)
@@ -36,12 +54,29 @@ Account = Link tussen een provider en een profiel
 - Als er een nieuwe profiel wordt aangemaakt wordt dit gelogt
 - Als een gebruiker inlogt wordt dit gelogt
 
+### Als gebruiker, wil ik kunnen uitloggen, zodat de website niet meer weet dat ik het ben
+- Sessie wordt verwijderd
+
+### Als gebruiker, wil ik mijn profiel kunnen bekijken, zodat ik weet wat er over mij bekend is
+- Gebruiker kan alleen zijn eigen profiel bekijken
+- Administrators kunnen alle profielen bekijken
+
+### Als gebruiker, wil ik mijn profiel kunnen aanpassen, zodat ik mijn profiel up-to-date kan houden
+- Gebruikers kunnen hun gebruikersnaam aanpassen
+- Gebruikers kunnen alleen hun eigen profiel aanpassen
+- Administrators kunnen alle profielen aanpassen
+
+### Als gebruiker, wil ik mijn profiel kunnen verwijderen, zodat ik mijn gebruikersdata in eigen handen heb
+- Gebruiker kan alleen zijn eigen profiel verwijderen
+- Administrators kunnen alle profielen verwijderen
+
 ### Als speler, wil ik een zet kunnen zetten, zodat het spel door kan gaan
 
 - Speler kan alleen een zet doen als die aan de beurt is en een zet kan doen
 - De zet moet legaal zijn
 - Het bord moet gelijk geüpdaten
 - Er wordt laten zien welke zetten legaal zijn
+- Speler kan alleen voorzichzelf zetten
 
 ![Do move](./images/Do_move.png)
 
