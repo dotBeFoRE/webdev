@@ -43,7 +43,7 @@ const config = {
             "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: https://avatars.githubusercontent.com",
             "font-src 'self' data:",
-            "connect-src 'self'",
+            "connect-src 'self' https://vitals.vercel-insights.com/v1/vitals",
             "frame-src 'self' https://www.google.com/recaptcha/api2/",
             "object-src 'none'",
           ].join('; '),
