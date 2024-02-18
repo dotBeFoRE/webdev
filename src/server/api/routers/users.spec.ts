@@ -1,5 +1,4 @@
 import type { Audit, User } from '@prisma/client';
-import userToSafeUser from '../../../utils/safeUser';
 import prisma from '../../__mocks__/db';
 import { createInnerTRPCContext } from '../trpc';
 import usersRouter from './users';
@@ -36,14 +35,19 @@ describe('user router', () => {
 
       const caller = usersRouter.createCaller(ctx);
 
-      await expect(caller.get('test')).resolves.toEqual(userToSafeUser(user));
+      await expect(caller.get('test')).resolves.toEqual({
+        id: user.id,
+        name: user.name,
+        image: user.image,
+        email: user.email,
+      });
 
       await expect(
         caller.get('test2'),
       ).rejects.toThrowErrorMatchingInlineSnapshot('"NOT_FOUND"');
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(prisma.audit.create).toBeCalledTimes(1);
+      expect(prisma.audit.create).toBeCalledTimes(3);
     });
 
     it('Moderators should be able to view users other than themselves and themselves', async () => {
@@ -61,8 +65,18 @@ describe('user router', () => {
 
       const caller = usersRouter.createCaller(ctx);
 
-      await expect(caller.get('test')).resolves.toEqual(userToSafeUser(user));
-      await expect(caller.get('test2')).resolves.toEqual(userToSafeUser(user));
+      await expect(caller.get('test')).resolves.toEqual({
+        id: user.id,
+        name: user.name,
+        image: user.image,
+        email: user.email,
+      });
+      await expect(caller.get('test2')).resolves.toEqual({
+        id: user.id,
+        name: user.name,
+        image: user.image,
+        email: user.email,
+      });
     });
   });
 
