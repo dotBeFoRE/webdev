@@ -42,10 +42,18 @@ const trpcHandler = createNextApiHandler({
 // export API handler
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const vercelUrl = process.env.VERCEL_URL;
+  const customUrl = process.env.URL;
 
-  const fullUrl = vercelUrl ? `https://${vercelUrl}` : 'http://localhost:3000';
+  if (env.NODE_ENV === 'production') {
+    if (vercelUrl && req.headers.origin === vercelUrl) {
+      res.setHeader('Access-Control-Allow-Origin', `https://${vercelUrl}`);
+    } else if (customUrl && req.headers.origin === process.env.URL) {
+      res.setHeader('Access-Control-Allow-Origin', `https://${customUrl}`);
+    }
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
 
-  res.setHeader('Access-Control-Allow-Origin', fullUrl);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -54,11 +62,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return undefined;
   }
 
-  if (
-    env.NODE_ENV === 'production' &&
-    req.headers.host !== vercelUrl &&
-    req.headers.host !== process.env.URL
-  ) {
+  const isCrossOrigin =
+    req.headers.origin !== vercelUrl || req.headers.origin !== process.env.URL;
+
+  if (env.NODE_ENV === 'production' && isCrossOrigin) {
     createLog({
       user: undefined,
       action: 'trpcError',
@@ -67,7 +74,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         path: 'host',
         error: 'Invalid host',
         input: req.headers.host,
-        expected: vercelUrl,
+        expected: `${vercelUrl ?? ''} or ${process.env.URL ?? ''}`,
       }),
     });
 
