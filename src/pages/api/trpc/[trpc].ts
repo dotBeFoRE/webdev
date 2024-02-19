@@ -62,10 +62,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return undefined;
   }
 
-  const isCrossOrigin =
-    req.headers.origin !== vercelUrl || req.headers.origin !== process.env.URL;
+  const isSameOrigin =
+    req.headers.origin === vercelUrl || req.headers.origin === process.env.URL;
 
-  if (env.NODE_ENV === 'production' && isCrossOrigin) {
+  if (env.NODE_ENV === 'production' && !isSameOrigin) {
     createLog({
       user: undefined,
       action: 'trpcError',
