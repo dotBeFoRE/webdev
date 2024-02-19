@@ -48,7 +48,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (env.NODE_ENV === 'production') {
     if (vercelUrl && req.headers.origin === vercelUrl) {
       res.setHeader('Access-Control-Allow-Origin', vercelUrl);
-    } else if (customUrl && req.headers.origin === process.env.URL) {
+    } else if (customUrl && req.headers.origin === customUrl) {
       res.setHeader('Access-Control-Allow-Origin', customUrl);
     }
   } else {
@@ -74,8 +74,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       target: JSON.stringify({
         path: 'host',
         error: 'Invalid host',
-        input: origin,
-        expected: `${vercelUrl ?? ''} or ${process.env.URL ?? ''}`,
+        input: req.headers,
+        expected: `${vercelUrl ?? ''} or ${customUrl ?? ''}`,
       }),
     });
 
