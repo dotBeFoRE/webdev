@@ -108,7 +108,7 @@ const UserItem = ({
                 isModerator: selected.value,
               });
             }}
-            disabled={session.data?.user.isAdmin !== true}>
+            disabled={session.data?.user.isAdmin !== true || isLoading}>
             <Listbox.Button className="h-full w-full rounded bg-stone-600 disabled:cursor-auto ui-open:bg-stone-600">
               {(isModerator ? userTypes[1] : userTypes[0]).name}
             </Listbox.Button>
