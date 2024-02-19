@@ -1,7 +1,6 @@
 import { createNextApiHandler } from '@trpc/server/adapters/next';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { TRPCError } from '@trpc/server';
 // eslint-disable-next-line import/extensions
 import { env } from '../../../env.mjs';
 import { createTRPCContext } from '../../../server/api/trpc';
@@ -55,7 +54,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return undefined;
   }
 
-  if (env.NODE_ENV === 'production' && req.headers.host !== vercelUrl) {
+  if (
+    env.NODE_ENV === 'production' &&
+    req.headers.host !== vercelUrl &&
+    req.headers.host !== process.env.URL
+  ) {
     createLog({
       user: undefined,
       action: 'trpcError',
@@ -68,18 +71,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       }),
     });
 
-    res
-      .status(400)
-      .json(new TRPCError({ code: 'BAD_REQUEST', message: 'Invalid host' }));
+    res.status(400).json({ code: 'BAD_REQUEST', message: 'Invalid host' });
     return undefined;
   }
 
   if (req.body && req.headers['Content-Type'] !== 'application/json') {
     res
       .status(400)
-      .json(
-        new TRPCError({ code: 'BAD_REQUEST', message: 'Invalid Content-Type' }),
-      );
+      .json({ code: 'BAD_REQUEST', message: 'Invalid Content-Type' });
     return undefined;
   }
 
