@@ -47,3 +47,5 @@ yarn-error.log*
 /test-results
 
 security/~$Score Model ASVS.xlsx
+
+security/.~lock.Score Model ASVS.ods#
