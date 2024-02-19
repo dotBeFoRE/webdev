@@ -41,14 +41,15 @@ const trpcHandler = createNextApiHandler({
 
 // export API handler
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const vercelUrl = process.env.VERCEL_URL;
-  const customUrl = process.env.URL;
+  const vercelUrl =
+    process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`;
+  const customUrl = process.env.NEXTAUTH_URL;
 
   if (env.NODE_ENV === 'production') {
     if (vercelUrl && req.headers.origin === vercelUrl) {
-      res.setHeader('Access-Control-Allow-Origin', `https://${vercelUrl}`);
+      res.setHeader('Access-Control-Allow-Origin', vercelUrl);
     } else if (customUrl && req.headers.origin === process.env.URL) {
-      res.setHeader('Access-Control-Allow-Origin', `https://${customUrl}`);
+      res.setHeader('Access-Control-Allow-Origin', customUrl);
     }
   } else {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -62,8 +63,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return undefined;
   }
 
-  const isSameOrigin =
-    req.headers.origin === vercelUrl || req.headers.origin === process.env.URL;
+  const { origin } = req.headers;
+  const isSameOrigin = origin === vercelUrl || origin === customUrl;
 
   if (env.NODE_ENV === 'production' && !isSameOrigin) {
     createLog({
@@ -73,12 +74,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       target: JSON.stringify({
         path: 'host',
         error: 'Invalid host',
-        input: req.headers.host,
+        input: origin,
         expected: `${vercelUrl ?? ''} or ${process.env.URL ?? ''}`,
       }),
     });
 
-    res.status(400).json({ code: 'BAD_REQUEST', message: 'Invalid host' });
+    res.status(400).json({ code: 'BAD_REQUEST', message: 'Invalid origin' });
     return undefined;
   }
 
