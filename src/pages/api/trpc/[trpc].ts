@@ -62,9 +62,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).end();
     return undefined;
   }
+  const { referer, origin } = req.headers;
 
-  const { origin } = req.headers;
-  const isSameOrigin = origin === vercelUrl || origin === customUrl;
+  const isSameOriginOrigin =
+    (vercelUrl && origin === vercelUrl) || (customUrl && origin === customUrl);
+
+  const isSameOriginReferrer =
+    referer &&
+    ((vercelUrl && referer.startsWith(`${vercelUrl}/`)) ||
+      (customUrl && referer.startsWith(`${customUrl}/`)));
+
+  const isSameOrigin = isSameOriginOrigin || isSameOriginReferrer;
 
   if (env.NODE_ENV === 'production' && !isSameOrigin) {
     createLog({
@@ -74,7 +82,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       target: JSON.stringify({
         path: 'host',
         error: 'Invalid host',
-        input: req.headers,
+        input: {
+          referer,
+          origin,
+        },
         expected: `${vercelUrl ?? ''} or ${customUrl ?? ''}`,
       }),
     });
