@@ -42,8 +42,28 @@ const UserItem = ({
 
   const context = api.useContext();
   const { mutate, isLoading } = api.users.edit.useMutation({
-    onSuccess: () => {
+    onSettled: () => {
       context.users.getAll.invalidate().catch(() => {});
+    },
+    onMutate: async (newData) => {
+      await context.users.getAll.cancel();
+      const prev = context.users.getAll.getData();
+
+      if (prev) {
+        context.users.getAll.setData(
+          undefined,
+          prev.map((u) => (u.id === newData.id ? { ...u, ...newData } : u)),
+        );
+      }
+
+      return prev;
+    },
+    onError: (err, _, prevData) => {
+      console.error(err);
+
+      if (prevData) {
+        context.users.getAll.setData(undefined, prevData);
+      }
     },
   });
 
