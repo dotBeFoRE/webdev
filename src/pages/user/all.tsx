@@ -109,7 +109,7 @@ const UserItem = ({
               });
             }}
             disabled={session.data?.user.isAdmin !== true || isLoading}>
-            <Listbox.Button className="h-full w-full rounded bg-stone-600 disabled:cursor-auto ui-open:bg-stone-600">
+            <Listbox.Button className="h-full w-full rounded bg-stone-600 disabled:cursor-auto disabled:opacity-60 ui-open:bg-stone-600">
               {(isModerator ? userTypes[1] : userTypes[0]).name}
             </Listbox.Button>
             <Listbox.Options className="absolute right-0 z-40 w-full origin-top-right translate-y-1 overflow-clip rounded">
@@ -134,7 +134,7 @@ const UserItem = ({
 
         <button
           type="button"
-          className="rounded bg-stone-600 p-2 transition-colors hover:bg-stone-500"
+          className="rounded bg-stone-600 p-2 transition-colors hover:bg-stone-500 disabled:opacity-60"
           disabled={isLoading}
           onClick={() => {
             mutate({ id, isBanned: !isBanned });
