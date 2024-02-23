@@ -42,3 +42,61 @@ Binnen onze applicatie slaan wij geen gegevens op die zo gevoelig zijn als die i
 - [23andMe User Data Stolen in Targeted Attack on Ashkenazi Jews](https://www.wired.com/story/23andme-credential-stuffing-data-stolen/)
 - [Genetic testing firm 23andMe admits hackers accessed DNA data of 7m users](https://www.theguardian.com/technology/2023/dec/05/23andme-hack-data-breach)
 - [Hackers got nearly 7 million people’s data from 23andMe. The firm blamed users in ‘very dumb’ move](https://www.theguardian.com/technology/2024/feb/15/23andme-hack-data-genetic-data-selling-response)
+
+## 2. CSRF vulnerability in Plesk
+In mei van 2022 is er een CSRF vulnerability gevonden in Plesk, een webhosting control panel.
+
+De vulnerability zat zich in de REST API Plesk. Externe websites konden cookieloos command's uitvoeren op de server van de gebruiker. Hiermee konden de aanvallers het wachtwoord van de adminstator veranderen en hiermee de volledige controle over de server krijgen.
+
+De vulnerability is gevonden door Fortbridge, een cybersecurity bedrijf. Zij hebben de vulnerability gemeld bij Plesk, Plesk heeft hier vervolgens niks mee gedaan. 6 maanden na de melding van Fortbridge is de vulnerability openbaar gemaakt.
+
+### CIA Aspecten
+
+#### Confidentiality
+Afhankelijk van de natuur van de data die op de verschillende Plesk servers stond, is deze informatie volledig openbaar geworden. Dit is een schending van de vertrouwelijkheid van de gegevens.
+
+#### Integrity
+Aanvallers konden volledig controle krijgen over de server van de gebruiker. Hiermee konden zij de integriteit van de data op de server aantasten.
+
+#### Availability
+Met adminstator rechten konden de aanvallers de server volledig platleggen. Hiermee is de beschikbaarheid van de diensten van de server volledig verminderd.
+
+### Welke gegevens hadden beschermd moeten zijn?
+De gegevens van de gebruikers van de Plesk servers hadden beschermd moeten zijn.
+
+### Waar moeten deze gegevens tegen beschermd zijn?
+Een andere site had niet in staat moeten zijn om commando's uit te voeren op de server van de gebruiker.
+
+### Welke verzwakkingen waren gebruikt in de aanval?
+De aanvallers hebben gebruik gemaakt van een CSRF vulnerability in de REST API van Plesk. 
+
+### Welke schade is er aangericht and hoeveel?
+Het is moeilijk te zeggen hoeveel schade er is aangericht. Plesk is een control panel dat wordt gebruikt door rond de 2 miljoen klanten in de VS alleen. Wel kan er gezegd worden dat de vertouwelijkheid, integriteit en beschikbaarheid van de data van deze klanten is aangetast.
+
+### Hoe had dit voorkomen kunnen worden?
+De vulnerability die de onderzoekers van Fortbridge hebben gevonden had op verschillende manieren voorkomen kunnen worden.
+
+#### CORS Policy
+
+Ten eerste de REST API van de Plesk server heeft een volledig open CORS policy. Dit betekent dat externe websites commando's konden uitvoeren op de server van de gebruiker. Dit had voorkomen kunnen worden door een stricte CORS policy toe te voegen aan de REST API.
+
+#### Content-Type Header
+
+Ten tweede. De CORS Header `Access-Control-Allow-Credentials` met een waarde van `true` maakt het mogelijk voor externe websites om met een fetch request credentials mee te sturen. Al had de server niet de CORS policy dat credentials toestond, hebben de onderzoekers het toch voor elkaar gekregen om credentials mee te kunnen sturen. Dit hebben ze voor elkaar gekregen door gebruik te maken van een form. Wanneer een form van type POST wordt opgestuurd, worden credentials wel meegestuurd, omdat de output van de POST request niet door de website zelf gelezen kan worden.
+
+Bij het versturen van een form wordt er automatisch een `Content-Type` header meegestuurd met de waarde `application/x-www-form-urlencoded`. Dit is een header die de server verteld hoe de data die wordt meegestuurd in de body van de request moet worden geïnterpreteerd. Deze waarde werd echter niet gecontrolleerd door de Plesk server. De server van Plesk interpreteerde de data in de body van de request als een JSON object. Hierdoor konden de onderzoekers de CSRF vulnerability uitbuiten.
+
+#### CSRF Token
+
+Ten derde, de REST API van Plesk maakte geen gebruik van de synchronized token pattern of de double submit cookie pattern.
+
+### Wat gaan we hiervan meenemen in onze eigen beveiliging?
+
+Wij gaan gebruik maken van een strikte CORS policy. Hierdoor worden requests naar onze API geblokkeerd door de browser.
+
+Onze API staat het niet toe om POST en GET requests te ontvangen wanneer de Origin of Referrer header niet overeenkomen met die van de website zelf.
+
+Wanneer er een request wordt gemaakt naar onze API word de `Content-Type` header gecontroleerd. Wanneer de waarde van deze header niet overeenkomt met de verwachte waarde, wordt de request geblokkeerd. Hierdoor vangen we af dat er met behulp van forms geen requests kunnen worden gemaakt naar onze API.
+
+### Bronnen
+- [Compromising Plesk Via Its Rest API](https://fortbridge.co.uk/research/compromising-plesk-via-its-rest-api/)
