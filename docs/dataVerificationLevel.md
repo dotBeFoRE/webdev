@@ -21,7 +21,9 @@ Hieronder wordt in kaart gebracht welke data de applicatie behandeld en onder we
 | Spel info | 1 |
 | Audit info | 2 |
 
-> Sessie informatie beoordeling is beoordeeld op basis van de gevoeligheid van de data waar de sessie toegang tot geeft
+> Sessie informatie beoordeling is beoordeeld op basis van de gevoeligheid van de data waar een sessie toegang tot geeft
+
+> Audit informatie is beoordeeld op basis van de gevoeligheid van de data die gelogt wordt
 
 De applicatie maakt gebruik van persoonlijke gegevens, zoals de email en naam van de gebruiker. Ook slaan we berichten op die naar de developer van de applicatie gestuurd worden, dit wordt in vertrouwen gedaan. NextAuth slaat informatie op van GitHub om de identiteit van de gebruiker te kunnen verifieren.
 

@@ -33,7 +33,7 @@ Account = Link tussen een provider en een profiel
 ### Als aanvaller, wil ik de developer kunnen spammen, zodat de developer geen tijd meer heeft om te werken
 - Je kan alleen een bericht sturen als je een reCAPTCHA hebt gehaald
 
-### Als aanvaller, wil ik HTML injecteren in de berichten, zodat ik de developer kan aanvallen
+### Als aanvaller, wil ik code injecteren in de berichten naar de developer, zodat ik de developer kan aanvallen
 - De berichten worden geëscaped
 
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
