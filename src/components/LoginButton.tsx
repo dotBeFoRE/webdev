@@ -14,12 +14,9 @@ const LoginButton = () => {
 
     return (
       <Menu as="div" className="relative">
-        {({ open }) => (
+        {() => (
           <>
-            <Menu.Button
-              className={`flex h-full items-center p-2 transition-colors hover:bg-stone-700 active:bg-stone-700 ${
-                open ? 'bg-stone-700' : ''
-              }`}>
+            <Menu.Button className="flex h-full items-center p-2 transition-colors open:bg-stone-700 hover:bg-stone-700 active:bg-stone-700">
               {image && (
                 <Image
                   alt={name ? `${name}'s profile picture` : 'avatar'}

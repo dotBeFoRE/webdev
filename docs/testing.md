@@ -12,7 +12,7 @@ De game-logica moet ook goed werken, het is een groot onderdeel van de website. 
 
 ## Teststrategie
 
-Voor de verschillende onderdelen van onze applicatie zijn er verschillende manieren van testen nodig. Voor dingen zoals de gamelogica is het mogelijk om die logica in isolatie testen met behulp van unit tests. Om te unit testen maken wij gebruik van Jest. 
+Voor de verschillende onderdelen van onze applicatie zijn er verschillende manieren van testen nodig. Voor dingen zoals de gamelogica is het mogelijk om die logica in isolatie testen met behulp van unit tests. Om te unit testen maken wij gebruik van Vitest. 
 
 Voor andere elementen zoals de api is er informatie nodig vanuit de database, hiervoor hebben we integration tests nodig. Prisma kan gemockt worden om de database te mocken.
 

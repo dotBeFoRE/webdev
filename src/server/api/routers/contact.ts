@@ -42,8 +42,13 @@ const contactRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const { token: recaptchaToken, ...message } = input;
 
+      const queryParmas = new URLSearchParams({
+        secret: recaptchaSecretKey,
+        response: recaptchaToken,
+      });
+
       const recaptchaResponse = await fetch(
-        `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaToken}`,
+        `https://www.google.com/recaptcha/api/siteverify?${queryParmas.toString()}`,
         {
           method: 'POST',
         },

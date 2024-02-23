@@ -24,11 +24,10 @@ const Layout = ({ children }: React.PropsWithChildren) => {
           <Link href="/" className="flex items-center p-2">
             <h2 className="text-lg">Webdev CV</h2>
           </Link>
-          <li className="flex list-none items-stretch">
-            <ul className="flex items-stretch">
-              {links.map(({ href, label }) => (
+          <ul className="flex list-none items-stretch">
+            {links.map(({ href, label }) => (
+              <li className="flex items-stretch" key={href}>
                 <Link
-                  key={href}
                   href={href}
                   className={
                     router.pathname === href
@@ -37,10 +36,12 @@ const Layout = ({ children }: React.PropsWithChildren) => {
                   }>
                   {label}
                 </Link>
-              ))}
+              </li>
+            ))}
+            <li className="flex items-stretch">
               <LoginButton />
-            </ul>
-          </li>
+            </li>
+          </ul>
         </div>
       </header>
       <main className="relative flex flex-1 items-center justify-center py-5">

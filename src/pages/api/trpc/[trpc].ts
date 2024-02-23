@@ -62,15 +62,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).end();
     return undefined;
   }
+
+  const allowedOrigins = [vercelUrl, customUrl].filter(
+    (url): url is string => !!url,
+  );
+
   const { referer, origin } = req.headers;
 
   const isSameOriginOrigin =
-    (vercelUrl && origin === vercelUrl) || (customUrl && origin === customUrl);
+    origin !== undefined &&
+    allowedOrigins.some((allowedOrigin) => origin === allowedOrigin);
 
   const isSameOriginReferrer =
-    referer &&
-    ((vercelUrl && referer.startsWith(`${vercelUrl}/`)) ||
-      (customUrl && referer.startsWith(`${customUrl}/`)));
+    referer !== undefined &&
+    allowedOrigins.some((allowedOrigin) =>
+      referer.startsWith(`${allowedOrigin}/`),
+    );
 
   const isSameOrigin = isSameOriginOrigin || isSameOriginReferrer;
 

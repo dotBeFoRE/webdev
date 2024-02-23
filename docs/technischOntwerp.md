@@ -10,7 +10,7 @@ In dit document wordt er beschreven hoe de applicatie is opgebouwd, welke toolin
 
 Het Webdev CV software systeem wordt bezocht en gebruikt door de een bezoeker. Een bezoeker kan ingelogd zijn, wanneer dit gebeurt wordt de bezoeker een gebruiker. Een gebruiker kan een bepaalde rol hebben zoals moderator of admin, die bepaalt welke rechten de gebruiker heeft. Een admin wordt als moderator beschouwd, maar niet andersom.
 
-Het systeem maakt gebruik van twee externe services, dit zijn GitHub en SendGrid.
+Het systeem maakt gebruik van twee externe services, dit zijn GitHub, reCAPTCHA en SendGrid.
 
 ### GitHub
 
@@ -19,6 +19,10 @@ GitHub wordt gebruikt voor het authorizeren van gebruikers die gebruik willen ma
 ### SendGrid
 
 SendGrid wordt gebruikt om e-mails te versturen. SendGrid wordt gebruikt voor de Contact pagina zodat gebruikers contact kunnen zoeken met de ontwikkelaar van de applicatie. Hoe deze communicatie tot stand wordt gebracht wordt later uitgelegd.
+
+### reCAPTCHA
+
+reCAPTCHA wordt gebruikt om te voorkomen dat er spam wordt verstuurd via de contact pagina. Dit wordt gedaan door middel van een reCAPTCHA v3 token. Wanneer de token niet voldoet aan de eisen wordt de mail niet verstuurd.
 
 ## Het systeem
 
@@ -35,28 +39,62 @@ Het systeem is opgebouwd uit verschillende interne en externe onderdelen, elk on
 * SendGrid - Verstuurt e-mails (extern)
 * GitHub - Authorizeren van gebruikers (extern)
 
-De combinatie van NextJS, tRPC, NextAuth, Prisma komt voort uit de T3 Stack. De T3 Stack is een volledige starter kit voor NextJS. Het levert een volledige "type-safe" ontwikkel omgeving. Al is T3 Stack een starter pack, het heeft ook een [eigen website](https://create.t3.gg/en/introduction) met aanvullende documentatie over de verschillende onderdelen waaruit de stack bestaat.
+De combinatie van NextJS, tRPC, NextAuth, Prisma en Tailwind komt voort uit de T3 Stack. De T3 Stack is een volledige starter kit voor NextJS. Het levert een volledige "type-safe" ontwikkel omgeving. Al is T3 Stack een starter pack, het heeft ook een [eigen website](https://create.t3.gg/en/introduction) met aanvullende documentatie over de verschillende onderdelen waaruit de stack bestaat.
 
 ### NextJS
 
 NextJS is een framework voor React. We gebruiken NextJS voor het statisch genereren van de pagina's en het serveren van de pagina's aan de gebruiker. NextJS wordt ook gebruikt voor het serveren van de API calls, dit wordt gedaan door middel van tRPC. NextJS maakt gebruik van file based routing. De verschillende pagina's staan in de pages map. Hoe de pages map werkt is uitgewerkt door NextJS in de [NextJS docs](https://nextjs.org/docs/routing/introduction). API calls worden gedaan door middel van de API map. Hoe de API map werkt is uitgewerkt door NextJS in de [NextJS docs](https://nextjs.org/docs/api-routes/introduction). In de API map staan de handlers voor NextAuth en tRPC. De handlers worden gebruikt om de API calls te routeren naar de juiste functie.
 
+Voor het hosten van de Website maken wij gebruik van Vercel. Vercel is een hosting provider die gespecialiseerd is in NextJS. Vercel luistert naar de GitHub repository en wanneer er een push wordt gedaan naar de main branch, wordt de website automatisch gebuild en gedeployed. 
+
+Het Vercel account wordt beveiligd met 2FA, via GitHub en Passkeys.
+
+#### XSS mitigation
+
+Om de impact van XSS aanvallen te verzachten maken wij gebruik van Content Security Policy headers. Deze headers zorgen ervoor dat er geen data opgehaald of opgevraagd kan worden van cross-site adressen die wij niet expliciet toelaten.
+
+### Webdev CV database
+Voor onze database provider maken wij gebruik van PostgreSQL. PostgreSQL is een relationele database. PostgreSQL is een open source database.
+
+Wij hosten onze database op Supabase. Het Supabase account is beveiligd met 2FA.
+
+### Prisma
+Prisma is een ORM voor de database. Prisma maakt het mogelijk om de database te benaderen met Typescript. Prisma maakt gebruik van een schema dat gedefineerd staat in de prisma folder. Dit schema wordt gebruikt om de database te migreren. Door het gebruik van Prisma vangen we ook SQL injetions op. Prisma heeft een [eigen website](https://www.prisma.io/) met aanvullende documentatie.
+
+### NextAuth
+NextAuth verzorgt het inloggen en de sessie beheer van de app. NextAuth maakt gebruik van CSRF tokens om het mogelijk te maken voor gebruikers om veilig in te kunnen loggen. NextAuth ondersteund sessie beheer met JWT, maar wij maken gebruik van database sessies. NextAuth ondersteund tientallen services om mee in te kunnen loggen, dit gaat doormiddel van Providers. Wij maken gebruik van de GitHub provider zodat gebruikers kunnen inloggen met hun GitHub account. Welke data er gedeeld wordt met de client wordt bepaald in /src/server/auth.ts. Belangrijke events, bijvoorbeeld het registreren van nieuwe gebruikes en het inloggen van gebruikers worden gelogt. NextAuth heeft een [eigen website](https://next-auth.js.org/) met aanvullende documentatie.
+
+Next Auth maakt gebruik van de Prisma adapter om gebruiker, sessie en account data op te halen en te slaan.
+
 ### tRPC server
 
 De showcase app maakt gebruik van tRPC. tRPC is een package om typesafe end-to-end API's te maken. tRPC maakt gebruik van Typescript zodat je aan de server kant een API route kan maken, waarna de type-definitie ook beschikbaar is aan de client kant. Wat tRPC veilig maakt is dat voor elke route waar input voor nodig is (denk aan een userId), die input wordt gecontrolleerd door een [Zod schema](https://zod.dev). Dit maakt voor een veilige, onderhoudbare en snelle developer experience. tRPC heeft NextJS als first class citizen. tRPC biedt de client kant een api client aan die binnen de React components gebruikt kan worden om data op te halen. Dit wordt verder uitgelegd in het hoofdstuk over de SPA. tRPC heeft een [eigen website](https://trpc.io/) met aanvullende documentatie.
+
+Voor het vrijgeven van verschillende functionaliteit wordt er gebruik gemaakt van routes. Binnen tRPC zijn er verschillende soorten routes, zoals queries, mutations en subscriptions. Voor onze applicatie maken wij gebruik van queries en mutations. Queries worden gebruikt om data op te halen, mutations worden gebruikt om data te veranderen. Queries kunnen aangeroepen worden met een GET request, mutations met een POST request.
+
+Verschillende tRPC routes maken gebruik van Prisma om de data op te halen en te bewerken. De tRPC server maakt gebruik van NextAuth om de sessie informatie door te spelen naar de API calls. De tRPC client maakt gebruik van de tRPC server om de API calls te maken. De API is onderverdeeld in verschillende routers. Elke router heeft zijn eigen functie. Bijvoorbeeld de Reversi router zorgt ervoor dat de juiste logica wordt aangeroepen voor de game en dat de data op de juiste plek terecht komt. De users router is verantwoordelijk voor de functies om gebruikers op te halen en te bewerken. De verschillende routers staan gedefineerd in `/src/server/api/routers`.
+
+#### SendGrid
+Om email te versturen maken sommige mutaties gebruik van SendGrid. Voor het saniteren van de input wordt er gebruik gemaakt van `escape-html-template-tag`. Deze package geeft ons een template tag die ervoor zorgt dat de input die de gebruiker invoert niet kwaadaardig is.
+
+#### Cross-site request forgery (CSRF)
+Mutatie en query requests kunnen alleen aangeroepen worden wanneer de referrer of de origin overeenkomen met een lijst van toegestaande origins. Hiermee wordt voorkomen dat de API calls gemaakt kunnen worden vanaf een andere website dan de SPA.
+
+Ook word er gebruik gemaakt van CORS headers om te voorkomen dat de API calls gemaakt kunnen worden vanaf een andere origin dan de SPA.
+
+#### Role-based access control (RBAC)
+
+Om de intergriteit van de data te waarborgen wordt er gebruik gemaakt van role-based access control. Dit betekent dat bepaalde gebruikers alleen bepaalde data kunnen ophalen of bewerken. Voor elke user is er beschreven welke rollen deze heeft aan de hand van de Prisma schema. Om te controlleren of een gebruiker een bepaalde rol heeft, wordt bepaald via role guards.
 
 #### Procedures
 
 Om de api veilig te houden en ervoor te zorgen dat bepaalde gebruikers geen calls kunnen maken naar bepaalde API routes, worden er procedures gebruikt. Een procedure is een soort middleware dat draait voordat de volledige functie gedraaid wordt. Procedures worden gebruikt om te controleren of de gebruiker ingelogd is, of de gebruiker de juiste rechten heeft om de API call te maken. Procedures worden gebruikt om de API calls te beveiligen. Procedures worden uitgelegd in de [tRPC docs](https://trpc.io/docs/procedures). De procedures staan gedefinieerd in [/src/server/api/trpc.ts](/src/server/api/trpc.ts). tRPC krijgt de session informatie door NextAuth doorgespeeld en in de context voor de call gezet. Ook wordt de Prisma ORM wordt doorgespeeld in deze context. 
 
-De API is onderverdeeld in verschillende routers. Elke router heeft zijn eigen functie. Bijvoorbeeld de Reversi router zorgt ervoor dat de juiste logica wordt aangeroepen voor de game en dat de data op de juiste plek terecht komt. De users router is verantwoordelijk voor de functies om gebruikers op te halen en te bewerken. De verschillende routers staan gedefineerd in /src/server/api/routers.
-
-### NextAuth
-NextAuth verzorgt het inloggen en de sessie beheer van de app. NextAuth maakt gebruik van CSRF tokens om het mogelijk te maken voor gebruikers om veilig in te kunnen loggen. NextAuth ondersteund sessie beheer met JWT, maar wij maken gebruik van database sessies. NextAuth ondersteund tientallen services om mee in te kunnen loggen, dit gaat doormiddel van Providers. Wij maken gebruik van de GitHub provider zodat gebruikers kunnen inloggen met hun GitHub account. Welke data er gedeeld wordt met de client wordt bepaald in /src/server/auth.ts. Belangrijke events, bijvoorbeeld het registreren van nieuwe gebruikes en het inloggen van gebruikers worden gelogt. NextAuth heeft een [eigen website](https://next-auth.js.org/) met aanvullende documentatie.
-
 ### SPA (de client)
 
 De SPA's worden gegenereerd door NextJS. NextJS doet dit doormiddel van de pagina's die gedefineerd staan in de pages map. NextJS vormt React code om naar statische HTML pagina's. Deze pagina's worden vervolgens door NextJS geserveerd aan de gebruiker. Wanneer de pagina laadt, neemt React het weer over.
+
+React zorgt ervoor dat XSS aanvallen worden voorkomen. React zorgt ervoor dat gebruiker input niet ongesaniteerd in de HTML wordt geladen.
 
 De client maakt gebruik van Tailwind CSS, tRPC client, NextAuth, HeadlessUI, en React Hook Form.
 
@@ -84,3 +122,10 @@ HeadlessUI is een React component library. HeadlessUI bied componenten aan zoals
 
 React Hook Form is een library om formulieren te maken. In combinatie met Zod is het mogelijk om formulieren te maken die automatisch gevalideerd worden, met dezelfde schema's die gebruikt worden om de input te valideren op de API. React Hook Form heeft een [eigen website](https://react-hook-form.com/) met aanvullende documentatie.
 
+### SendGrid
+
+SendGrid wordt gebruikt om e-mails te versturen. Deze communicatie wordt verzorgt via de `@sendgrid/mail` package. Voor SendGrid moet er een API token worden gegenereerd, deze wordt doorgegeven aan de server via een environment variable.
+
+#### XSS
+
+Om te voorkomen dat er kwaadaardige code wordt uitgevoerd wanneer een gebruiker een e-mail opent, wordt er gebruik gemaakt van sanitatie.

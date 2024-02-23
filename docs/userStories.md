@@ -16,6 +16,8 @@ Account = Link tussen een provider en een profiel
 - Het spel moet zich houden aan de Othello regelset
 - Belangrijke gebeurtenissen worden gelogt
 - Gebruikers kunnen berichten sturen naar de developer
+- Gebruikergegevens worden veilig opgeslagen
+- Gebruikersinput kan niet misbruikt worden
 
 ## User-stories
 
@@ -59,16 +61,19 @@ Account = Link tussen een provider en een profiel
 
 ### Als gebruiker, wil ik mijn profiel kunnen bekijken, zodat ik weet wat er over mij bekend is
 - Gebruiker kan alleen zijn eigen profiel bekijken
-- Administrators kunnen alle profielen bekijken
+- Moderators kunnen alle profielen bekijken
+- Opvragen van een profiel wordt gelogt
 
 ### Als gebruiker, wil ik mijn profiel kunnen aanpassen, zodat ik mijn profiel up-to-date kan houden
 - Gebruikers kunnen hun gebruikersnaam aanpassen
 - Gebruikers kunnen alleen hun eigen profiel aanpassen
-- Administrators kunnen alle profielen aanpassen
+- Moderators kunnen alle profielen aanpassen
+- Aanpassen van een profiel wordt gelogt
 
 ### Als gebruiker, wil ik mijn profiel kunnen verwijderen, zodat ik mijn gebruikersdata in eigen handen heb
 - Gebruiker kan alleen zijn eigen profiel verwijderen
 - Administrators kunnen alle profielen verwijderen
+- Moderators kunnen alleen gebruikers verwijderen die geen moderator of administrator zijn
 
 ### Als speler, wil ik een zet kunnen zetten, zodat het spel door kan gaan
 
@@ -97,6 +102,15 @@ Account = Link tussen een provider en een profiel
 - De server stuurt alleen de essentiele informatie naar de client
 - Welke informatie een gebruiker kan ophalen wordt bepaald door hun rol
 
+### Als aanvaller, wil ik kwaadaardige database queries uitvoeren, zodat ik beschermde informatie kan opvragen of manipuleren
+- SQL injectie aanvallen worden 
+
+### Als aanvaller, wil ik cross-site scripting aanvallen uitvoeren, zodat ik code kan uitvoeren op slachtoffers hun computer
+- Gebruiker gegenereerde input wordt niet ongesaniteerd in de HTML geladen
+
+### Als aanvaller, wil ik cross-origin aanvallen uitvoeren, zodat ik onwetend voor het slachtoffer acties uitvoer op hun account
+- Cross-origin requests worden niet uitgevoerd
+
 ### Als moderator, wil ik alle gebruikers kunnen zien, zodat ik weet wie er gebruik maakt van de site
 
 ### Als moderator, wil ik gebruikers kunnen verbannen of schorsen, zodat ik spelers die valsspelen kan straffen
@@ -106,3 +120,4 @@ Account = Link tussen een provider en een profiel
 ### Als moderator, wil ik belangrijke gebeurtenissen kunnen zien, zodat ik de veiligheid van de applicatie kan waarborgen
 
 ### Als admin, wil ik gebruikers moderators maken en andersom, zodat ik niet alles zelf hoef te moderaten
+- Verandering wordt gelogt
