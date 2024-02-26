@@ -1,0 +1,3 @@
+# Google dorks
+
+Door het uitvoeren van relatief simpele Google zoekopdrachten is het mogelijk om gevoelige informatie te vinden. Deze opdracht laat zien dat wanneer je iets online zet, deze informatie ook gevonden kan worden, zelfs een simpel txt bestandje. Gevoelige informatie moet niet online beschikbaar zijn zonder de juiste beveiliging. Wat je ook kan zien is dat er op veel websites de mogelijkheid er is om door de bestandenstructuur valt te navigeren. Dit legt de structuur van de website bloot, wat de kans op een aanval verhoogt. Ook admin panels zijn vaak te vinden door Google dorks. Ook dit vergroot het oppervlak waarvan een aanvaller gebruik kan maken.

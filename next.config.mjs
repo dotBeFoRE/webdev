@@ -23,6 +23,7 @@ const config = {
   images: {
     domains: ['avatars.githubusercontent.com'],
   },
+  poweredByHeader: false,
   headers: async () => [
     {
       source: '/:path*',
@@ -46,6 +47,8 @@ const config = {
             "connect-src 'self' https://vitals.vercel-insights.com/v1/vitals",
             "frame-src 'self' https://www.google.com/recaptcha/api2/",
             "object-src 'none'",
+            "form-action 'self'",
+            "frame-ancestors 'none'",
           ].join('; '),
         },
       ],
