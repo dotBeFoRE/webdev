@@ -111,13 +111,21 @@ Account = Link tussen een provider en een profiel
 ### Als aanvaller, wil ik cross-origin aanvallen uitvoeren, zodat ik onwetend voor het slachtoffer acties uitvoer op hun account
 - Cross-origin requests worden niet uitgevoerd
 
+### Als aanvaller, wil ik clickjacking gebruiken om gebruikers een actie uit te voeren waar de gebruiker geen toestemming voor heeft gegeven
+
+- De website kan niet laten zien worden in een iframe
+
 ### Als moderator, wil ik alle gebruikers kunnen zien, zodat ik weet wie er gebruik maakt van de site
+
+- Gebruikers krijgen een melding dat ze niet deze pagina mogen zien
 
 ### Als moderator, wil ik gebruikers kunnen verbannen of schorsen, zodat ik spelers die valsspelen kan straffen
 
 - Maatregelen worden geauditeert
 
 ### Als moderator, wil ik belangrijke gebeurtenissen kunnen zien, zodat ik de veiligheid van de applicatie kan waarborgen
+
+- Gebruikers krijgen een melding dat ze niet deze pagina mogen zien
 
 ### Als admin, wil ik gebruikers moderators maken en andersom, zodat ik niet alles zelf hoef te moderaten
 - Verandering wordt gelogt
