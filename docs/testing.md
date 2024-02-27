@@ -59,3 +59,7 @@ De testinspanning zegt iets over in welke mate we een functionaliteit per testso
 I Beperkte tests: er wordt enkel gekeken naar de happy flow  
 II Gemiddelde dekking van de test: zowel de happy flow als de unhappy flow worden doorlopen  
 III Grote dekking van de test: alle mogelijke flows in kaart brengen en aftesten
+
+## Geautomatiseerde beveiligingstesten
+
+Om de beveiliging van de app verder te bewaken, maken we naast de testing methodiek beschreven hierboven, maken we ook gebruik van geautomatiseerde beveiligingstesten. Deze testen worden handmatig uitgevoerd met behulp van OWASP ZAP. OWASP ZAP is een tool die gebruikt kan worden om veelvoorkomende beveiligingsproblemen in webapplicaties op te sporen, bijvoorbeeld CORS problemen, SQL injection en cross-site scripting vulnerabilities.
