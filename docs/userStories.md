@@ -38,6 +38,8 @@ Account = Link tussen een provider en een profiel
 
 ### Als gebruiker, wil ik een Reversi spel kunnen starten, zodat ik Reversi kan spelen
 
+- Gebruiker mag alleen een spel starten als deze niet verbannen is
+
 ![Explanation screen](./images/Explanation_Screen.png)
 
 ### Als gebruiker, wil ik een Reversi spel kunnen bijwonen, zodat ik met iemand anders Reversi kan spelen
@@ -45,6 +47,7 @@ Account = Link tussen een provider en een profiel
 - Gebruiker kan op hetzelfde profiel als de andere speler meedoen
 - Gebruiker mag alleen deelnemen als de kleur nog niet is ingenomen door een andere speler
 - Gebruiker deelnemen door een zet te doen met een beschikbare kleur
+- Gebruiker kan niet deelnemen als deze verbannen is
 
 ![Explanation screen](./images/Game_screen.png)
 
