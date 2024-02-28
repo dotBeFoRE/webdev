@@ -45,9 +45,13 @@ De combinatie van NextJS, tRPC, NextAuth, Prisma en Tailwind komt voort uit de T
 
 NextJS is een framework voor React. We gebruiken NextJS voor het statisch genereren van de pagina's en het serveren van de pagina's aan de gebruiker. NextJS wordt ook gebruikt voor het serveren van de API calls, dit wordt gedaan door middel van tRPC. NextJS maakt gebruik van file based routing. De verschillende pagina's staan in de pages map. Hoe de pages map werkt is uitgewerkt door NextJS in de [NextJS docs](https://nextjs.org/docs/routing/introduction). API calls worden gedaan door middel van de API map. Hoe de API map werkt is uitgewerkt door NextJS in de [NextJS docs](https://nextjs.org/docs/api-routes/introduction). In de API map staan de handlers voor NextAuth en tRPC. De handlers worden gebruikt om de API calls te routeren naar de juiste functie.
 
-Voor het hosten van de Website maken wij gebruik van Vercel. Vercel is een hosting provider die gespecialiseerd is in NextJS. Vercel luistert naar de GitHub repository en wanneer er een push wordt gedaan naar de main branch, wordt de website automatisch gebuild en gedeployed. 
+Voor het hosten van de website maken wij gebruik van Vercel. Vercel is een hosting provider die gespecialiseerd is in NextJS. Vercel luistert naar de GitHub repository en wanneer er een push wordt gedaan naar de main branch, wordt de website automatisch gebuild en gedeployed. 
 
 Het Vercel account wordt beveiligd met 2FA, via GitHub en Passkeys.
+
+Voordat de website wordt gedeployed worden er intergration en unit tests gedraaid. Nadat de website is gedeployed worden er ook e2e tests uitgevoerd om te testen of de website goed functioneerd.
+
+Om de prestatie van de website te testen wordt er door browsers ook web vitals gemeten. Deze web vitals worden doorgegeven aan Vercel en worden weergegeven in de Vercel dashboard.
 
 #### 3.1.1 XSS mitigation
 
@@ -76,7 +80,11 @@ De showcase app maakt gebruik van tRPC. tRPC is een package om typesafe end-to-e
 
 Voor het vrijgeven van verschillende functionaliteit wordt er gebruik gemaakt van routes. Binnen tRPC zijn er verschillende soorten routes, zoals queries, mutations en subscriptions. Voor onze applicatie maken wij gebruik van queries en mutations. Queries worden gebruikt om data op te halen, mutations worden gebruikt om data te veranderen. Queries kunnen aangeroepen worden met een GET request, mutations met een POST request.
 
+De Prisma client en de huidige ingelogde gebruiker worden doorgegeven aan de queries en mutations. Dit gebeurt via de context. Deze context wordt gemaakt door een context creator op basis van de request. NextAuth zorgt ervoor dat op basis van de request de sessie informatie wordt doorgegeven aan de context.
+
 Verschillende tRPC routes maken gebruik van Prisma om de data op te halen en te bewerken. De tRPC server maakt gebruik van NextAuth om de sessie informatie door te spelen naar de API calls. De tRPC client maakt gebruik van de tRPC server om de API calls te maken. De API is onderverdeeld in verschillende routers. Elke router heeft zijn eigen functie. Bijvoorbeeld de Reversi router zorgt ervoor dat de juiste logica wordt aangeroepen voor de game en dat de data op de juiste plek terecht komt. De users router is verantwoordelijk voor de functies om gebruikers op te halen en te bewerken. De verschillende routers staan gedefineerd in `/src/server/api/routers`.
+
+Op verschillende routes worden intergration tests uitgevoerd. Voor de intergration tests wordt er gebruik gemaakt van Vitest. Voor de intergration tests wordt de database gemockt.
 
 #### 3.5.1. SendGrid
 Om email te versturen maken sommige mutaties gebruik van SendGrid. Voor het saniteren van de input wordt er gebruik gemaakt van `escape-html-template-tag`. Deze package geeft ons een template tag die ervoor zorgt dat de input die de gebruiker invoert niet kwaadaardig is.
