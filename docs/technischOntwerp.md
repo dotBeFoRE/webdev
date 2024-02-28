@@ -51,7 +51,11 @@ Het Vercel account wordt beveiligd met 2FA, via GitHub en Passkeys.
 
 #### 3.1.1 XSS mitigation
 
-Om de impact van XSS aanvallen te verzachten maken wij gebruik van Content Security Policy headers. Deze headers zorgen ervoor dat er geen data opgehaald of opgevraagd kan worden van cross-site adressen die wij niet expliciet toelaten.
+Om de impact van XSS aanvallen te verzachten maken wij gebruik van Content Security Policy headers. Deze headers zorgen ervoor dat er geen data opgehaald of opgevraagd kan worden van cross-site adressen die wij niet expliciet toestaan.
+
+#### 3.1.2. Clickjacking
+
+Door middel van iframes kan een website in een andere website geladen worden. Op deze manier kan een website bijvoorbeeld onzichtbaar worden ingeleden. Onder de iframe kan een knop ingeladen worden waar de gebruiker op klikt, maar in werkelijkheid klikt de gebruiker op een knop die in de andere website staat. Om dit te voorkomen maken wij gebruik van de `X-Frame-Options: DENY` header. Deze header zorgt ervoor dat de website niet in een iframe geladen kan worden.
 
 ### 3.2. Webdev CV database
 Voor onze database provider maken wij gebruik van PostgreSQL. PostgreSQL is een relationele database. PostgreSQL is een open source database.
