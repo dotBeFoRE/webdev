@@ -14,11 +14,11 @@ De game-logica moet ook goed werken, het is een groot onderdeel van de website. 
 
 Voor de verschillende onderdelen van onze applicatie zijn er verschillende manieren van testen nodig. Voor dingen zoals de gamelogica is het mogelijk om die logica in isolatie testen met behulp van unit tests. Om te unit testen maken wij gebruik van Vitest. 
 
-Voor andere elementen zoals de api is er informatie nodig vanuit de database, hiervoor hebben we integration tests nodig. Prisma kan gemockt worden om de database te mocken.
+Voor andere elementen zoals de api is er informatie nodig vanuit de database, hiervoor hebben we integration tests nodig. Prisma kan gemockt worden om de database te mocken. Deze tests worden ook uitgevoerd met Vitest.
 
 Sommige elementen van de app kunnen niet volledig worden gestest met unit tests en intergration tests. Bijvoorbeeld het contact formulier, omdat hier menselijke input voor nodig is, sinds we gebruik maken van ReCaptcha. Deze moeten handmatig getest worden.
 
-E2E tests kunnen gebruikt worden om te kijken of de website de content laat zien die hij moet weergeven.
+E2E tests kunnen gebruikt worden om te kijken of de website de content laat zien die hij moet weergeven. Voor end-to-end tests maken we gebruik van Playwright.
 
 ## Het risico
 
