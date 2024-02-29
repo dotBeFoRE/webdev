@@ -101,7 +101,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return undefined;
   }
 
-  if (req.body && req.headers['content-type'] !== 'application/json') {
+  if (
+    req.body &&
+    !req.headers['content-type']?.startsWith('application/json')
+  ) {
     res
       .status(400)
       .json({ code: 'BAD_REQUEST', message: 'Invalid Content-Type' });
