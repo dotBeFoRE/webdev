@@ -92,7 +92,9 @@ Om email te versturen maken sommige mutaties gebruik van SendGrid. Voor het sani
 #### 3.5.2. Cross-site request forgery (CSRF)
 Mutatie en query requests kunnen alleen aangeroepen worden wanneer de referrer of de origin overeenkomen met een lijst van toegestaande origins. Hiermee wordt voorkomen dat de API calls gemaakt kunnen worden vanaf een andere website dan de SPA.
 
-Ook word er gebruik gemaakt van CORS headers om te voorkomen dat de API calls gemaakt kunnen worden vanaf een andere origin dan de SPA.
+Ook word er gebruik gemaakt van CORS headers om te voorkomen dat de API calls gemaakt kunnen worden vanaf een andere origin.
+
+Form based CSRF attacks worden naast de controle van de referrer en origin, verder bestreden door de Content-Type van het bericht te controleren, sinds deze niet naar `application/json` aangepast kan worden doormiddel een form.
 
 #### 3.5.3. Role-based access control (RBAC)
 
