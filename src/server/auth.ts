@@ -61,10 +61,24 @@ export const authOptions: NextAuthOptions = {
   },
   logger: {
     error(code, ...message) {
-      console.error(code, message);
+      createLog({
+        action: 'auth_error',
+        targetType: 'json',
+        target: JSON.stringify({
+          code,
+          message,
+        }),
+      });
     },
     warn(code, ...message) {
-      console.warn(code, message);
+      createLog({
+        action: 'auth_warning',
+        targetType: 'json',
+        target: JSON.stringify({
+          code,
+          message,
+        }),
+      });
     },
   },
   events: {
