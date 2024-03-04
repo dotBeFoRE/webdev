@@ -42,14 +42,19 @@ const trpcHandler = createNextApiHandler({
 // export API handler
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const vercelUrl =
-    process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`;
-  const customUrl = process.env.NEXTAUTH_URL;
+    process.env.VERCEL_URL !== undefined
+      ? new URL(`https://${process.env.VERCEL_URL}`)
+      : null;
+  const customUrl =
+    process.env.NEXTAUTH_URL !== undefined
+      ? new URL(process.env.NEXTAUTH_URL)
+      : null;
 
   if (env.NODE_ENV === 'production') {
-    if (vercelUrl && req.headers.origin === vercelUrl) {
-      res.setHeader('Access-Control-Allow-Origin', vercelUrl);
-    } else if (customUrl && req.headers.origin === customUrl) {
-      res.setHeader('Access-Control-Allow-Origin', customUrl);
+    if (vercelUrl && req.headers.origin === vercelUrl.origin) {
+      res.setHeader('Access-Control-Allow-Origin', vercelUrl.origin);
+    } else if (customUrl && req.headers.origin === customUrl.origin) {
+      res.setHeader('Access-Control-Allow-Origin', customUrl.origin);
     }
   } else {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -64,19 +69,23 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const allowedOrigins = [vercelUrl, customUrl].filter(
-    (url): url is string => !!url,
+    (url): url is URL => !!url,
   );
 
-  const { referer, origin } = req.headers;
+  const { referer: rawReferer, origin: rawOrigin } = req.headers;
+  const referer = rawReferer && new URL(rawReferer);
+  const origin = rawOrigin && new URL(rawOrigin);
 
   const isSameOriginOrigin =
-    origin !== undefined &&
-    allowedOrigins.some((allowedOrigin) => origin === allowedOrigin);
+    origin &&
+    allowedOrigins.some(
+      (allowedOrigin) => origin.origin === allowedOrigin.origin,
+    );
 
   const isSameOriginReferrer =
-    referer !== undefined &&
-    allowedOrigins.some((allowedOrigin) =>
-      referer.startsWith(`${allowedOrigin}/`),
+    referer &&
+    allowedOrigins.some(
+      (allowedOrigin) => referer.origin === allowedOrigin.origin,
     );
 
   const isSameOrigin = isSameOriginOrigin || isSameOriginReferrer;
@@ -90,10 +99,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         path: 'host',
         error: 'Invalid host',
         input: {
-          referer,
-          origin,
+          referer: rawReferer,
+          origin: rawOrigin,
         },
-        expected: `${vercelUrl ?? ''} or ${customUrl ?? ''}`,
+        expected: allowedOrigins.map((url) => url.origin).join(' or '),
       }),
     });
 

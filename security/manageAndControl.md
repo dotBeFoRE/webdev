@@ -16,9 +16,9 @@ Nadat de app online is worden er E2E tests uitgevoerd.
 
 De beveiliging van de applicatie wordt niet gecontrolleerd met E2E tests, hierdoor wordt de deployment dus ook niet geblokkeerd of teruggedraaid als deze falen.
 
-Hosten op Vercel ondersteund ook de deployment van verschillende branches, hier maken we geen gebruik van sinds GitHub niet ondersteund om meerdere OAuth2 callback functies te hebben.
+Hosten op Vercel ondersteund ook de deployment van verschillende branches, hier maken we geen gebruik van sinds GitHub niet ondersteund om meerdere OAuth2 callback endpoints te hebben.
 
-Als een gebruiker met HTTP naar de website navigeert wordt deze automatisch doorgestuurd naar de HTTPS versie van de website.
+Als een gebruiker met HTTP naar de website navigeert wordt deze automatisch doorgestuurd naar de HTTPS versie van de website, wat de kans op MitM aanval verkleint.
 
 ## Supabase
 
