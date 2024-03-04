@@ -6,7 +6,7 @@ De website staat gehost op Vercel. Ik heb ervoor gekozen om het op Vercel te hos
 
 ![Deployment Summary](images/deploymentSummary.png)
 
-Voordat de deployment live gaat worden er ook de verschillende testen uitgevoerd. Er is voor gekozen om dit voor de deployment te doen, omdat er ook verschillende testen bij zitten die de beveiliging van de app waarborgen, wanneer deze mis gaan is er dus de kans dat de beveiliging niet op orde is, dus is het beter om niet de app live te zetten.
+Voordat de deployment live gaat worden er ook de verschillende testen uitgevoerd. Er is voor gekozen om dit voor de deployment te doen, omdat er ook verschillende testen bij zitten die de beveiliging van de app waarborgen, wanneer deze mis gaan is er dus de kans dat de beveiliging niet op orde is, dus is het beter om niet de app live te zetten. In de toekomst zou ik testing nog kunnen verbeteren door ook met tools zoals ZAP in de intergratie te verwerken.
 
 ![Deployment settings](images/deploymentSettings.png)
 
