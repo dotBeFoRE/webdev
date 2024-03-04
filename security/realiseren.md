@@ -84,3 +84,9 @@ Met de contact vorm kunnen bezoekers een email sturen naar mij. Hier wordt gebru
 ![Email sanitatie](images/emailSanitation.png)
 
 Gebruikers input op schermen hoeft niet gesaniteerd te worden, omdat we gebruik maken van React.
+
+## Headers
+
+Voor elke request worden er ook headers toegevoegd om de kans op bepaalde aanvallen te verminderen. Het gaat hier om clickjacking, XSS mitigation, MitM aanvallen.
+
+![Headers](images/headers.png)
