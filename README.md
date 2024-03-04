@@ -25,6 +25,6 @@ yarn dev
 
 ## Documentatie
 
-In de docs directory staan het technisch ontwerp en de user stories beschreven, een analyse voor testing en een analyse naar hoe hoog de verficatie niveau van onze app.
+In de docs directory staan het technisch ontwerp en de user stories beschreven, een analyse voor testing en een analyse naar hoe hoog de verficatie niveau van onze app is.
 
 In de security directory staan de activiteiten die uitgevoerd zijn voor security en het ASVS scoring model.
