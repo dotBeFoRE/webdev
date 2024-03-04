@@ -22,3 +22,9 @@ Nadat dit is gebeurt kan je de app starten met
 ```shell
 yarn dev
 ```
+
+## Documentatie
+
+In de docs directory staan het technisch ontwerp en de user stories beschreven, een analyse voor testing en een analyse naar hoe hoog de verficatie niveau van onze app.
+
+In de security directory staan de activiteiten die uitgevoerd zijn voor security en het ASVS scoring model.
