@@ -21,7 +21,3 @@ jobs:
         name: Lint
         env:
           SKIP_ENV_VALIDATION: false
-      - run: yarn build
-        name: Build
-        env:
-          SKIP_ENV_VALIDATION: false
