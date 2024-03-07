@@ -35,3 +35,5 @@ Voor de versie beheer van de applicatie wordt er gebruik gemaakt van GitHub. Bin
 Om te zorgen dat er geen kwetsbaarheden in de dependencies zitten wordt er gebruik gemaakt van Dependabot. Dependabot controleert elke dag of er nieuwe versies van de dependencies zijn, en of deze kwetsbaarheden bevatten. Wanneer dit het geval is wordt er een pull request aangemaakt met de gepatchte versie van de dependency.
 
 ![Depandabot](images/depandabot.png)
+
+![Dependabot Now](images/currentDependabot.png)
