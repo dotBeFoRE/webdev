@@ -10,7 +10,7 @@ Voordat de deployment live gaat worden er ook de verschillende testen uitgevoerd
 
 ![Deployment settings](images/deploymentSettings.png)
 
-Nadat de app online is worden er E2E tests uitgevoerd.
+Nadat de app online is worden er E2E tests uitgevoerd in GitHub Actions. 
 
 ![E2E tests results](images/playwrightResults.png)
 
@@ -29,3 +29,9 @@ Voor de database user waar de applicatie gebruik van maakt worden geen restricti
 ## Git / GitHub
 
 Voor de versie beheer van de applicatie wordt er gebruik gemaakt van GitHub. Binnen GitHub zijn er ook actions ingesteld die elke push de applicatie testen, en elke deploy e2e tests uitvoeren. Voor elke pull-request zorgt Vercel ervoor dat er een test deployment wordt gemaakt met een preview link, deze zou kunnen functioneren als een soort van staging omgeving, maar omdat GitHub niet ondersteund om meerdere OAuth2 callback endpoints te hebben en of automatisch aan te maken, is dit niet mogelijk. Hier zijn waarschijnlijk wel workarounds voor, maar dit is niet onderzocht.
+
+### Dependabot
+
+Om te zorgen dat er geen kwetsbaarheden in de dependencies zitten wordt er gebruik gemaakt van Dependabot. Dependabot controleert elke dag of er nieuwe versies van de dependencies zijn, en of deze kwetsbaarheden bevatten. Wanneer dit het geval is wordt er een pull request aangemaakt met de gepatchte versie van de dependency.
+
+![Depandabot](images/depandabot.png)
