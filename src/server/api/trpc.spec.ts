@@ -37,7 +37,7 @@ describe('protectedModeratorProcedure', async () => {
     const caller = router.createCaller(ctx);
 
     await expect(caller.moderator()).rejects.toThrowErrorMatchingInlineSnapshot(
-      '"UNAUTHORIZED"',
+      '[TRPCError: UNAUTHORIZED]',
     );
   });
 
@@ -56,7 +56,7 @@ describe('protectedModeratorProcedure', async () => {
     const caller = router.createCaller(ctx);
 
     await expect(caller.moderator()).rejects.toThrowErrorMatchingInlineSnapshot(
-      '"FORBIDDEN"',
+      '[TRPCError: FORBIDDEN]',
     );
   });
 
@@ -121,7 +121,7 @@ describe('protectedProcedure', async () => {
     const caller = router.createCaller(ctx);
 
     await expect(caller.protected()).rejects.toThrowErrorMatchingInlineSnapshot(
-      '"UNAUTHORIZED"',
+      '[TRPCError: UNAUTHORIZED]',
     );
   });
 
@@ -148,7 +148,7 @@ describe('protectedNotBannedProcedure', async () => {
     const caller = router.createCaller(ctx);
 
     await expect(caller.notBanned()).rejects.toThrowErrorMatchingInlineSnapshot(
-      '"UNAUTHORIZED"',
+      '[TRPCError: UNAUTHORIZED]',
     );
   });
 
@@ -163,7 +163,7 @@ describe('protectedNotBannedProcedure', async () => {
     const caller = router.createCaller(ctx);
 
     await expect(caller.notBanned()).rejects.toThrowErrorMatchingInlineSnapshot(
-      '"FORBIDDEN"',
+      '[TRPCError: FORBIDDEN]',
     );
   });
 

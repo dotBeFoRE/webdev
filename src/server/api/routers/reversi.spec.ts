@@ -36,7 +36,7 @@ describe('reversi router', () => {
 
       await expect(
         caller.createGame(),
-      ).rejects.toThrowErrorMatchingInlineSnapshot('"FORBIDDEN"');
+      ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: FORBIDDEN]');
     });
 
     it('Users with too many recent games should not be able to create games', async () => {
@@ -54,7 +54,7 @@ describe('reversi router', () => {
       await expect(
         caller.createGame(),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        '"You have too many recent games, try again in 5 minutes"',
+        '[TRPCError: You have too many recent games, try again in 5 minutes]',
       );
     });
 
@@ -95,7 +95,9 @@ describe('reversi router', () => {
 
       await expect(
         caller.getGame({ gameId: 'test' }),
-      ).rejects.toThrowErrorMatchingInlineSnapshot('"Game not found"');
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        '[TRPCError: Game not found]',
+      );
     });
   });
 
@@ -114,7 +116,9 @@ describe('reversi router', () => {
 
       await expect(
         caller.doMove({ gameId: 'test', x: 0, y: 0 }),
-      ).rejects.toThrowErrorMatchingInlineSnapshot('"Game not found"');
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        '[TRPCError: Game not found]',
+      );
     });
   });
 
@@ -140,7 +144,7 @@ describe('reversi router', () => {
 
     await expect(
       caller.doMove({ gameId: 'test', x: 0, y: 0 }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot('"Game has ended"');
+    ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: Game has ended]');
   });
 
   it('Should throw if you are not in the game', async () => {
@@ -165,7 +169,7 @@ describe('reversi router', () => {
 
     await expect(
       caller.doMove({ gameId: 'test', x: 0, y: 0 }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot('"Not your game"');
+    ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: Not your game]');
   });
 
   it('Should throw if it is not your turn', async () => {
@@ -190,7 +194,7 @@ describe('reversi router', () => {
 
     await expect(
       caller.doMove({ gameId: 'test', x: 0, y: 0 }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot('"Not your turn"');
+    ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: Not your turn]');
   });
 
   it('Should throw if the move is invalid', async () => {
@@ -215,7 +219,7 @@ describe('reversi router', () => {
 
     await expect(
       caller.doMove({ gameId: 'test', x: 0, y: 0 }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot('"Invalid move"');
+    ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: Invalid move]');
   });
 
   it('Should join the game if blackId is null and current is black', async () => {

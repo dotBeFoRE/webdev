@@ -44,7 +44,7 @@ describe('user router', () => {
 
       await expect(
         caller.get('test2'),
-      ).rejects.toThrowErrorMatchingInlineSnapshot('"NOT_FOUND"');
+      ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: NOT_FOUND]');
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(prisma.audit.create).toBeCalledTimes(3);
@@ -100,7 +100,7 @@ describe('user router', () => {
 
       await expect(
         caller.edit({ id: 'test2', name: 'test2' }),
-      ).rejects.toThrowErrorMatchingInlineSnapshot('"NOT_FOUND"');
+      ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: NOT_FOUND]');
     });
 
     it('Users are only allowed to edit their own name', async () => {
@@ -226,7 +226,7 @@ describe('user router', () => {
       await expect(caller.delete('test')).resolves.not.toThrowError();
       await expect(
         caller.delete('test2'),
-      ).rejects.toThrowErrorMatchingInlineSnapshot('"NOT_FOUND"');
+      ).rejects.toThrowErrorMatchingInlineSnapshot('[TRPCError: NOT_FOUND]');
     });
 
     it('Moderators should be able to delete users other than themselves and themselves', async () => {
