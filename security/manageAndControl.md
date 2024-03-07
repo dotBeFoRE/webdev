@@ -25,3 +25,7 @@ Als een gebruiker met HTTP naar de website navigeert wordt deze automatisch door
 Voor het hosten van de data wordt er gebruik gemaakt van Supabase. Hier is voor gekozen ook met oog op security. Door een database server zelf de hosten neem je ook de volledige verantwoordelijkheid voor de security op je. Het veilig hosten van een database is nog een hele opgave. Er is voor Supabase gekozen voor het hosten van onze database, omdat gratis is, makkelijk om op te zetten en je kan gebruik maken van 2FA.
 
 Voor de database user waar de applicatie gebruik van maakt worden geen restricties gesteld, dit is gevaarlijk, omdat een aanvaller bijvoorbeeld alle data kan verwijderen, ook van de logs. Voor de deployment van een productie applicatie hoort hier betere beveiliging aan vast te zitten.
+
+## Git / GitHub
+
+Voor de versie beheer van de applicatie wordt er gebruik gemaakt van GitHub. Binnen GitHub zijn er ook actions ingesteld die elke push de applicatie testen, en elke deploy e2e tests uitvoeren. Voor elke pull-request zorgt Vercel ervoor dat er een test deployment wordt gemaakt met een preview link, deze zou kunnen functioneren als een soort van staging omgeving, maar omdat GitHub niet ondersteund om meerdere OAuth2 callback endpoints te hebben en of automatisch aan te maken, is dit niet mogelijk. Hier zijn waarschijnlijk wel workarounds voor, maar dit is niet onderzocht.

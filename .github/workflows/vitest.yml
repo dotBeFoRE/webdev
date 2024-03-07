@@ -16,3 +16,6 @@ jobs:
           cache: 'yarn'
       - run: yarn --frozen-lockfile
       - run: yarn test
+        name: Test
+      - run: yarn lint
+        name: Lint

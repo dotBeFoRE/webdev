@@ -79,7 +79,7 @@ Ik maak gebruik van de URL klasse om te voorkomen dat wannneer aanvallers een UR
 
 ## XSS preventie
 
-Met de contact vorm kunnen bezoekers een email sturen naar mij. Hier wordt gebruikers input in de html van de email verwerkt. Om te verkomen dat de aanvaller de email vervormt wordt er gebruik gemaakt van sanitatie.
+Met de contact vorm kunnen bezoekers een email sturen naar mij. Hier wordt gebruikers input in de html van de email verwerkt. Om te verkomen dat de aanvaller de email vervormt wordt er gebruik gemaakt van sanitatie. Hierbij maak ik gebruik van `escape-html-template-tag` zodat ik de gebruikers input in een template string kan zetten en deze dan automatisch escaped word. Hierdoor hoef ik niet handmatig voor elke plek waar input wordt gegeven te controleren of het wel veilig is. Dit verkleint de kans op fouten.
 
 ![Email sanitatie](images/emailSanitation.png)
 
@@ -90,3 +90,14 @@ Gebruikers input op schermen hoeft niet gesaniteerd te worden, omdat we gebruik 
 Voor elke request worden er ook headers toegevoegd om de kans op bepaalde aanvallen te verminderen. Het gaat hier om clickjacking, XSS mitigation, MitM aanvallen.
 
 ![Headers](images/headers.png)
+
+## Safe output
+
+Op pagina's zoals het Reversi spel scherm, word de informatie van andere spelers laten zien. Hierbij is alleen de gebruikersnaam en avatar van de andere speler belangrijk. Om te voorkomen dat er informatie gelekt wordt die niet gelekt mag worden, wordt er alleen de essentiele informatie naar de client gestuurd. Dit vangen we af met een safeUser functie. Om informatie zoals email te sturen naar de client moet dit expliciet worden aangegeven in de safeUser functie.
+
+![Safe user](images/safeUser.png)
+
+Hiervoor zijn ook tests geschreven.
+
+![Safe user tests](images/safeUserTests.png)
+![Safe user usage](images/safeUserUsage.png)

@@ -14,7 +14,7 @@ Het systeem maakt gebruik van twee externe services, dit zijn GitHub, reCAPTCHA 
 
 ### 2.1. GitHub
 
-GitHub wordt gebruikt voor het authorizeren van gebruikers die gebruik willen maken van pagina's waarvoor je ingelogd moet zijn. Dit wordt gedaan door middel van OAuth2. Dit wordt in het NextAuth hoofdstuk verder uitgelegd.
+Gebruikers moeten inloggen zodat ze geidentificeerd kunnen worden door andere gebruikers, en zodat we rollen aan bepaalde gebruikers kunnen hangen. GitHub wordt gebruikt voor het authenticeren van gebruikers die gebruik willen maken van pagina's waarvoor je ingelogd moet zijn. Dit wordt gedaan door middel van OAuth2. Dit wordt in het NextAuth hoofdstuk verder uitgelegd.
 
 ### 2.2. SendGrid
 
@@ -38,6 +38,7 @@ Het systeem is opgebouwd uit verschillende interne en externe onderdelen, elk on
 * Webdev CV database - Slaat de data op
 * SendGrid - Verstuurt e-mails (extern)
 * GitHub - Authorizeren van gebruikers (extern)
+* ReCAPTCHA - Voorkomen van spam (extern)
 
 De combinatie van NextJS, tRPC, NextAuth, Prisma en Tailwind komt voort uit de T3 Stack. De T3 Stack is een volledige starter kit voor NextJS. Het levert een volledige "type-safe" ontwikkel omgeving. Al is T3 Stack een starter pack, het heeft ook een [eigen website](https://create.t3.gg/en/introduction) met aanvullende documentatie over de verschillende onderdelen waaruit de stack bestaat.
 
@@ -59,7 +60,7 @@ Om de impact van XSS aanvallen te verzachten maken wij gebruik van Content Secur
 
 #### 3.1.2. Clickjacking
 
-Door middel van iframes kan een website in een andere website geladen worden. Op deze manier kan een website bijvoorbeeld onzichtbaar worden ingeleden. Onder de iframe kan een knop ingeladen worden waar de gebruiker op klikt, maar in werkelijkheid klikt de gebruiker op een knop die in de andere website staat. Om dit te voorkomen maken wij gebruik van de `X-Frame-Options: DENY` header. Deze header zorgt ervoor dat de website niet in een iframe geladen kan worden.
+Door middel van iframes kan een website in een andere website geladen worden. Op deze manier kan een website bijvoorbeeld onzichtbaar worden ingeleden. Onder de iframe kan een knop ingeladen worden waar de gebruiker op klikt, maar in werkelijkheid klikt de gebruiker op een knop die in de andere website staat. Om dit te voorkomen maken wij gebruik van de `X-Frame-Options: DENY` header. Deze header zorgt ervoor dat de website niet in een iframe geladen kan worden. Ook implementeren wij de `Content-Security-Policy: frame-ancestors 'none'` header. Deze header zorgt ervoor dat de website niet in een iframe geladen kan worden. beide aanpakken zijn beschreven in de [OWASP Cheatsheet over Clickjacking](https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html).
 
 ### 3.2. Webdev CV database
 Voor onze database provider maken wij gebruik van PostgreSQL. PostgreSQL is een relationele database. PostgreSQL is een open source database.
@@ -76,7 +77,7 @@ Next Auth maakt gebruik van de Prisma adapter om gebruiker, sessie en account da
 
 ### 3.5. tRPC server
 
-De showcase app maakt gebruik van tRPC. tRPC is een package om typesafe end-to-end API's te maken. tRPC maakt gebruik van Typescript zodat je aan de server kant een API route kan maken, waarna de type-definitie ook beschikbaar is aan de client kant. Wat tRPC veilig maakt is dat voor elke route waar input voor nodig is, die input wordt gecontrolleerd door een [Zod schema](https://zod.dev). Dit maakt voor een veilige, onderhoudbare en snelle developer experience. tRPC heeft NextJS als first class citizen. tRPC biedt de client kant een api client aan die binnen de React components gebruikt kan worden om data op te halen. Dit wordt verder uitgelegd in het hoofdstuk over de SPA. tRPC heeft een [eigen website](https://trpc.io/) met aanvullende documentatie.
+De showcase app maakt gebruik van tRPC. tRPC is een package om typesafe end-to-end API's te maken. tRPC maakt gebruik van Typescript zodat je aan de server kant een API route kan maken, waarna de type-definitie ook beschikbaar is aan de client kant. Wat tRPC veilig maakt is dat voor elke route waar input voor nodig is, die input wordt gecontrolleerd door een [Zod schema](https://zod.dev). We controleren de data die we ontvangen van de client, omdat deze niet vertrouwd kan worden. Dit maakt voor een veilige, onderhoudbare en snelle developer experience. tRPC heeft NextJS als first class citizen. tRPC biedt de client kant een api client aan die binnen de React components gebruikt kan worden om data op te halen. Dit wordt verder uitgelegd in het hoofdstuk over de SPA. tRPC heeft een [eigen website](https://trpc.io/) met aanvullende documentatie.
 
 Voor het vrijgeven van verschillende functionaliteit wordt er gebruik gemaakt van routes. Binnen tRPC zijn er verschillende soorten routes, zoals queries, mutations en subscriptions. Voor onze applicatie maken wij gebruik van queries en mutations. Queries worden gebruikt om data op te halen, mutations worden gebruikt om data te veranderen. Queries kunnen aangeroepen worden met een GET request, mutations met een POST request.
 
@@ -90,11 +91,15 @@ Op verschillende routes worden intergration tests uitgevoerd. Voor de intergrati
 Om email te versturen maken sommige mutaties gebruik van SendGrid. Voor het saniteren van de input wordt er gebruik gemaakt van `escape-html-template-tag`. Deze package geeft ons een template tag die ervoor zorgt dat de input die de gebruiker invoert niet kwaadaardig is.
 
 #### 3.5.2. Cross-site request forgery (CSRF)
+Één van de eizen van onze applicatie is dat gebruikersgegevens veilig worden opgeslagen. Dit betekent ook dat deze gebruikersgevens niet zomaar aangepast kunnen worden door iemand anders dan de gebruiker (of een moderator) zelf. Mutaties kunnen gebruikersgevens aanpassen, daarom is het belangrijk dat deze mutaties niet zomaar aangeroepen kunnen worden. Wanneer een aanvaller dit wel zou kunnen doen, zou dit een CSRF aanval zijn. Hieronder wordt uitgelegd hoe wij CSRF aanvallen voorkomen.
+
 Mutatie en query requests kunnen alleen aangeroepen worden wanneer de referrer of de origin overeenkomen met een lijst van toegestaande origins. Hiermee wordt voorkomen dat de API calls gemaakt kunnen worden vanaf een andere website dan de SPA.
 
 Ook word er gebruik gemaakt van CORS headers om te voorkomen dat de API calls gemaakt kunnen worden vanaf een andere origin.
 
 Form based CSRF attacks worden naast de controle van de referrer en origin, verder bestreden door de Content-Type van het bericht te controleren, sinds deze niet naar `application/json` aangepast kan worden doormiddel een form.
+
+Om de API nog beter te beveiligen tegen CSRF aanvallen zouden we ook nog gebruik kunnen maken van een [custom header](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#employing-custom-request-headers-for-ajaxapi) die in elke request naar de end-point wordt meegestuurd. 
 
 #### 3.5.3. Role-based access control (RBAC)
 
