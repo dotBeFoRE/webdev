@@ -8,9 +8,9 @@ In het functioneel ontwerp staan eerst de requirements van de applicaties beschr
 
 ![Requirements](images/requirements.png)
 
-Op basis van de requirements zijn de user-stories opgesteld.
+Op basis van de requirements zijn de user-stories en acceptatie-criteria opgesteld. Bijvoorbeeld, als speler, wil ik een zet kunnen zetten, zodat het spel door kan gaan, is een user story. De user story komt uit de requirement dat gebruikers Reversi moeten kunnen spelen, en de acceptatie-criteria de zet moet legaal zijn, komt voort uit de requirement dat gebruikers-input niet misbruikt kan worden.
 
-Voor elke user story zijn er verschillende acceptance criteria opgesteld. Deze criteria zijn de eisen waaraan de user story moet voldoen. Er is ook nagedacht over wat een aanvaller zou willen doen met de user story, zodat er ook rekening gehouden kan worden met de beveiliging.
+Er is ook nagedacht over wat een aanvaller zou willen doen met de user story, zodat er ook rekening gehouden kan worden met de beveiliging.
 
 ![User Story](images/userStory.png)
 

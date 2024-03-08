@@ -86,7 +86,7 @@ Account = Link tussen een provider en een profiel
 - De zet moet legaal zijn
 - Het bord moet gelijk geüpdaten
 - Er wordt laten zien welke zetten legaal zijn
-- Speler kan alleen voorzichzelf zetten
+- Speler kan alleen voor zichzelf zetten
 
 ![Do move](./images/Do_move.png)
 
