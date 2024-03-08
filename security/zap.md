@@ -29,7 +29,7 @@ De website is veilig en er hoeven geen acties ondernomen te worden.
 
 ## Scan ei Noah
 
-Ook heb ik een scan uitgevoerd voor een website van een ander persoonlijk project van mij. 
+Ook heb ik een scan uitgevoerd voor een website van een ander persoonlijk project van mij. https://ei.sweaties.net
 
 ### Resultaten
 ![Zap Scan Ei Noah](./images/zap_scan_ei-noah.png)
