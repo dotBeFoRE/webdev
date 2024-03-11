@@ -30,19 +30,19 @@ jobs:
       - uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: ./docs
-          output_dir: ./pdfs/docs
+          output_dir: ./pdfs/docs/
           images_dir: ./docs/images
           image_import: ./images
           build_html: false
       - uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: ./security
-          output_dir: ./pdfs/security
+          output_dir: ./pdfs/security/
           images_dir: ./security/images
           image_import: ./images
           build_html: false
       - run: cp ./security/"Score Model ASVS.ods" ./pdfs/security/"Score Model ASVS.ods"
       - uses: actions/upload-artifact@v3
         with:
-          name: docs
+          name: portfolio
           path: ./pdfs
