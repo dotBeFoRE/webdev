@@ -6,13 +6,13 @@ Voor het ontwerpen heb heb ik gebruik gemaakt van een technisch ontwerp en een f
 
 In het functioneel ontwerp staan eerst de requirements van de applicaties beschreven. In de requirements staat beschreven wat de eisen zijn van de applicatie, functioneel en niet functioneel. Bijvoorbeeld dat de gebruikergegevens veilig worden opgeslagen moet in alle gevallen worden nageleefd.
 
-![Requirements](images/requirements.png)
+![Requirements](./images/requirements.png)
 
 Op basis van de requirements zijn de user-stories en acceptatie-criteria opgesteld. Bijvoorbeeld, als speler, wil ik een zet kunnen zetten, zodat het spel door kan gaan, is een user story. De user story komt uit de requirement dat gebruikers Reversi moeten kunnen spelen, en de acceptatie-criteria de zet moet legaal zijn, komt voort uit de requirement dat gebruikers-input niet misbruikt kan worden.
 
 Er is ook nagedacht over wat een aanvaller zou willen doen met de user story, zodat er ook rekening gehouden kan worden met de beveiliging.
 
-![User Story](images/userStory.png)
+![User Story](./images/userStory.png)
 
 Voor de meeste user stories worden er ook limitaties opgesteld. Bijvoorbeeld dat een gebruiker alleen zichzelf kan bekijken, dit komt voort uit [secure SDLC](https://snyk.io/learn/secure-sdlc/#:~:text=Phase%201%3A%20Requirements,no%20one%20else%E2%80%99s.).
 
