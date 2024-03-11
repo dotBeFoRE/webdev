@@ -1,5 +1,13 @@
 # Functioneel Ontwerp
 
+## Introductie
+
+Het doel van dit document is om de functionele eisen van de applicatie te beschrijven.
+
+Het doel van de applicatie is om mijn vaardigheden als developer te laten zien. 
+
+De applicatie begint met een introductie over de developer. Vanaf dit scherm heeft de bezoeker de mogelijkheid om contact op te nemen met de developer of om een spel te spelen. Om te kunnen identificeren wie de bezoeker is, moet de bezoeker inloggen. Na het inloggen kan de bezoeker een spel starten of een spel bijwonen. De bezoeker kan ook zijn profiel bekijken, aanpassen of verwijderen.
+
 ## Definities
 Bezoeker = Iemand die de site gebruikt  
 Gebruiker = Bezoeker die ingelogd is  
