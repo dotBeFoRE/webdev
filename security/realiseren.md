@@ -1,6 +1,6 @@
 # Realiseren
 ## Introductie
-Dit is een kort overzicht van keuzes bij het realiseren met wat code voorbeelden en screenshots.
+Dit is een kort overzicht van keuzes bij het realiseren met wat code voorbeelden en screenshots. 
 
 ## Logging
 ### Auditing
