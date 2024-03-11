@@ -20,8 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: mkdir ./pdfs
-        name: Create PDFs Directory
+      - uses: baileyjm02/markdown-to-pdf@v1
+        with:
+          input_dir: ./
+          output_dir: ./pdfs/
+          build_html: false
       - uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: ./docs
@@ -29,7 +32,6 @@ jobs:
           images_dir: ./docs/images
           image_import: ./images
           build_html: false
-      - run: ls -l
       - uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: ./security
@@ -37,6 +39,7 @@ jobs:
           images_dir: ./security/images
           image_import: ./images
           build_html: false
+      - run: cp ./security/"Score Model ASVS.ods" ./pdfs/security/"Score Model ASVS.ods"
       - uses: actions/upload-artifact@v3
         with:
           name: docs
