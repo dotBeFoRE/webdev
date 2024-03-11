@@ -95,7 +95,7 @@ Voor elke request worden er ook headers toegevoegd om de kans op bepaalde aanval
 
 Op pagina's zoals het Reversi spel scherm, word de informatie van andere spelers laten zien. Hierbij is alleen de gebruikersnaam en avatar van de andere speler belangrijk. Om te voorkomen dat er informatie gelekt wordt die niet gelekt mag worden, wordt er alleen de essentiele informatie naar de client gestuurd. Dit vangen we af met een safeUser functie. Om informatie zoals email te sturen naar de client moet dit expliciet worden aangegeven in de safeUser functie.
 
-![Safe user](images/safeUser.png)
+![Safe user](./images/safeUser.png)
 
 Hiervoor zijn ook tests geschreven.
 
