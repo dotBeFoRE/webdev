@@ -12,6 +12,7 @@ on:
       - 'docs/images/**'
       - 'security/**.md'
       - 'security/images/**'
+      - 'security/"Score Model ASVS.ods"'
       - '.github/workflows/convert-to-pdf.yml'
 
 jobs:
